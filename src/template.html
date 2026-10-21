@@ -586,7 +586,7 @@
       <li><b>Na 40 minut.</b> W statystykach zawodników liczby przeliczone na 40 minut gry, tylko dla grających średnio co najmniej 15 minut. Procenty bez zmian.</li>
       <li><b>Terminarz i zapowiedź.</b> Zaplanowane mecze pochodzą z terminarza na stronie ligi i mogą się zmienić. Od 4. kolejki przy zaplanowanych meczach jest szansa wygranej: oczekiwana różnica punktów z NetRtg obu drużyn (przybliżonego do średniej przy małej liczbie meczów) i średniego tempa ligi. To prawdopodobieństwo, nie typ.</li>
       <li><b>Ranking zawodników.</b> Tylko zawodnicy grający średnio co najmniej 15 minut. Ocena składa się z czterech części: wpływ na wygrywanie 40%, skuteczność przy obciążeniu 25%, PIE 20%, siła rywali 15%. Każda część jest porównywana ze średnią ligi. 50 to średnia, 60 to lepiej niż mniej więcej 5 na 6 zawodników, 40 – gorzej.</li>
-      <li><b>Pozycja.</b> Pierwsza wpisana w systemie ligi. Bez pozycji – według wzrostu: do 183 cm rozgrywający, 184–189 rzucający, 190–194 niski skrzydłowy, 195–199 silny skrzydłowy, od 200 cm środkowy. Zawodnik bez pozycji i wzrostu jest tylko w zestawieniu „Wszyscy”.</li>
+      <li><b>Pozycja.</b> Pierwsza wpisana w systemie ligi. Bez pozycji – według wzrostu: zawodnik dostaje pozycję, której średni wzrost w lidze (liczony z zawodników mających pozycję w systemie) jest najbliższy jego wzrostowi. Zawodnik bez pozycji i wzrostu jest tylko w zestawieniu „Wszyscy”.</li>
       <li><b>Wpływ na wygrywanie (40%).</b> Bilans drużyny na 100 posiadań, gdy zawodnik jest na boisku, różnica między grą z nim i bez niego oraz bilans meczów drużyny. Liczony z +/- w protokołach i z minut.</li>
       <li><b>Skuteczność przy obciążeniu (25%).</b> TS% powyżej średniej ligi pomnożone przez USG%. Najwięcej zyskuje ten, kto rzuca często i celnie.</li>
       <li><b>PIE (20%).</b> Jaka część wszystkich zdarzeń statystycznych meczu, obu drużyn, przypada na zawodnika.</li>
@@ -646,8 +646,7 @@
   const tbd = (g) => !g.godz && /-12-31$/.test(String(g.data || ''));
   const mins = (m) => { const p = String(m).split(':').map(Number); return p[0] + (p[1] || 0) / 60; };
   const tone = (s) => (/^(\+\d|▲)/.test(String(s)) ? ' up' : /^(-\d|▼)/.test(String(s)) ? ' down' : String(s) === 'nowy' ? ' new' : '');
-  const byHeight = (cm) => (!cm ? '' : cm >= 200 ? 'środkowy' : cm >= 195 ? 'silny skrzydłowy'
-    : cm >= 190 ? 'niski skrzydłowy' : cm >= 184 ? 'rzucający' : 'rozgrywający');
+  const byHeight = positionByHeight(DATA.zawodnicy);
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }

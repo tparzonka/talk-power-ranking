@@ -3,7 +3,7 @@
 > A neutral, stats-driven power ranking for the TALK amateur basketball league in Toruń (season 2026/27). It is built from the league's game protocols and updated after every round. The output is a single HTML page that opens without a server.
 
 ![Status](https://img.shields.io/badge/Status-Live%20season%202026%2F27-2ea44f)
-![Version](https://img.shields.io/badge/Version-1.0.1-orange)
+![Version](https://img.shields.io/badge/Version-1.0.2-orange)
 ![Stack](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20Python-blue)
 ![Framework](https://img.shields.io/badge/Framework-none-lightgrey)
 [![CI](https://github.com/tparzonka/talk-power-ranking/actions/workflows/ci.yml/badge.svg)](https://github.com/tparzonka/talk-power-ranking/actions/workflows/ci.yml)
@@ -115,6 +115,7 @@ Local only (git-ignored): raw league pages in `input/`, player data in `data/` (
 ## History
 
 - **1.0 (18.10.2026):** team and player rankings, league table with form, team/opponent stats, four factors, per-40 stats, player card, schedule and awards race, ID-checked imports.
+- **1.0.2 (21.10.2026):** position of players without one in the league system is taken from the nearest average height per position in the league.
 - **1.0.1 (19.10.2026):** jersey numbers, league table zones (play-off 1-8, 9-12, 13-15), team calendar, visual polish.
 
 ## Human vs. AI Role

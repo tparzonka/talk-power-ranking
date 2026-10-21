@@ -1,4 +1,4 @@
-# Power Ranking ligi – wersja 1.0.1
+# Power Ranking ligi – wersja 1.0.2
 
 Dokumentacja robocza po polsku (metodologia, import, historia zmian, plan). Opis repozytorium po angielsku: [README.md](../README.md).
 
@@ -101,7 +101,7 @@ SUMA DRUŻYNA B;...
 
 **Widoki Statystyki.** Średnie na mecz, procenty z sum sezonu. U zawodników wszyscy, którzy wyszli na boisko.
 
-**Pozycje.** Jedna na zawodnika: pierwsza wpisana w systemie ligi. Bez pozycji w systemie: według wzrostu (do 183 rozgrywający, 184–189 rzucający, 190–194 niski skrzydłowy, 195–199 silny skrzydłowy, od 200 środkowy). Bez pozycji i wzrostu: tylko w „Wszyscy”. Ręczne wyjątki od tej reguły są w lokalnym `data/wyjatki.json` (`pozycje`; `bledne_dane` = błędny wzrost lub rocznik w systemie ligi).
+**Pozycje.** Jedna na zawodnika: pierwsza wpisana w systemie ligi. Bez pozycji w systemie: według wzrostu, pozycja o najbliższej średniej wzrostu w lidze (`positionByHeight` w `src/ranking.js`, średnie liczone z zawodników mających pozycję; przy mniej niż 3 na pozycji stałe progi 183/189/194/199 cm). Bez pozycji i wzrostu: tylko w „Wszyscy”. Ręczne wyjątki od tej reguły są w lokalnym `data/wyjatki.json` (`pozycje`; `bledne_dane` = błędny wzrost lub rocznik w systemie ligi).
 
 **Nie liczymy.** Gry w końcówkach (protokoły nie mają przebiegu meczu), BPM (wymaga regresji na dużej bazie), GS (protokoły nie podają pierwszej piątki). SRS drużyn można dodać, gdy drużyny będą miały wspólnych rywali.
 
@@ -129,6 +129,9 @@ Wersja Dashboard: https://claude.ai/artifact/X7F82xCboEjkZ6vGPuSHH7 (wymaga logo
 
 ## Wersje
 Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i nowe dane: 1.0.x; nowe funkcje: 1.x; nowy sezon albo play-off z innymi zasadami: 2.0.
+
+### 1.0.2 – 21.10.2026
+- Pozycja zawodnika bez pozycji w systemie ligi liczona ze średnich wzrostu pozycji w lidze (zamiast stałych progów); przelicza się sama, gdy liga dodaje zawodników.
 
 ### 1.0.1 – 19.10.2026
 - Numer zawodnika (`#14`) pod nazwiskiem w rankingu, statystykach, kolejce i na karcie zawodnika. Źródło: kolumna NR w protokole (`nr` w `data/zawodnicy.json`). Numer 0 lub pusty = brak numeru w systemie ligi (w wielu drużynach kilku zawodników ma 0), wtedy nic się nie pokazuje. Błędne numery poprawia ręcznie `data/numery.json` (np. zawodnik wpisany w systemie z innym numerem niż faktyczny); import zawsze stosuje tę poprawkę.

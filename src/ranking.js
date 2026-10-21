@@ -124,12 +124,37 @@ const hollinger = (zawodnicy, mecze_druzyn, okno) => {
   return out;
 };
 
+
+/* Pozycja dla zawodnika bez pozycji w systemie ligi: ta, której średni wzrost w lidze jest najbliższy jego wzrostowi.
+   Średnie liczone z zawodników mających pozycję (pierwsza wpisana) i wzrost; przy mniej niż 3 zawodnikach na pozycji
+   (początek sezonu) obowiązują stałe progi. */
+const POZYCJE = ['rozgrywający', 'rzucający', 'niski skrzydłowy', 'silny skrzydłowy', 'środkowy'];
+const positionByHeight = (zawodnicy) => {
+  const last = new Map();
+  for (const z of zawodnicy) last.set(z.zawodnik, z);
+  const sum = new Map(POZYCJE.map((p) => [p, { s: 0, c: 0 }]));
+  for (const z of last.values()) {
+    const a = sum.get(String(z.pozycje || '').split('/')[0].trim());
+    const h = Number(z.wzrost) || 0;
+    if (a && h) { a.s += h; a.c += 1; }
+  }
+  const means = POZYCJE.map((p) => (sum.get(p).c >= 3 ? sum.get(p).s / sum.get(p).c : null));
+  const fixed = (cm) => (cm >= 200 ? 'środkowy' : cm >= 195 ? 'silny skrzydłowy'
+    : cm >= 190 ? 'niski skrzydłowy' : cm >= 184 ? 'rzucający' : 'rozgrywający');
+  return (cm) => {
+    if (!cm) return '';
+    if (means.some((m) => m === null)) return fixed(cm);
+    let best = 0;
+    means.forEach((m, i) => { if (Math.abs(cm - m) < Math.abs(cm - means[best])) best = i; });
+    return POZYCJE[best];
+  };
+};
+
 const SHRINK = 60; // akcji na boisku, przy których wynik +/- liczy się w połowie
 const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
   const MIN_AVG = 15;
   const POS = ['rozgrywający', 'rzucający', 'niski skrzydłowy', 'silny skrzydłowy', 'środkowy'];
-  const byHeight = (cm) => (!cm ? '' : cm >= 200 ? 'środkowy' : cm >= 195 ? 'silny skrzydłowy'
-    : cm >= 190 ? 'niski skrzydłowy' : cm >= 184 ? 'rzucający' : 'rozgrywający');
+  const byHeight = positionByHeight(zawodnicy);
   const n = (x) => Number(x) || 0;
   const f1 = (x) => x.toFixed(1).replace('.', ',');
   const sign = (x) => (x > 0.05 ? '+' : '') + f1(x);
@@ -410,4 +435,4 @@ const winChance = (mecze_druzyn) => {
   return (a, b) => 0.5 * (1 + erf((rating(a) - rating(b)) / 100 * pace / WIN_SIGMA / Math.SQRT2));
 };
 
-if (typeof module !== 'undefined') module.exports = { rankTeams, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI };
+if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI };
