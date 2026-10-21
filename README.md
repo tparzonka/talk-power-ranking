@@ -1,11 +1,11 @@
 # TALK Power Ranking
 
-> A neutral, stats-driven power ranking for the TALK amateur basketball league in Toruń (season 2026/27). Built from official game protocols, shipped as a single self-contained HTML page, and updated after every round.
+> A neutral, stats-driven power ranking for the TALK amateur basketball league in Toruń (season 2026/27). It is built from the league's game protocols and updated after every round. The output is a single HTML page that opens without a server.
 
 ![Status](https://img.shields.io/badge/Status-Live%20season%202026%2F27-2ea44f)
 ![Version](https://img.shields.io/badge/Version-1.0.1-orange)
 ![Stack](https://img.shields.io/badge/Stack-Vanilla%20JS%20%7C%20Python-blue)
-![Dependencies](https://img.shields.io/badge/Runtime%20deps-0-lightgrey)
+![Framework](https://img.shields.io/badge/Framework-none-lightgrey)
 [![CI](https://github.com/tparzonka/talk-power-ranking/actions/workflows/ci.yml/badge.svg)](https://github.com/tparzonka/talk-power-ranking/actions/workflows/ci.yml)
 
 **Live page:** [claude.ai/artifact/XjkJB9hGr284QLAtPpMoKa](https://claude.ai/artifact/XjkJB9hGr284QLAtPpMoKa) (UI in Polish)
@@ -14,7 +14,7 @@
 
 ## Why
 
-The league publishes box scores and a standings table, nothing more. With 15 teams and 2 points for a win, the table says little after a few rounds: a 40-point blowout and a 1-point escape count the same, and nobody knows who is actually playing well. This project turns the same official protocols into team and player ratings that account for pace, margin, opponent strength and on-court impact, while staying honest about small samples.
+The league publishes box scores and a standings table. After a few rounds the table says little: a 40-point blowout and a 1-point escape both give 2 points, and box scores alone don't show which players help their team win. This project turns the same protocols into team and player ratings that account for pace, margin, opponent strength and on-court impact. Metrics that need more data stay hidden until the season provides it.
 
 ## Architecture Overview
 
@@ -64,7 +64,7 @@ A toggle switches the whole page between the full season and the last 5 games of
 
 ### 2. Re-importing without duplicates or silent errors
 **Problem:** Protocols arrive in batches, get re-saved, and are sometimes corrected by the league days later.
-**Solution:** Every game is keyed by its league ID. Re-imports either do nothing or overwrite with a clear message, and the import stops when points don't match shots or player totals don't match the team line. At the end the script prints which games of each round are still missing.
+**Solution:** Every game is keyed by its league ID. A re-import either changes nothing or overwrites the game with a clear message. The import stops when a player's points don't match his made shots or player totals don't match the team line. At the end the script prints which games of each round are still missing.
 
 ### 3. Errors at the source
 **Problem:** The scorer's table makes mistakes: wrong jersey numbers, a phantom appearance of a few seconds for a player who wasn't dressed. Fixing the JSON by hand would be lost on the next re-import.
@@ -75,12 +75,12 @@ A toggle switches the whole page between the full season and the last 5 games of
 **Solution:** The page shows "Termin do ustalenia" (date TBD). The calendar exports them as tentative all-day events titled `TBD TALK: vs …`. UIDs are derived from game IDs, so a reschedule updates the existing event instead of creating a second one.
 
 ### 5. Small samples early in the season
-**Problem:** After 2 rounds any advanced metric is mostly noise.
+**Problem:** After 2 rounds most advanced metrics are noise.
 **Solution:** Features switch on when the data can carry them: the rank-by-round chart and win probability from round 4, EWA from round 5. SRS is planned once teams share common opponents.
 
 ### 6. Personal data
 **Problem:** Player box scores, rosters with birth dates and heights, jersey numbers and corrections are personal data of about 100 people. Age-based awards (U23, 45+) even need birth dates.
-**Solution:** The public repository contains code and team-level data only. Everything that names a player stays on the local machine and is git-ignored, including the built page, which inlines player data. Without those files the build still works and produces a teams-only page, so CI can test and build from the public data. A CI privacy guard fails if a player data file, a birth date or a raw league page is ever committed.
+**Solution:** The public repository contains code and team-level data only. Everything that names a player stays on the local machine and is git-ignored. That includes the built page, because it inlines player data. Without those files the build still works and produces a teams-only page, so CI can test and build from the public data. A CI privacy guard fails if a player data file, a birth date or a raw league page is ever committed.
 
 ## Project Structure
 
@@ -115,24 +115,28 @@ Local only (git-ignored): raw league pages in `input/`, player data in `data/` (
 ## History
 
 - **1.0 (18.10.2026):** team and player rankings, league table with form, team/opponent stats, four factors, per-40 stats, player card, schedule and awards race, ID-checked imports.
-- **1.0.1 (19.10.2026):** jersey numbers, league table zones (play-off 1–8, 9–12, 13–15), team calendar, design and motion audit.
+- **1.0.1 (19.10.2026):** jersey numbers, league table zones (play-off 1-8, 9-12, 13-15), team calendar, visual polish.
 
 ## Human vs. AI Role
 
 **Human (author):** the idea and product decisions; which metrics fit an amateur league and which don't (no clutch stats or BPM without the data to support them); knowledge of the league, teams and players used to catch data errors; supplying protocols and schedules every round; design direction and review of every visual change.
 
-**AI (Claude):** implementation of the importers, the rating model, the page and the calendar; data validation and cross-checks against protocols; tests and CI; design and motion audits on request.
+**AI (Claude):** implementation of the importers, the rating model, the page and the calendar; data validation and cross-checks against protocols; tests and CI; design reviews on request.
 
 ## Technology Stack
 
 - **Front end:** HTML, CSS, vanilla JavaScript; Saira Condensed and Source Sans 3
 - **Data pipeline:** Python 3, BeautifulSoup
-- **Testing:** Node.js (ranking tests), Playwright (visual checks during development), GitHub Actions
+- **Testing:** Node.js (ranking tests), GitHub Actions; Playwright for visual checks during development (not part of the repo)
 - **Output:** single static HTML file, iCalendar (RFC 5545)
 
 ## Security & Privacy Note
 
-- No secrets, tokens or API keys are used or stored. The page makes no network calls apart from loading fonts.
+- No secrets, tokens or API keys are used or stored. The page makes no network calls apart from loading fonts from Google Fonts.
 - The repository holds no personal data: no player names, numbers, heights, birth dates or individual statistics. Those files and the built page stay on the local machine; the CI privacy guard enforces it.
 - Team statistics and the schedule come from the league's public game protocols.
 - The TALK logo, game protocols and schedule belong to the league. This is an independent fan project, not affiliated with the league organisers.
+
+## License
+
+No license: all rights reserved. The code is public for reading and reference.
