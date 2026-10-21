@@ -1,0 +1,22 @@
+# Surowe strony z systemu ligi (protokoły, terminarz, .mht) – tylko lokalnie
+input/
+*.mht
+# Składy z datami urodzenia – dane osobowe, nigdy do repozytorium
+data/sklady.txt
+# Paczka projektu publikowana przy stronie
+projekt.txt
+# Środowisko
+__pycache__/
+*.pyc
+node_modules/
+.env
+.env.*
+.DS_Store
+# Dane osobowe zawodników (nazwiska, numery, kategorie wiekowe, korekty, wyjątki)
+# i zbudowana strona, która je zawiera – tylko lokalnie
+data/zawodnicy.json
+data/wiek.json
+data/numery.json
+data/korekty.json
+data/wyjatki.json
+dist/ranking-publiczny.html

@@ -1,0 +1,209 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Power Ranking TALK//QUANTUM HOOP//PL
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:TALK – QUANTUM HOOP
+X-WR-TIMEZONE:Europe/Warsaw
+BEGIN:VTIMEZONE
+TZID:Europe/Warsaw
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:talk-236989@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261102T193000
+DTEND;TZID=Europe/Warsaw:20261102T204500
+SUMMARY:TALK: vs GRONOWO MAGIC
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:4. kolejka: QUANTUM HOOP – GRONOWO MAGIC.\nMapa: https://www.
+ google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0a
+ c2
+URL:https://talk.finteractive.pl/mecz/236989/quantum-hoop---gronowo-magic.h
+ tml
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-236998@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261119T204500
+DTEND;TZID=Europe/Warsaw:20261119T220000
+SUMMARY:TALK: vs SOLNO
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:5. kolejka: QUANTUM HOOP – SOLNO.\nMapa: https://www.google.c
+ om/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/236998/quantum-hoop---solno.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237007@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261123T193000
+DTEND;TZID=Europe/Warsaw:20261123T204500
+SUMMARY:TALK: vs LUCKY BASTARDS
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:6. kolejka: QUANTUM HOOP – LUCKY BASTARDS.\nMapa: https://www
+ .google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0
+ ac2
+URL:https://talk.finteractive.pl/mecz/237007/quantum-hoop---lucky-bastards.
+ html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237016@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261130T204500
+DTEND;TZID=Europe/Warsaw:20261130T220000
+SUMMARY:TALK: vs TS OPATRUNKI
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:7. kolejka: QUANTUM HOOP – TS OPATRUNKI.\nMapa: https://www.g
+ oogle.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac
+ 2
+URL:https://talk.finteractive.pl/mecz/237016/quantum-hoop---ts-opatrunki.ht
+ ml
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237025@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261209T204500
+DTEND;TZID=Europe/Warsaw:20261209T220000
+SUMMARY:TALK: vs Gran Torino BHC
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:8. kolejka: QUANTUM HOOP – Gran Torino BHC.\nMapa: https://ww
+ w.google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a
+ 0ac2
+URL:https://talk.finteractive.pl/mecz/237025/quantum-hoop---gran-torino-bhc
+ .html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237034@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261214T193000
+DTEND;TZID=Europe/Warsaw:20261214T204500
+SUMMARY:TALK: vs CP MEDICA
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:9. kolejka: QUANTUM HOOP – CP MEDICA.\nMapa: https://www.goog
+ le.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/237034/quantum-hoop---cp-medica.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237043@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20261221T204500
+DTEND;TZID=Europe/Warsaw:20261221T220000
+SUMMARY:TALK: vs STORK
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:10. kolejka: QUANTUM HOOP – STORK.\nMapa: https://www.google.
+ com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/237043/quantum-hoop---stork.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-236980@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;VALUE=DATE:20261231
+DTEND;VALUE=DATE:20270101
+SUMMARY:TBD TALK: vs JAWOR
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:3. kolejka. Mecz przełożony\, termin do ustalenia (data 31.12
+  to wpis zastępczy).\nMapa: https://www.google.com/maps/place//data=!4m2!
+ 3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/236980/jawor---quantum-hoop.html
+STATUS:TENTATIVE
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237051@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20270113T193000
+DTEND;TZID=Europe/Warsaw:20270113T204500
+SUMMARY:TALK: vs BARDZO NAM PRZYKRO
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:11. kolejka: BARDZO NAM PRZYKRO – QUANTUM HOOP.\nMapa: https:
+ //www.google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d
+ 843a0ac2
+URL:https://talk.finteractive.pl/mecz/237051/bardzo-nam-przykro---quantum-h
+ oop.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237058@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20270121T204500
+DTEND;TZID=Europe/Warsaw:20270121T220000
+SUMMARY:TALK: vs SMAKOSZE
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:12. kolejka: SMAKOSZE – QUANTUM HOOP.\nMapa: https://www.goog
+ le.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/237058/smakosze---quantum-hoop.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237065@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20270128T193000
+DTEND;TZID=Europe/Warsaw:20270128T204500
+SUMMARY:TALK: vs GOOD FATHER BARBER
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:13. kolejka: GOOD FATHER BARBER – QUANTUM HOOP.\nMapa: https:
+ //www.google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d
+ 843a0ac2
+URL:https://talk.finteractive.pl/mecz/237065/good-father-barber---quantum-h
+ oop.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237080@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20270211T193000
+DTEND;TZID=Europe/Warsaw:20270211T204500
+SUMMARY:TALK: vs Image Basket Talent
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:15. kolejka: Image Basket Talent – QUANTUM HOOP.\nMapa: https
+ ://www.google.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423
+ d843a0ac2
+URL:https://talk.finteractive.pl/mecz/237080/image-basket-talent---quantum-
+ hoop.html
+STATUS:CONFIRMED
+END:VEVENT
+BEGIN:VEVENT
+UID:talk-237071@quantum-hoop
+DTSTAMP:20261021T091828Z
+DTSTART;TZID=Europe/Warsaw:20270303T204500
+DTEND;TZID=Europe/Warsaw:20270303T220000
+SUMMARY:TALK: vs FRESH TEAM
+LOCATION:Hala sportowa Zespołu Szkół Przemysłu Spożywczego\, ul. Grunw
+ aldzka 33a\, 87-100 Toruń
+DESCRIPTION:14. kolejka: FRESH TEAM – QUANTUM HOOP.\nMapa: https://www.go
+ ogle.com/maps/place//data=!4m2!3m1!1s0x47033457d1e9ce81:0xa9b5423d843a0ac2
+URL:https://talk.finteractive.pl/mecz/237071/fresh-team---quantum-hoop.html
+STATUS:CONFIRMED
+END:VEVENT
+END:VCALENDAR

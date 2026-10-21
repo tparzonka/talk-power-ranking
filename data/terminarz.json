@@ -1,0 +1,1079 @@
+{
+ "stan": "2026-10-20",
+ "mecze": [
+  {
+   "kolejka": 1,
+   "mecz_id": 236971,
+   "data": "2026-10-12",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": [
+    78,
+    51
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236971/lucky-bastards---good-father-barber.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236965,
+   "data": "2026-10-12",
+   "godz": "20:45",
+   "gosp": "CP MEDICA",
+   "gosc": "STORK",
+   "wynik": [
+    79,
+    56
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236965/cp-medica---stork.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236966,
+   "data": "2026-10-14",
+   "godz": "19:30",
+   "gosp": "CDF",
+   "gosc": "QUANTUM HOOP",
+   "wynik": [
+    65,
+    50
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236966/cdf---quantum-hoop.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236969,
+   "data": "2026-10-14",
+   "godz": "20:45",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "SMAKOSZE",
+   "wynik": [
+    85,
+    61
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236969/ts-opatrunki---smakosze.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236967,
+   "data": "2026-10-15",
+   "godz": "19:30",
+   "gosp": "Gran Torino BHC",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": [
+    42,
+    80
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236967/gran-torino-bhc---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236968,
+   "data": "2026-10-15",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": [
+    106,
+    81
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236968/fresh-team---gronowo-magic.html"
+  },
+  {
+   "kolejka": 1,
+   "mecz_id": 236970,
+   "data": "2026-10-21",
+   "godz": "20:45",
+   "gosp": "Image Basket Talent",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236970/image-basket-talent---solno.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236978,
+   "data": "2026-10-19",
+   "godz": "19:30",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": [
+    85,
+    70
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236978/ts-opatrunki---good-father-barber.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236972,
+   "data": "2026-10-19",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "JAWOR",
+   "wynik": [
+    34,
+    97
+   ],
+   "url": "https://talk.finteractive.pl/mecz/236972/stork---jawor.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236976,
+   "data": "2026-10-21",
+   "godz": "19:30",
+   "gosp": "Gran Torino BHC",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236976/gran-torino-bhc---smakosze.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236975,
+   "data": "2026-10-22",
+   "godz": "20:45",
+   "gosp": "CDF",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236975/cdf---gronowo-magic.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236979,
+   "data": "2026-10-26",
+   "godz": "19:30",
+   "gosp": "Image Basket Talent",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236979/image-basket-talent---lucky-bastards.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236977,
+   "data": "2026-10-28",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236977/fresh-team---solno.html"
+  },
+  {
+   "kolejka": 2,
+   "mecz_id": 236974,
+   "data": "2026-12-31",
+   "godz": "",
+   "gosp": "CP MEDICA",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236974/cp-medica---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236986,
+   "data": "2026-10-22",
+   "godz": "19:30",
+   "gosp": "FRESH TEAM",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236986/fresh-team---lucky-bastards.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236985,
+   "data": "2026-10-26",
+   "godz": "20:45",
+   "gosp": "Gran Torino BHC",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236985/gran-torino-bhc---good-father-barber.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236983,
+   "data": "2026-10-28",
+   "godz": "19:30",
+   "gosp": "CP MEDICA",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236983/cp-medica---smakosze.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236987,
+   "data": "2026-10-29",
+   "godz": "19:30",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236987/ts-opatrunki---image-basket-talent.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236981,
+   "data": "2026-10-29",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236981/stork---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236984,
+   "data": "2026-11-04",
+   "godz": "20:45",
+   "gosp": "CDF",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236984/cdf---solno.html"
+  },
+  {
+   "kolejka": 3,
+   "mecz_id": 236980,
+   "data": "2026-12-31",
+   "godz": "",
+   "gosp": "JAWOR",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236980/jawor---quantum-hoop.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236989,
+   "data": "2026-11-02",
+   "godz": "19:30",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236989/quantum-hoop---gronowo-magic.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236990,
+   "data": "2026-11-02",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236990/stork---smakosze.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236994,
+   "data": "2026-11-04",
+   "godz": "19:30",
+   "gosp": "Gran Torino BHC",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236994/gran-torino-bhc---image-basket-talent.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236988,
+   "data": "2026-11-05",
+   "godz": "19:30",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236988/bardzo-nam-przykro---jawor.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236995,
+   "data": "2026-11-05",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236995/fresh-team---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236992,
+   "data": "2026-11-06",
+   "godz": "19:45",
+   "gosp": "CP MEDICA",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236992/cp-medica---good-father-barber.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236993,
+   "data": "2026-11-09",
+   "godz": "19:30",
+   "gosp": "CDF",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236993/cdf---lucky-bastards.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 236999,
+   "data": "2026-11-09",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236999/stork---good-father-barber.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 236996,
+   "data": "2026-11-12",
+   "godz": "19:30",
+   "gosp": "JAWOR",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236996/jawor---gronowo-magic.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 236997,
+   "data": "2026-11-12",
+   "godz": "20:45",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236997/bardzo-nam-przykro---smakosze.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 237002,
+   "data": "2026-11-16",
+   "godz": "20:45",
+   "gosp": "CDF",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237002/cdf---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 237001,
+   "data": "2026-11-18",
+   "godz": "19:30",
+   "gosp": "CP MEDICA",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237001/cp-medica---image-basket-talent.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 237003,
+   "data": "2026-11-18",
+   "godz": "20:45",
+   "gosp": "Gran Torino BHC",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237003/gran-torino-bhc---fresh-team.html"
+  },
+  {
+   "kolejka": 5,
+   "mecz_id": 236998,
+   "data": "2026-11-19",
+   "godz": "20:45",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236998/quantum-hoop---solno.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237008,
+   "data": "2026-11-16",
+   "godz": "19:30",
+   "gosp": "STORK",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237008/stork---image-basket-talent.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237004,
+   "data": "2026-11-19",
+   "godz": "19:30",
+   "gosp": "SMAKOSZE",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237004/smakosze---jawor.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237006,
+   "data": "2026-11-20",
+   "godz": "19:30",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237006/bardzo-nam-przykro---good-father-barber.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237010,
+   "data": "2026-11-20",
+   "godz": "20:45",
+   "gosp": "CP MEDICA",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237010/cp-medica---fresh-team.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237007,
+   "data": "2026-11-23",
+   "godz": "19:30",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237007/quantum-hoop---lucky-bastards.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237011,
+   "data": "2026-11-23",
+   "godz": "20:45",
+   "gosp": "CDF",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237011/cdf---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 6,
+   "mecz_id": 237005,
+   "data": "2026-11-25",
+   "godz": "20:45",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237005/gronowo-magic---solno.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237015,
+   "data": "2026-11-25",
+   "godz": "19:30",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237015/bardzo-nam-przykro---image-basket-talent.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237013,
+   "data": "2026-11-26",
+   "godz": "19:30",
+   "gosp": "SMAKOSZE",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237013/smakosze---good-father-barber.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237017,
+   "data": "2026-11-26",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237017/stork---fresh-team.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237019,
+   "data": "2026-11-30",
+   "godz": "19:30",
+   "gosp": "CP MEDICA",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237019/cp-medica---cdf.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237016,
+   "data": "2026-11-30",
+   "godz": "20:45",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237016/quantum-hoop---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237012,
+   "data": "2026-12-02",
+   "godz": "20:45",
+   "gosp": "JAWOR",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237012/jawor---solno.html"
+  },
+  {
+   "kolejka": 7,
+   "mecz_id": 237014,
+   "data": "2026-12-07",
+   "godz": "19:30",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237014/gronowo-magic---lucky-bastards.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237023,
+   "data": "2026-12-02",
+   "godz": "19:30",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237023/gronowo-magic---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237022,
+   "data": "2026-12-03",
+   "godz": "19:30",
+   "gosp": "SMAKOSZE",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237022/smakosze---image-basket-talent.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237024,
+   "data": "2026-12-03",
+   "godz": "20:45",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237024/bardzo-nam-przykro---fresh-team.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237026,
+   "data": "2026-12-07",
+   "godz": "20:45",
+   "gosp": "STORK",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237026/stork---cdf.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237021,
+   "data": "2026-12-09",
+   "godz": "19:30",
+   "gosp": "SOLNO",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237021/solno---lucky-bastards.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237025,
+   "data": "2026-12-09",
+   "godz": "20:45",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237025/quantum-hoop---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 8,
+   "mecz_id": 237020,
+   "data": "2026-12-10",
+   "godz": "19:30",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237020/good-father-barber---jawor.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237031,
+   "data": "2026-12-10",
+   "godz": "20:45",
+   "gosp": "SMAKOSZE",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237031/smakosze---fresh-team.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237034,
+   "data": "2026-12-14",
+   "godz": "19:30",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237034/quantum-hoop---cp-medica.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237029,
+   "data": "2026-12-14",
+   "godz": "20:45",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "Image Basket Talent",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237029/good-father-barber---image-basket-talent.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237032,
+   "data": "2026-12-16",
+   "godz": "19:30",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237032/gronowo-magic---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237030,
+   "data": "2026-12-16",
+   "godz": "20:45",
+   "gosp": "SOLNO",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237030/solno---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237033,
+   "data": "2026-12-17",
+   "godz": "20:45",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237033/bardzo-nam-przykro---cdf.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237028,
+   "data": "2026-12-21",
+   "godz": "19:30",
+   "gosp": "JAWOR",
+   "gosc": "LUCKY BASTARDS",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237028/jawor---lucky-bastards.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237038,
+   "data": "2026-12-17",
+   "godz": "19:30",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237038/good-father-barber---fresh-team.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237043,
+   "data": "2026-12-21",
+   "godz": "20:45",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237043/quantum-hoop---stork.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237037,
+   "data": "2027-01-04",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237037/lucky-bastards---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237040,
+   "data": "2027-01-04",
+   "godz": "20:45",
+   "gosp": "SMAKOSZE",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237040/smakosze---cdf.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237039,
+   "data": "2027-01-07",
+   "godz": "19:30",
+   "gosp": "SOLNO",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237039/solno---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237036,
+   "data": "2027-01-11",
+   "godz": "19:30",
+   "gosp": "Image Basket Talent",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237036/image-basket-talent---jawor.html"
+  },
+  {
+   "kolejka": 10,
+   "mecz_id": 237041,
+   "data": "2027-01-11",
+   "godz": "20:45",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237041/gronowo-magic---cp-medica.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237045,
+   "data": "2027-01-07",
+   "godz": "20:45",
+   "gosp": "Image Basket Talent",
+   "gosc": "FRESH TEAM",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237045/image-basket-talent---fresh-team.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237051,
+   "data": "2027-01-13",
+   "godz": "19:30",
+   "gosp": "BARDZO NAM PRZYKRO",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237051/bardzo-nam-przykro---quantum-hoop.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237044,
+   "data": "2027-01-13",
+   "godz": "20:45",
+   "gosp": "JAWOR",
+   "gosc": "TS OPATRUNKI",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237044/jawor---ts-opatrunki.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237047,
+   "data": "2027-01-14",
+   "godz": "19:30",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237047/good-father-barber---cdf.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237050,
+   "data": "2027-01-14",
+   "godz": "20:45",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237050/gronowo-magic---stork.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237048,
+   "data": "2027-01-20",
+   "godz": "19:30",
+   "gosp": "SOLNO",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237048/solno---cp-medica.html"
+  },
+  {
+   "kolejka": 11,
+   "mecz_id": 237046,
+   "data": "2027-01-27",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237046/lucky-bastards---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237055,
+   "data": "2027-01-18",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237055/lucky-bastards---cp-medica.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237052,
+   "data": "2027-01-18",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237052/fresh-team---jawor.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237053,
+   "data": "2027-01-20",
+   "godz": "20:45",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237053/ts-opatrunki---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237059,
+   "data": "2027-01-21",
+   "godz": "19:30",
+   "gosp": "GRONOWO MAGIC",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237059/gronowo-magic---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237058,
+   "data": "2027-01-21",
+   "godz": "20:45",
+   "gosp": "SMAKOSZE",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237058/smakosze---quantum-hoop.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237057,
+   "data": "2027-02-03",
+   "godz": "20:45",
+   "gosp": "SOLNO",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237057/solno---stork.html"
+  },
+  {
+   "kolejka": 12,
+   "mecz_id": 237054,
+   "data": "2027-02-08",
+   "godz": "20:45",
+   "gosp": "Image Basket Talent",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237054/image-basket-talent---cdf.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237064,
+   "data": "2027-01-25",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237064/lucky-bastards---stork.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237066,
+   "data": "2027-01-27",
+   "godz": "20:45",
+   "gosp": "SOLNO",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237066/solno---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237065,
+   "data": "2027-01-28",
+   "godz": "19:30",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237065/good-father-barber---quantum-hoop.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237067,
+   "data": "2027-01-28",
+   "godz": "20:45",
+   "gosp": "SMAKOSZE",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237067/smakosze---gronowo-magic.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237062,
+   "data": "2027-02-01",
+   "godz": "19:30",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237062/ts-opatrunki---cp-medica.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237061,
+   "data": "2027-02-01",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "CDF",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237061/fresh-team---cdf.html"
+  },
+  {
+   "kolejka": 13,
+   "mecz_id": 237060,
+   "data": "2027-02-03",
+   "godz": "19:30",
+   "gosp": "JAWOR",
+   "gosc": "Gran Torino BHC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237060/jawor---gran-torino-bhc.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237073,
+   "data": "2027-01-25",
+   "godz": "20:45",
+   "gosp": "Image Basket Talent",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237073/image-basket-talent---gronowo-magic.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237074,
+   "data": "2027-02-04",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237074/lucky-bastards---smakosze.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237072,
+   "data": "2027-02-04",
+   "godz": "20:45",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237072/ts-opatrunki---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237075,
+   "data": "2027-02-08",
+   "godz": "19:30",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "SOLNO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237075/good-father-barber---solno.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237068,
+   "data": "2027-02-10",
+   "godz": "19:30",
+   "gosp": "JAWOR",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237068/jawor---cp-medica.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237070,
+   "data": "2027-02-10",
+   "godz": "20:45",
+   "gosp": "Gran Torino BHC",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237070/gran-torino-bhc---stork.html"
+  },
+  {
+   "kolejka": 14,
+   "mecz_id": 237071,
+   "data": "2027-03-03",
+   "godz": "20:45",
+   "gosp": "FRESH TEAM",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237071/fresh-team---quantum-hoop.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237080,
+   "data": "2027-02-11",
+   "godz": "19:30",
+   "gosp": "Image Basket Talent",
+   "gosc": "QUANTUM HOOP",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237080/image-basket-talent---quantum-hoop.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237082,
+   "data": "2027-02-11",
+   "godz": "20:45",
+   "gosp": "GOOD FATHER BARBER",
+   "gosc": "GRONOWO MAGIC",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237082/good-father-barber---gronowo-magic.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237079,
+   "data": "2027-03-01",
+   "godz": "19:30",
+   "gosp": "TS OPATRUNKI",
+   "gosc": "STORK",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237079/ts-opatrunki---stork.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237076,
+   "data": "2027-03-01",
+   "godz": "20:45",
+   "gosp": "CDF",
+   "gosc": "JAWOR",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237076/cdf---jawor.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237077,
+   "data": "2027-03-03",
+   "godz": "19:30",
+   "gosp": "Gran Torino BHC",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237077/gran-torino-bhc---cp-medica.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237081,
+   "data": "2027-03-04",
+   "godz": "19:30",
+   "gosp": "LUCKY BASTARDS",
+   "gosc": "BARDZO NAM PRZYKRO",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237081/lucky-bastards---bardzo-nam-przykro.html"
+  },
+  {
+   "kolejka": 15,
+   "mecz_id": 237083,
+   "data": "2027-03-04",
+   "godz": "20:45",
+   "gosp": "SOLNO",
+   "gosc": "SMAKOSZE",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237083/solno---smakosze.html"
+  }
+ ]
+}
