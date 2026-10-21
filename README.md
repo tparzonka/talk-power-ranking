@@ -82,20 +82,6 @@ A toggle switches the whole page between the full season and the last 5 games of
 **Problem:** Player box scores, rosters with birth dates and heights, jersey numbers and corrections are personal data of about 100 people. Age-based awards (U23, 45+) even need birth dates.
 **Solution:** The public repository contains code and team-level data only. Everything that names a player stays on the local machine and is git-ignored, including the built page, which inlines player data. Without those files the build still works and produces a teams-only page, so CI can test and build from the public data. A CI privacy guard fails if a player data file, a birth date or a raw league page is ever committed.
 
-### 7. Not looking AI-generated
-**Problem:** The first version had typical generated-UI tells: ornamental eyebrows, a third display font, letter-spaced orange labels, dots everywhere, rows animating on every sort.
-**Solution:** A design audit cut fonts to two, removed the decoration and fixed contrast to WCAG AA. A separate motion audit kept only motion with a purpose (row entrance on data change, capped at 12 rows, ~0.3 s total; smooth accordion; sheet-style player card on mobile) and respects `prefers-reduced-motion`.
-
-## Team Calendar
-
-Subscribe to this URL in Google Calendar, Apple Calendar or Outlook ("add calendar from URL"):
-
-```
-https://raw.githubusercontent.com/tparzonka/talk-power-ranking/main/dist/quantum-hoop.ics
-```
-
-The calendar refreshes after each push with a new schedule. How often the calendar app re-reads it depends on the app (Google Calendar can take several hours).
-
 ## Project Structure
 
 ```text
