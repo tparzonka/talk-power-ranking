@@ -302,13 +302,19 @@ const awards = (zawodnicy, mecze_druzyn, wiek = {}) => {
     list: top(rated.filter((r) => wiek[r.zawodnik] === 'U23').map((r) => entry(r, f1(score(r))))) });
   out.push({ key: 'weteran', title: 'Weteran sezonu', rule: '45 lat i więcej. Najwyższa ocena.',
     list: top(rated.filter((r) => wiek[r.zawodnik] === '45+').map((r) => entry(r, f1(score(r))))) });
-  const five = [];
-  for (const [pos, label] of [['rozgrywający', 'Rozgrywający'], ['rzucający', 'Rzucający'], ['niski skrzydłowy', 'Niski skrzydłowy'],
-    ['silny skrzydłowy', 'Silny skrzydłowy'], ['środkowy', 'Środkowy']]) {
-    const r = allRows.find((x) => x.pozycja === pos && eligible(pl.get(x.zawodnik)));
-    if (r) five.push({ ...entry(r, f1(score(r))), label });
-  }
-  out.push({ key: 'piatka', title: 'Piątka sezonu', rule: 'Najwyższa ocena na każdej pozycji.', list: five, positions: true });
+  // Piątki sezonu wzorem NBA: pierwsza i druga według oceny, piątka obrońców według oceny obrońcy; po jednym zawodniku na pozycję.
+  const POS5 = [['rozgrywający', 'Rozgrywający'], ['rzucający', 'Rzucający'], ['niski skrzydłowy', 'Niski skrzydłowy'],
+    ['silny skrzydłowy', 'Silny skrzydłowy'], ['środkowy', 'Środkowy']];
+  const fiveBy = (k) => {
+    const five = [];
+    for (const [pos, label] of POS5) {
+      const r = allRows.filter((x) => x.pozycja === pos && eligible(pl.get(x.zawodnik)))[k];
+      if (r) five.push({ ...entry(r, f1(score(r))), label });
+    }
+    return five;
+  };
+  out.push({ key: 'piatka', title: 'Pierwsza piątka sezonu', rule: 'Najwyższa ocena na każdej pozycji.', list: fiveBy(0), positions: true });
+  out.push({ key: 'piatka2', title: 'Druga piątka sezonu', rule: 'Druga ocena na każdej pozycji.', list: fiveBy(1), positions: true });
   // Obrońca sezonu: 40% przechwyty + bloki na 40 minut, 25% DRB% (część zbiórek w obronie zebranych przez zawodnika,
   // gdy był na boisku), 25% obrona drużyny z nim (o ile DRtg drużyny w jego meczach jest lepszy od ligi, razy udział w minutach),
   // -10% faule na 40 minut. Każda część w odchyleniach od średniej uprawnionych zawodników, skala 50 ± 10.
@@ -342,6 +348,14 @@ const awards = (zawodnicy, mecze_druzyn, wiek = {}) => {
       rule: 'Przechwyty i bloki 40%, zbiórki w obronie 25%, obrona drużyny z nim na boisku 25%, faule 10% na minus.',
       list: top(cand.map((c) => ({ zawodnik: c.name, druzyna: pl.get(c.name).druzyna, value: f1(50 + 10 * c.score),
         note: f1(c.x.stl / c.x.g) + ' prz, ' + f1(c.x.blk / c.x.g) + ' bl, ' + f1(c.x.dreb / c.x.g) + ' zb. w obronie na mecz' }))) });
+    const posOf = new Map(allRows.filter((r) => r.pozycja !== 'wszyscy').map((r) => [r.zawodnik, r.pozycja]));
+    const dfive = [];
+    for (const [pos, label] of POS5) {
+      const c = cand.find((x) => posOf.get(x.name) === pos);
+      if (c) dfive.push({ zawodnik: c.name, druzyna: pl.get(c.name).druzyna, value: f1(50 + 10 * c.score), label });
+    }
+    out.push({ key: 'piatka-obrona', title: 'Piątka obrońców sezonu', rule: 'Najwyższa ocena obrońcy (jak w nagrodzie Obrońca sezonu) na każdej pozycji.',
+      list: dfive, positions: true });
   }
   const games = zawodnicy.filter((z) => mins(z.min) > 0).map((z) => ({ z, v: gm(z) })).sort((a, b) => b.v - a.v);
   out.push({ key: 'wystep', title: 'Występ sezonu', rule: 'Najwyższy GmSc w jednym meczu.',

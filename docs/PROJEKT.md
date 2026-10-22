@@ -131,6 +131,8 @@ Wersja Dashboard: https://claude.ai/artifact/X7F82xCboEjkZ6vGPuSHH7 (wymaga logo
 Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i nowe dane: 1.0.x; nowe funkcje: 1.x; nowy sezon albo play-off z innymi zasadami: 2.0.
 
 ### 1.0.2 – 21.10.2026
+- Nagrody wzorem NBA: zamiast jednej „Piątki sezonu” są Pierwsza piątka sezonu (najwyższa ocena na każdej pozycji), Druga piątka sezonu (druga ocena na każdej pozycji) i Piątka obrońców sezonu (najwyższa ocena obrońcy na każdej pozycji, ta sama miara co Obrońca sezonu).
+- Favicon: piłka do koszykówki (`assets/favicon.svg`, domena publiczna z openclipart.org), wklejana do strony przez `scripts/build.py`.
 - Pozycja zawodnika bez pozycji w systemie ligi liczona ze średnich wzrostu pozycji w lidze (zamiast stałych progów); przelicza się sama, gdy liga dodaje zawodników.
 
 ### 1.0.1 – 19.10.2026

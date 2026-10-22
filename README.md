@@ -115,7 +115,7 @@ Local only (git-ignored): raw league pages in `input/`, player data in `data/` (
 ## History
 
 - **1.0 (18.10.2026):** team and player rankings, league table with form, team/opponent stats, four factors, per-40 stats, player card, schedule and awards race, ID-checked imports.
-- **1.0.2 (21.10.2026):** position of players without one in the league system is taken from the nearest average height per position in the league.
+- **1.0.2 (21.10.2026):** position of players without one in the league system is taken from the nearest average height per position in the league; All-NBA style awards (first and second team of the season, all-defensive team); basketball favicon.
 - **1.0.1 (19.10.2026):** jersey numbers, league table zones (play-off 1-8, 9-12, 13-15), team calendar, visual polish.
 
 ## Human vs. AI Role
@@ -136,6 +136,7 @@ Local only (git-ignored): raw league pages in `input/`, player data in `data/` (
 - No secrets, tokens or API keys are used or stored. The page makes no network calls apart from loading fonts from Google Fonts.
 - The repository holds no personal data: no player names, numbers, heights, birth dates or individual statistics. Those files and the built page stay on the local machine; the CI privacy guard enforces it.
 - Team statistics and the schedule come from the league's public game protocols.
+- Favicon: basketball by Keistutis, public domain ([openclipart.org](http://openclipart.org/detail/181007/basketball-krepsinio-kamuolys-ball-by-keistutis-181007)).
 - The TALK logo, game protocols and schedule belong to the league. This is an independent fan project, not affiliated with the league organisers.
 
 ## License

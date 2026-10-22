@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Buduje dist/ranking-publiczny.html z src/template.html, src/ranking.js i data/*.json."""
+import base64
 import json
 from pathlib import Path
 
@@ -23,6 +24,9 @@ def main():
     page = page.replace('/*__RANKING_JS__*/', ranking)
     version = (ROOT / 'VERSION').read_text(encoding='utf-8').strip() if (ROOT / 'VERSION').exists() else ''
     page = page.replace('__VERSION__', version)
+    # favicon (piłka, domena publiczna, openclipart.org) wklejona jako data URI
+    fav = ROOT / 'assets' / 'favicon.svg'
+    page = page.replace('__FAVICON__', 'data:image/svg+xml;base64,' + base64.b64encode(fav.read_bytes()).decode() if fav.exists() else '')
     out = ROOT / 'dist' / 'ranking-publiczny.html'
     out.parent.mkdir(exist_ok=True)
     out.write_text(page, encoding='utf-8')
