@@ -1,0 +1,321 @@
+<title>__TYTUL__</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+/* Układ: arkusz scoutingowy – nagłówek meczu, liczby kluczowe, wnioski, potem sekcje z wykresem na górze i tabelą pod nim. */
+:root {
+  --bg: #f4f6f9; --surface: #ffffff; --fg: #17212d; --muted: #5a6675; --line: #dce2ea; --zebra: #f7f9fb;
+  --accent: #1d5fc4; --accent-soft: rgba(29, 95, 196, .10); --opp: #7d6f63; --league: #aab3bf;
+  --good: #23784a; --good-soft: rgba(35, 120, 74, .12); --bad: #b2412b; --bad-soft: rgba(178, 65, 43, .12);
+  --f-display: "Saira Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --f-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f141b; --surface: #171e28; --fg: #e6ebf1; --muted: #9aa6b5; --line: #2a3441; --zebra: #1b2330;
+  --accent: #6fa4ff; --accent-soft: rgba(111, 164, 255, .14); --opp: #b9ab9e; --league: #5f6b7a;
+  --good: #5cc48a; --good-soft: rgba(92, 196, 138, .14); --bad: #f08a72; --bad-soft: rgba(240, 138, 114, .14); color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0f141b; --surface: #171e28; --fg: #e6ebf1; --muted: #9aa6b5; --line: #2a3441; --zebra: #1b2330;
+  --accent: #6fa4ff; --accent-soft: rgba(111, 164, 255, .14); --opp: #b9ab9e; --league: #5f6b7a;
+  --good: #5cc48a; --good-soft: rgba(92, 196, 138, .14); --bad: #f08a72; --bad-soft: rgba(240, 138, 114, .14); color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--fg); font-family: var(--f-body); font-size: 16px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 48px }
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px }
+h1, h2, h3 { font-family: var(--f-display); font-weight: 700; letter-spacing: .01em; text-wrap: balance; margin: 0; line-height: 1.1 }
+h1 { font-size: clamp(2rem, 5vw, 3.1rem); text-transform: uppercase }
+h2 { font-size: 1.7rem; text-transform: uppercase }
+h3 { font-size: 1.25rem }
+p { margin: 0; max-width: 72ch }
+a { color: var(--accent) }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+.num, td, .kpi-v { font-variant-numeric: tabular-nums }
+.eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.muted { color: var(--muted) }
+.small { font-size: .88rem }
+
+header.top { display: flex; flex-direction: column; gap: 10px; padding-bottom: 22px; border-bottom: 2px solid var(--fg) }
+.vs { color: var(--muted); font-weight: 600 }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 20px; color: var(--muted); font-size: .95rem }
+.lead { font-size: 1.15rem; max-width: 70ch }
+
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.kpi-l { font-size: .82rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em }
+.kpi-v { font-family: var(--f-display); font-size: 2.3rem; font-weight: 700; line-height: 1 }
+.kpi-v small { font-size: 1.1rem; font-weight: 600; color: var(--muted) }
+.kpi-d { font-size: .88rem; color: var(--muted) }
+.delta { font-weight: 700 }
+.delta.good { color: var(--good) } .delta.bad { color: var(--bad) }
+.rankbar { display: flex; gap: 2px; height: 8px; margin-top: 4px }
+.rankbar span { flex: 1; background: var(--line); border-radius: 1px }
+.rankbar span.on { background: var(--accent) }
+.track { position: relative; height: 8px; background: var(--line); border-radius: 4px; margin-top: 4px }
+.track i { position: absolute; top: -3px; width: 4px; height: 14px; background: var(--accent); border-radius: 2px; transform: translateX(-2px) }
+
+.insights { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px }
+.insight { display: flex; gap: 10px; padding: 12px 14px; background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; min-width: 0 }
+.insight .e { font-size: 1.2rem; line-height: 1.3 }
+ol.keys { margin: 0; padding-left: 1.4em; display: flex; flex-direction: column; gap: 10px; max-width: 80ch }
+ol.keys li::marker { font-family: var(--f-display); font-weight: 700; color: var(--accent) }
+
+section { display: flex; flex-direction: column; gap: 16px }
+.sec-head { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid var(--line); padding-top: 18px }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px }
+.grid2 > * { min-width: 0 }
+.stack { display: flex; flex-direction: column; gap: 20px }
+.stack > * { min-width: 0 }
+.chart-box { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 14px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0 }
+.chart-box h3 { font-size: 1.1rem }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .85rem; color: var(--muted) }
+.legend b { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px }
+
+.tbl { overflow: auto; max-height: 72vh; border: 1px solid var(--line); border-radius: 8px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: .9rem }
+th, td { padding: 7px 10px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line) }
+th:first-child, td:first-child { text-align: left }
+td.l, th.l { text-align: left }
+thead th { position: sticky; top: 0; background: var(--surface); font-weight: 700; font-size: .78rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); z-index: 1 }
+tbody tr:nth-child(even) td { background: var(--zebra) }
+tbody tr:hover td { background: var(--accent-soft) }
+td.best { font-weight: 700 }
+.rk { display: inline-block; min-width: 2.6em; margin-left: 6px; padding: 0 5px; border-radius: 10px; font-size: .75rem; font-weight: 700; text-align: center; background: var(--line); color: var(--muted) }
+.rk.good { background: var(--good-soft); color: var(--good) } .rk.bad { background: var(--bad-soft); color: var(--bad) }
+.chips { display: flex; flex-wrap: wrap; gap: 6px }
+.chip { padding: 3px 10px; border: 1px solid var(--line); border-radius: 14px; font-size: .88rem; background: var(--surface) }
+.note { padding: 10px 14px; background: var(--accent-soft); border-radius: 6px; max-width: 80ch }
+.me-head { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline }
+.goals { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px }
+.goals label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; min-height: 32px }
+.goals input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent) }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px }
+details > summary { cursor: pointer; font-weight: 700; min-height: 28px }
+details[open] > summary { margin-bottom: 12px }
+details .body { display: flex; flex-direction: column; gap: 10px }
+ul.plain { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important } }
+</style>
+
+<div class="wrap" id="app"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+const D = __DATA__;
+const N = D.notatki || {};
+const A = D.druzyna, B = D.rywal;
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const f = (v, d = 1) => v == null ? '–' : Number(v).toFixed(d).replace('.', ',');
+const sg = (v, d = 1) => v == null ? '–' : (v > 0.05 ? '+' : v < -0.05 ? '−' : '') + f(Math.abs(v), d);
+const nice = (s) => String(s);
+const surname = (s) => String(s).split(' ').slice(-1)[0];
+const frac = (x) => `${x[0]}/${x[1]}`;
+const dt = (s, opts) => new Date(s + 'T12:00:00').toLocaleDateString('pl-PL', opts || { day: 'numeric', month: 'long' });
+const app = document.getElementById('app');
+const h = [];
+
+// ---------- nagłówek ----------
+const m = D.mecz || {};
+h.push(`<header class="top">
+  <div class="eyebrow">Scouting przed meczem${m.kolejka ? ` · kolejka ${m.kolejka}` : ''}</div>
+  <h1>${esc(nice(A))} <span class="vs">–</span> ${esc(nice(B))}</h1>
+  <div class="meta">
+    ${m.data ? `<span>${esc(dt(m.data, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }))}${m.godz ? ', ' + esc(m.godz) : ''}</span>` : ''}
+    <span>Protokoły ${esc(dt(D.protokoly_od))} – ${esc(dt(D.protokoly_do, { day: 'numeric', month: 'long', year: 'numeric' }))} · ${D.mecze_ligi} meczów ligi</span>
+    <span>Próba: ${esc(nice(A))} ${D.g[A]}, ${esc(nice(B))} ${D.g[B]} ${D.g[B] === 1 ? 'mecz' : 'mecze'}</span>
+  </div>
+  ${N.lead ? `<p class="lead">${esc(N.lead)}</p>` : ''}
+</header>`);
+
+// ---------- liczby kluczowe ----------
+const nT = D.druzyn;
+const rankbar = (r, n) => `<div class="rankbar" aria-label="miejsce ${r} z ${n}">${Array.from({ length: n }, (_, i) => `<span class="${i + 1 === r ? 'on' : ''}"></span>`).join('')}</div>`;
+const track = (r, n) => `<div class="track" aria-label="miejsce ${r} z ${n}"><i style="left:${n > 1 ? (r - 1) / (n - 1) * 100 : 0}%"></i></div>`;
+const kpis = [];
+if (D.szansa != null) kpis.push(`<div class="kpi"><div class="kpi-l">Szansa wygranej</div><div class="kpi-v">${f(D.szansa, 0)}<small>%</small></div><div class="kpi-d">model strony z NetRtg obu drużyn; mała próba</div></div>`);
+if (D.szacunek) {
+  const w = D.wspolni.map((c) => `${nice(c.rywal)}: ${sg(c.net_a)} i ${sg(c.net_b)}`).join('; ');
+  kpis.push(`<div class="kpi"><div class="kpi-l">Wspólny rywal</div><div class="kpi-v">${sg(D.szacunek.pkt, 0)}<small> pkt</small></div><div class="kpi-d">${esc(w)} na 100 posiadań</div></div>`);
+}
+const SLABE = ['drtg', 'drb', 'o_efg', 'tov', 'o_tov', 'ortg'];  // słabości, które przeciwnik może wykorzystać
+const weak = D.porownanie.filter((r) => SLABE.includes(r.k) && r.b && r.b.m).sort((x, y) => y.b.m - x.b.m).slice(0, 2);
+for (const r of weak) {
+  const d = r.b.v - r.liga, goodForUs = r.hb ? d < 0 : d > 0;
+  kpis.push(`<div class="kpi"><div class="kpi-l">${esc(nice(B))}: ${esc(r.label)}</div><div class="kpi-v">${f(r.b.v)}</div>
+    <div class="kpi-d"><span class="delta ${goodForUs ? 'good' : 'bad'}">${sg(d)}</span> wobec średniej ligi · ${r.b.m}. z ${nT}</div>${rankbar(r.b.m, nT)}</div>`);
+}
+const J = D.ja;
+if (J) kpis.push(`<div class="kpi"><div class="kpi-l">${esc(J.zawodnik)}: ocena</div><div class="kpi-v">${f(J.ocena)}</div>
+  <div class="kpi-d"><span class="delta ${J.ocena >= 50 ? 'good' : 'bad'}">${sg(J.ocena - 50)}</span> wobec średniej 50 · ${J.miejsce}. z ${D.liczba_graczy}</div>${track(J.miejsce, D.liczba_graczy)}</div>`);
+h.push(`<div class="kpis">${kpis.join('')}</div>`);
+
+if (N.wnioski && N.wnioski.length) h.push(`<section><div class="sec-head"><h2>Wnioski</h2></div><div class="insights">${N.wnioski.map((w) => `<div class="insight"><span class="e" aria-hidden="true">${esc(w.emoji || '')}</span><p>${esc(w.tekst)}</p></div>`).join('')}</div></section>`);
+if (N.klucze && N.klucze.length) h.push(`<section><div class="sec-head"><h2>Klucze do meczu</h2><p class="muted small">Kolejność według wagi.</p></div><ol class="keys">${N.klucze.map((k) => `<li><strong>${esc(k.tytul)}.</strong> ${esc(k.tekst)}</li>`).join('')}</ol></section>`);
+
+// ---------- drużyny ----------
+const rk = (c, hb) => {
+  if (!c || c.m == null) return '';
+  const cls = hb === null ? '' : c.m <= Math.ceil(nT / 3) ? 'good' : c.m > nT - Math.ceil(nT / 3) ? 'bad' : '';
+  return `<span class="rk ${cls}">${c.m}.</span>`;
+};
+const better = (r, side) => {
+  if (r.hb === null || !r.a || !r.b) return '';
+  const a = r.a.v, b = r.b.v;
+  if (a === b) return '';
+  return (side === 'a') === (r.hb ? a > b : a < b) ? 'best' : '';
+};
+h.push(`<section id="druzyny"><div class="sec-head"><h2>Drużyny</h2>
+  <p class="muted">Ranking: ${esc(nice(A))} ${D.ranking[A].miejsce}. (${D.ranking[A].bilans}), ${esc(nice(B))} ${D.ranking[B].miejsce}. (${D.ranking[B].bilans}). Cztery czynniki: to, co drużyna robi w ataku, obok tego, na co pozwala obrona rywala.</p></div>
+  <div class="grid2">
+    <div class="chart-box"><h3>Nasz atak przeciw ich obronie</h3>
+      <div class="legend"><span><b style="background:var(--accent)"></b>${esc(nice(A))} w ataku</span><span><b style="background:var(--opp)"></b>${esc(nice(B))} pozwala rywalom</span><span><b style="background:var(--league)"></b>średnia ligi</span></div>
+      <div style="position:relative;height:280px"><canvas id="c-atak" role="img" aria-label="Cztery czynniki: nasz atak przeciw obronie rywala"></canvas></div></div>
+    <div class="chart-box"><h3>Ich atak przeciw naszej obronie</h3>
+      <div class="legend"><span><b style="background:var(--opp)"></b>${esc(nice(B))} w ataku</span><span><b style="background:var(--accent)"></b>${esc(nice(A))} pozwala rywalom</span><span><b style="background:var(--league)"></b>średnia ligi</span></div>
+      <div style="position:relative;height:280px"><canvas id="c-obrona" role="img" aria-label="Cztery czynniki: atak rywala przeciw naszej obronie"></canvas></div></div>
+  </div>
+  <div class="tbl"><table><thead><tr><th>Miara</th><th>${esc(nice(A))}</th><th>${esc(nice(B))}</th><th>Liga</th></tr></thead><tbody>
+  ${D.porownanie.map((r) => `<tr><td>${esc(r.label)}</td><td class="${better(r, 'a')}">${r.a ? f(r.a.v) : '–'}${rk(r.a, r.hb)}</td><td class="${better(r, 'b')}">${r.b ? f(r.b.v) : '–'}${rk(r.b, r.hb)}</td><td class="muted">${f(r.liga)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <p class="muted small">Plakietka: miejsce w lidze (${nT} drużyn, 1 = najlepiej; przy tempie i udziale trójek 1 = najwięcej). Pogrubienie: lepsza z dwóch drużyn.</p>
+  <div class="stack">${[A, B].map((d) => `<div><h3>${esc(nice(d))}: mecze</h3><div class="tbl"><table><thead><tr><th>Data</th><th class="l">Rywal</th><th>Wynik</th><th>Tempo</th><th>Atak</th><th>Obrona</th><th class="l">Najwięcej pkt</th></tr></thead><tbody>
+    ${D.mecze[d].map((g) => `<tr><td>${esc(dt(g.data))}</td><td class="l">${g.url ? `<a href="${esc(g.url)}" target="_blank" rel="noopener">${esc(nice(g.rywal))}</a>` : esc(nice(g.rywal))} <span class="muted small">(${g.rywal_miejsce}.)</span></td><td class="${g.pkt > g.pkt_rywala ? 'best' : ''}">${g.pkt}:${g.pkt_rywala}</td><td>${f(g.tempo)}</td><td>${f(g.atak)}</td><td>${f(g.obrona)}</td><td class="l">${g.najwiecej.map((x) => esc(surname(x[0])) + ' ' + x[1]).join(', ')}</td></tr>`).join('')}
+  </tbody></table></div></div>`).join('')}</div>
+</section>`);
+
+// ---------- wspólni rywale ----------
+if (D.wspolni.length || D.bezposrednie.length) {
+  const parts = D.wspolni.map((c) => {
+    const ga = c.mecze.find((x) => x.druzyna === A), gb = c.mecze.find((x) => x.druzyna === B);
+    const row = (lab, fa, fb, cls) => `<tr><td>${lab}</td><td class="${cls ? cls[0] : ''}">${fa}</td><td class="${cls ? cls[1] : ''}">${fb}</td></tr>`;
+    const two = (x, k, kc) => x ? `${f(x[k])} <span class="muted">/ ${f(x[kc])}</span>` : '–';
+    const cell = (v) => v ? `${v.min} min · ${v.pkt} pkt · ${v.zb} zb` : '<span class="muted">nie grał</span>';
+    const nota = (N.wspolni || {})[c.rywal];
+    return `<div class="stack"><div><h3>${esc(nice(c.rywal))}: oba mecze</h3><div class="tbl"><table><thead><tr><th>Miara</th><th>${esc(nice(A))}${ga ? ` · ${esc(dt(ga.data))}` : ''}</th><th>${esc(nice(B))}${gb ? ` · ${esc(dt(gb.data))}` : ''}</th></tr></thead><tbody>
+      ${row('Wynik', ga ? `${ga.pkt}:${ga.pkt_rywala}` : '–', gb ? `${gb.pkt}:${gb.pkt_rywala}` : '–')}
+      ${row('Różnica na 100 posiadań', ga ? sg(ga.net) : '–', gb ? sg(gb.net) : '–', ga && gb ? (ga.net > gb.net ? ['best', ''] : ['', 'best']) : null)}
+      ${row('Tempo', ga ? f(ga.tempo) : '–', gb ? f(gb.tempo) : '–')}
+      ${row(`eFG% własne / ${esc(nice(c.rywal))}`, two(ga, 'efg', 'efg_c'), two(gb, 'efg', 'efg_c'))}
+      ${row(`Straty na 100 pos. własne / ${esc(nice(c.rywal))}`, two(ga, 'tov', 'tov_c'), two(gb, 'tov', 'tov_c'))}
+      ${row('Zbiórka w ataku %', ga ? f(ga.orb) : '–', gb ? f(gb.orb) : '–')}
+      ${row('Zbiórka w obronie %', ga ? f(ga.drb) : '–', gb ? f(gb.drb) : '–', ga && gb ? (ga.drb > gb.drb ? ['best', ''] : ['', 'best']) : null)}
+      ${row(`Wolne na 100 rzutów własne / ${esc(nice(c.rywal))}`, two(ga, 'ftr', 'ftr_c'), two(gb, 'ftr', 'ftr_c'))}
+      </tbody></table></div></div>
+      <div><h3>Skład ${esc(nice(c.rywal))} w obu meczach</h3><div class="tbl"><table><thead><tr><th>Zawodnik</th><th class="l">Pozycja</th><th>Wzrost</th><th>Przeciw ${esc(nice(A))}</th><th>Przeciw ${esc(nice(B))}</th></tr></thead><tbody>
+      ${c.sklad.map((s) => `<tr><td>${esc(s.zawodnik)}</td><td class="l">${esc(s.pozycja)}</td><td>${s.wzrost || '–'}</td><td>${cell(s.a)}</td><td>${cell(s.b)}</td></tr>`).join('')}
+      </tbody></table></div></div></div>
+      ${nota ? `<p class="note">${esc(nota)}</p>` : ''}`;
+  });
+  const sz = D.szacunek;
+  h.push(`<section id="wspolni"><div class="sec-head"><h2>Wspólni rywale</h2>
+    ${D.bezposrednie.map((g) => `<p>Mecz bezpośredni ${esc(dt(g.data))}: ${g.pkt}:${g.pkt_rywala}.</p>`).join('')}
+    ${sz ? `<p class="muted">Przewaga ${esc(nice(A))} ze wspólnych rywali: ${sg(sz.na100)} na 100 posiadań, przy tempie ${f(sz.tempo)} około ${sg(sz.pkt, 0)} pkt. Każda drużyna zagrała z tym rywalem raz, więc to wskazówka, nie prognoza.</p>` : ''}</div>
+    ${parts.join('')}</section>`);
+}
+
+// ---------- zawodnicy ----------
+const playersTable = (rows) => `<div class="tbl"><table><thead><tr><th>Zawodnik</th><th class="l">Pozycja</th><th>Wzrost</th><th>Mecze (w 5)</th><th>Min</th><th>Pkt</th><th>% pkt</th><th>Zb</th><th>As</th><th>Prz</th><th>Bl</th><th>Str</th><th>F</th><th>Z gry</th><th>Za 3</th><th>Wolne</th><th>TS%</th><th>Udział %</th><th>+/−</th><th>Ocena</th></tr></thead><tbody>
+  ${rows.map((p) => `<tr><td>${esc(p.zawodnik)}${p.nr != null ? ` <span class="muted">#${p.nr}</span>` : ''}</td><td class="l">${esc(p.pozycja)}</td><td>${p.wzrost || '–'}</td><td>${p.g} (${p.s5})</td><td>${f(p.min)}</td><td>${f(p.pkt)}</td><td>${p.udzial_pkt ?? '–'}</td><td>${f(p.zb)}</td><td>${f(p.as)}</td><td>${f(p.prz)}</td><td>${f(p.bl)}</td><td>${f(p.str)}</td><td>${f(p.f)}</td><td>${frac(p.fg)}</td><td>${frac(p.tp)}</td><td>${frac(p.ft)}</td><td>${f(p.ts)}</td><td>${f(p.usg)}</td><td>${sg(p.pm)}</td><td>${p.ocena != null ? `${f(p.ocena)} <span class="muted small">(${p.miejsce}.)</span>` : '<span class="muted small">pon. 15 min</span>'}</td></tr>`).join('')}
+  </tbody></table></div><p class="muted small">Na mecz; z gry, za 3 i wolne to sumy. Ocena: model Power Rankingu, w nawiasie miejsce na ${D.liczba_graczy} zawodników z co najmniej 15 minutami na mecz.</p>`;
+const rotacja = (d) => `<ul class="plain">${D.rotacja[d].map((r) => `<li>${esc(dt(r.data))}, ${esc(nice(r.rywal))}: ${r.zawodnikow} zawodników, trzech najdłużej grających ${r.top3_min} ze 120 minut; pierwsza piątka: ${r.piatka.map((x) => esc(surname(x))).join(', ')}</li>`).join('')}</ul>`;
+const rb = D.zawodnicy[B] || [];
+h.push(`<section id="rywal"><div class="sec-head"><h2>${esc(nice(B))}: zawodnicy</h2>${N.zawodnicy ? `<p>${esc(N.zawodnicy)}</p>` : ''}</div>
+  <div class="grid2"><div class="chart-box"><h3>Minuty i punkty na mecz</h3>
+    <div class="legend"><span><b style="background:var(--accent)"></b>minuty, gracze od 35 min</span><span><b style="background:var(--league)"></b>minuty, pozostali</span><span><b style="background:var(--opp)"></b>punkty</span></div>
+    <div style="position:relative;height:${Math.max(220, rb.length * 38 + 40)}px"><canvas id="c-minuty" role="img" aria-label="Minuty i punkty zawodników rywala"></canvas></div></div>
+    <div class="body" style="display:flex;flex-direction:column;gap:10px"><h3>Rotacja</h3>${rotacja(B)}
+    ${D.nie_grali.length ? `<h3>W składzie, bez minut w protokołach</h3><div class="chips">${D.nie_grali.map((r) => `<span class="chip">${esc(r.zawodnik)} · ${r.wzrost ? r.wzrost + ' cm' : 'wzrost nieznany'}${r.pozycja ? ' · ' + esc(r.pozycja) : ''}</span>`).join('')}</div>` : ''}</div></div>
+  ${playersTable(rb)}
+</section>`);
+
+// ---------- raport indywidualny ----------
+if (J) {
+  const byK = Object.fromEntries(J.miary.map((r) => [r.k, r]));
+  const meta = (k) => byK[k] || {};
+  h.push(`<section id="ja"><div class="sec-head"><h2>Raport indywidualny: ${esc(J.zawodnik)}</h2>
+    <div class="me-head"><span class="chip">#${esc(J.nr)} · ${esc(J.pozycja)} · ${J.wzrost || '–'} cm</span><span>Ocena <strong>${f(J.ocena)}</strong>: ${J.miejsce}. z ${D.liczba_graczy} w lidze, ${J.miejsce_poz}. z ${J.liczba_poz} w rankingu pozycji</span>
+    <span>Drużyna z nim na boisku ${sg(J.on)} na 100 posiadań, z nim – bez niego ${sg(J.onoff)}</span></div>
+    ${N.ja ? `<p>${esc(N.ja)}</p>` : ''}</div>
+    <div class="grid2"><div class="chart-box"><h3>Względem średniego zawodnika na pozycji „${esc(J.pozycja)}” (100 = średnia)</h3>
+      <div class="legend"><span><b style="background:var(--accent)"></b>poniżej średniej</span><span><b style="background:var(--league)"></b>średnia lub lepiej</span></div>
+      <div style="position:relative;height:330px"><canvas id="c-ja" role="img" aria-label="Wskaźniki zawodnika względem średniej na pozycji"></canvas></div>
+      <p class="muted small">Faule i straty odwrócone: powyżej 100 znaczy mniej niż średnio. Grupa: ${J.grupa_poz} zawodników z co najmniej 15 min na mecz.</p></div>
+    <div class="tbl"><table><thead><tr><th>Miara</th><th>Ty</th><th>Śr. ${esc(J.pozycja)}</th><th>Miejsce</th><th>Śr. ${esc(nice(A))}</th><th>Miejsce</th></tr></thead><tbody>
+      ${J.miary.map((r) => `<tr><td>${esc(r.label)}</td><td><strong>${f(r.v)}</strong></td><td class="muted">${f(r.poz_avg)}</td><td>${r.poz_m ?? '–'}/${J.grupa_poz}</td><td class="muted">${f(r.druz_avg)}</td><td>${r.druz_m ?? '–'}/${J.grupa_druz}</td></tr>`).join('')}
+    </tbody></table></div></div>
+    <h3>Mecze</h3><div class="tbl"><table><thead><tr><th>Data</th><th class="l">Rywal</th><th>Wynik</th><th>Min</th><th>Pkt</th><th>Z gry</th><th>Wolne</th><th>Zb atak</th><th>Zb obrona</th><th>As</th><th>Prz</th><th>Bl</th><th>Str</th><th>F</th><th>+/−</th><th>GmSc</th></tr></thead><tbody>
+      ${J.mecze.map((g) => `<tr><td>${esc(dt(g.data))}</td><td class="l">${esc(nice(g.rywal))}</td><td>${g.wynik}</td><td>${esc(g.min)}</td><td>${g.pkt}</td><td>${frac(g.fg)}</td><td>${frac(g.ft)}</td><td>${g.zba}</td><td>${g.zbo}</td><td>${g.as}</td><td>${g.prz}</td><td>${g.bl}</td><td>${g.str}</td><td>${g.f}</td><td>${sg(g.pm, 0)}</td><td>${f(g.gmsc)}</td></tr>`).join('')}
+    </tbody></table></div>
+    <div class="grid2"><div><h3>Wysocy ${esc(nice(B))}</h3><div class="tbl"><table><thead><tr><th>Zawodnik</th><th>Wzrost</th><th>Min</th><th>Pkt/40</th><th>Zb/40</th><th>Zb atak/40</th><th>F/40</th><th>TS%</th></tr></thead><tbody>
+      ${J.wysocy_rywala.map((x) => `<tr><td>${esc(x.zawodnik)}</td><td>${x.wzrost || '–'}</td><td>${f(x.min)}</td><td>${f(x.pkt40)}</td><td>${f(x.zb40)}</td><td>${f(x.zba40)}</td><td>${f(x.f40)}</td><td>${f(x.ts)}</td></tr>`).join('')}
+      </tbody></table></div>${J.wysocy_nie_grali.length ? `<p class="muted small">Jeszcze nie grali: ${J.wysocy_nie_grali.map((r) => `${esc(r.zawodnik)} (${r.wzrost} cm)`).join(', ')}.</p>` : ''}</div>
+    <div><h3>Wysocy innych drużyn przeciw ${esc(nice(B))}</h3><div class="tbl"><table><thead><tr><th>Zawodnik</th><th>Wzrost</th><th>Min</th><th>Pkt</th><th>Zb atak + obrona</th><th>Pkt/40: ten mecz / inne</th><th>Zb/40: ten mecz / inne</th></tr></thead><tbody>
+      ${J.wysocy_przeciw_rywalowi.map((x) => `<tr><td>${esc(x.zawodnik)} <span class="muted small">${esc(nice(x.druzyna))}</span></td><td>${x.wzrost || '–'}</td><td>${x.min}</td><td>${x.pkt}</td><td>${x.zba} + ${x.zbo}</td><td>${f(x.pkt40)} <span class="muted">/ ${f(x.pkt40_inne)}</span></td><td>${f(x.zb40)} <span class="muted">/ ${f(x.zb40_inne)}</span></td></tr>`).join('')}
+      </tbody></table></div><p class="muted small">„Inne” to pozostałe mecze tego zawodnika; – gdy innych nie ma.</p></div></div>
+    ${N.cele && N.cele.length ? `<h3>Cele na mecz</h3><ul class="goals">${N.cele.map((c, i) => `<li><label for="cel-${i}"><input type="checkbox" id="cel-${i}"><span>${esc(c)}</span></label></li>`).join('')}</ul>` : ''}
+  </section>`);
+}
+
+// ---------- nasi zawodnicy i metodologia ----------
+h.push(`<details><summary>${esc(nice(A))}: zawodnicy</summary><div class="body">${playersTable(D.zawodnicy[A] || [])}${rotacja(A)}</div></details>`);
+const linki = [];
+for (const d of [A, B]) for (const g of D.mecze[d]) if (g.url && !linki.some((x) => x.url === g.url)) linki.push({ url: g.url, t: `${dt(g.data)}: ${nice(d)} – ${nice(g.rywal)}` });
+h.push(`<details><summary>Metodologia i źródła</summary><div class="body">
+  <ul class="plain">
+    <li>Posiadania = rzuty z gry + 0,44 × próby wolnych − zbiórki w ataku + straty, średnia z obu drużyn meczu.</li>
+    <li>eFG% = (celne z gry + 0,5 × celne za 3) / rzuty z gry. TS% = punkty / (2 × (rzuty z gry + 0,44 × próby wolnych)).</li>
+    <li>Zbiórka w ataku % = zbiórki w ataku / (własne zbiórki w ataku + zbiórki w obronie rywala); zbiórka w obronie analogicznie.</li>
+    <li>Udział w akcjach = (rzuty z gry + 0,44 × wolne + straty) zawodnika wobec akcji drużyny w jego minutach. Zbiórki procentowe zawodnika: piłki do zebrania liczone proporcjonalnie do minut.</li>
+    <li>Wspólni rywale: różnica na 100 posiadań przeciw temu samemu rywalowi; szacunek w punktach = ta różnica × średnie tempo obu drużyn / 100.</li>
+    <li>Szansa wygranej i ocena zawodników: model strony Power Ranking (NetRtg przybliżony do zera przy małej liczbie meczów, odchylenie 15 pkt).</li>
+    <li>Cztery czynniki atak przeciw obronie i nacisk na zbiórkę wzorowane na notatnikach <a href="https://github.com/danchyy/Basketball_Analytics" target="_blank" rel="noopener">Basketball_Analytics</a>. Protokoły nie zawierają miejsc rzutów ani przebiegu akcji, więc map rzutów i analiz akcji tu nie ma.</li>
+  </ul>
+  <p><strong>Protokoły</strong></p>
+  <ul class="plain">${linki.map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.t)}</a></li>`).join('')}</ul>
+  ${N.uwagi ? `<p class="muted">${esc(N.uwagi)}</p>` : ''}
+</div></details>`);
+app.innerHTML = h.join('\n');
+
+// ---------- wykresy ----------
+const charts = [];
+const tok = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const refLine = { id: 'refLine', afterDatasetsDraw(c, _a, o) { if (o.x == null) return; const x = c.scales.x.getPixelForValue(o.x), y = c.chartArea; const g = c.ctx; g.save(); g.strokeStyle = o.color; g.setLineDash([4, 4]); g.lineWidth = 1.5; g.beginPath(); g.moveTo(x, y.top); g.lineTo(x, y.bottom); g.stroke(); g.restore(); } };
+function draw() {
+  charts.splice(0).forEach((c) => c.destroy());
+  if (!window.Chart) return;
+  const C = { fg: tok('--fg'), muted: tok('--muted'), line: tok('--line'), accent: tok('--accent'), opp: tok('--opp'), league: tok('--league') };
+  Chart.defaults.font.family = tok('--f-body');
+  Chart.defaults.color = C.muted;
+  const lab = (r) => [r.czynnik, r.wiecej_lepiej ? 'więcej = lepiej w ataku' : 'mniej = lepiej w ataku'];
+  const base = (extra) => Object.assign({ indexAxis: 'y', responsive: true, maintainAspectRatio: false, animation: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: (x) => `${x.dataset.label}: ${f(x.raw)}` } } },
+    scales: { x: { beginAtZero: true, grid: { color: C.line }, ticks: { color: C.muted } }, y: { grid: { display: false }, ticks: { color: C.fg } } } }, extra || {});
+  const four = (id, d1, d2) => charts.push(new Chart(document.getElementById(id), { type: 'bar',
+    data: { labels: D.czynniki.map(lab), datasets: [d1, d2, { label: 'Średnia ligi', data: D.czynniki.map((r) => r.liga), backgroundColor: C.league, barPercentage: .8, categoryPercentage: .75 }] },
+    options: base() }));
+  four('c-atak', { label: `${nice(A)} w ataku`, data: D.czynniki.map((r) => r.atak_a), backgroundColor: C.accent, barPercentage: .8, categoryPercentage: .75 },
+    { label: `${nice(B)} pozwala`, data: D.czynniki.map((r) => r.obrona_b), backgroundColor: C.opp, barPercentage: .8, categoryPercentage: .75 });
+  four('c-obrona', { label: `${nice(B)} w ataku`, data: D.czynniki.map((r) => r.atak_b), backgroundColor: C.opp, barPercentage: .8, categoryPercentage: .75 },
+    { label: `${nice(A)} pozwala`, data: D.czynniki.map((r) => r.obrona_a), backgroundColor: C.accent, barPercentage: .8, categoryPercentage: .75 });
+  if (rb.length) charts.push(new Chart(document.getElementById('c-minuty'), { type: 'bar',
+    data: { labels: rb.map((p) => p.zawodnik), datasets: [
+      { label: 'Minuty na mecz', data: rb.map((p) => p.min), backgroundColor: rb.map((p) => p.min >= 35 ? C.accent : C.league), barPercentage: .9, categoryPercentage: .8 },
+      { label: 'Punkty na mecz', data: rb.map((p) => p.pkt), backgroundColor: C.opp, barPercentage: .9, categoryPercentage: .8 }] },
+    options: base({ scales: { x: { beginAtZero: true, max: 40, grid: { color: C.line }, ticks: { color: C.muted } }, y: { grid: { display: false }, ticks: { color: C.fg } } } }) }));
+  if (J) {
+    const spec = [['pkt40', 'Punkty na 40 min', 0], ['zb40', 'Zbiórki na 40 min', 0], ['orbp', 'Zbiórki w ataku %', 0], ['drbp', 'Zbiórki w obronie %', 0],
+      ['bl40', 'Bloki na 40 min', 0], ['f40', 'Mało fauli', 1], ['str40', 'Mało strat', 1], ['ts', 'TS%', 0], ['usg', 'Udział w akcjach', 0]];
+    const rows = spec.map(([k, l, inv]) => { const r = J.miary.find((x) => x.k === k); if (!r || !r.v || !r.poz_avg) return null; return { l, v: Math.min(200, Math.round(inv ? r.poz_avg / r.v * 100 : r.v / r.poz_avg * 100)), r }; }).filter(Boolean);
+    charts.push(new Chart(document.getElementById('c-ja'), { type: 'bar', plugins: [refLine],
+      data: { labels: rows.map((x) => x.l), datasets: [{ label: 'Indeks (100 = średnia)', data: rows.map((x) => x.v), backgroundColor: rows.map((x) => x.v < 100 ? C.accent : C.league), barPercentage: .75 }] },
+      options: base({ plugins: { legend: { display: false }, refLine: { x: 100, color: C.fg },
+        tooltip: { callbacks: { label: (x) => { const r = rows[x.dataIndex].r; return `${x.raw} (ty ${f(r.v)}, średnia ${f(r.poz_avg)})`; } } } },
+        scales: { x: { beginAtZero: true, max: 200, grid: { color: C.line }, ticks: { color: C.muted, stepSize: 50 } }, y: { grid: { display: false }, ticks: { color: C.fg } } } }) }));
+  }
+}
+draw();
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw); } catch (e) {}
+new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>
