@@ -1,5 +1,5 @@
 {
- "stan": "2026-10-20",
+ "stan": "2026-10-30",
  "mecze": [
   {
    "kolejka": 1,
@@ -86,7 +86,10 @@
    "godz": "20:45",
    "gosp": "Image Basket Talent",
    "gosc": "SOLNO",
-   "wynik": null,
+   "wynik": [
+    46,
+    141
+   ],
    "url": "https://talk.finteractive.pl/mecz/236970/image-basket-talent---solno.html"
   },
   {
@@ -122,7 +125,10 @@
    "godz": "19:30",
    "gosp": "Gran Torino BHC",
    "gosc": "SMAKOSZE",
-   "wynik": null,
+   "wynik": [
+    37,
+    86
+   ],
    "url": "https://talk.finteractive.pl/mecz/236976/gran-torino-bhc---smakosze.html"
   },
   {
@@ -132,7 +138,10 @@
    "godz": "20:45",
    "gosp": "CDF",
    "gosc": "GRONOWO MAGIC",
-   "wynik": null,
+   "wynik": [
+    73,
+    48
+   ],
    "url": "https://talk.finteractive.pl/mecz/236975/cdf---gronowo-magic.html"
   },
   {
@@ -142,7 +151,10 @@
    "godz": "19:30",
    "gosp": "Image Basket Talent",
    "gosc": "LUCKY BASTARDS",
-   "wynik": null,
+   "wynik": [
+    32,
+    98
+   ],
    "url": "https://talk.finteractive.pl/mecz/236979/image-basket-talent---lucky-bastards.html"
   },
   {
@@ -152,7 +164,10 @@
    "godz": "20:45",
    "gosp": "FRESH TEAM",
    "gosc": "SOLNO",
-   "wynik": null,
+   "wynik": [
+    60,
+    76
+   ],
    "url": "https://talk.finteractive.pl/mecz/236977/fresh-team---solno.html"
   },
   {
@@ -172,7 +187,10 @@
    "godz": "19:30",
    "gosp": "FRESH TEAM",
    "gosc": "LUCKY BASTARDS",
-   "wynik": null,
+   "wynik": [
+    43,
+    72
+   ],
    "url": "https://talk.finteractive.pl/mecz/236986/fresh-team---lucky-bastards.html"
   },
   {
@@ -182,7 +200,10 @@
    "godz": "20:45",
    "gosp": "Gran Torino BHC",
    "gosc": "GOOD FATHER BARBER",
-   "wynik": null,
+   "wynik": [
+    68,
+    90
+   ],
    "url": "https://talk.finteractive.pl/mecz/236985/gran-torino-bhc---good-father-barber.html"
   },
   {
@@ -192,7 +213,10 @@
    "godz": "19:30",
    "gosp": "CP MEDICA",
    "gosc": "SMAKOSZE",
-   "wynik": null,
+   "wynik": [
+    72,
+    54
+   ],
    "url": "https://talk.finteractive.pl/mecz/236983/cp-medica---smakosze.html"
   },
   {
@@ -202,7 +226,10 @@
    "godz": "19:30",
    "gosp": "TS OPATRUNKI",
    "gosc": "Image Basket Talent",
-   "wynik": null,
+   "wynik": [
+    85,
+    49
+   ],
    "url": "https://talk.finteractive.pl/mecz/236987/ts-opatrunki---image-basket-talent.html"
   },
   {
@@ -212,7 +239,10 @@
    "godz": "20:45",
    "gosp": "STORK",
    "gosc": "BARDZO NAM PRZYKRO",
-   "wynik": null,
+   "wynik": [
+    60,
+    115
+   ],
    "url": "https://talk.finteractive.pl/mecz/236981/stork---bardzo-nam-przykro.html"
   },
   {
@@ -597,23 +627,23 @@
   },
   {
    "kolejka": 9,
-   "mecz_id": 237034,
-   "data": "2026-12-14",
-   "godz": "19:30",
-   "gosp": "QUANTUM HOOP",
-   "gosc": "CP MEDICA",
-   "wynik": null,
-   "url": "https://talk.finteractive.pl/mecz/237034/quantum-hoop---cp-medica.html"
-  },
-  {
-   "kolejka": 9,
    "mecz_id": 237029,
    "data": "2026-12-14",
-   "godz": "20:45",
+   "godz": "19:30",
    "gosp": "GOOD FATHER BARBER",
    "gosc": "Image Basket Talent",
    "wynik": null,
    "url": "https://talk.finteractive.pl/mecz/237029/good-father-barber---image-basket-talent.html"
+  },
+  {
+   "kolejka": 9,
+   "mecz_id": 237034,
+   "data": "2026-12-14",
+   "godz": "20:45",
+   "gosp": "QUANTUM HOOP",
+   "gosc": "CP MEDICA",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/237034/quantum-hoop---cp-medica.html"
   },
   {
    "kolejka": 9,
