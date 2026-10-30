@@ -1,4 +1,4 @@
-# Power Ranking ligi – wersja 1.0.2
+# Power Ranking ligi – wersja 1.1.0
 
 Dokumentacja robocza po polsku (metodologia, import, historia zmian, plan). Opis repozytorium po angielsku: [README.md](../README.md).
 
@@ -129,6 +129,15 @@ Wersja Dashboard: https://claude.ai/artifact/X7F82xCboEjkZ6vGPuSHH7 (wymaga logo
 
 ## Wersje
 Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i nowe dane: 1.0.x; nowe funkcje: 1.x; nowy sezon albo play-off z innymi zasadami: 2.0.
+
+### 1.1.0 – 30.10.2026
+- Nowy układ strony ligi: pasek boczny z widokami Przegląd, Drużyny, Zawodnicy, Mecze, Nagrody (na telefonie dolny pasek zakładek), adres z `#widok`.
+- Przegląd: cztery kafelki z wykresem po kolejkach (punkty, posiadania, różnica, eFG%), słupki NetRtg, wykres ataku i obrony, cztery wnioski z danych, czołówka drużyn i zawodników, ostatnie wyniki i najbliższe mecze.
+- Żadna drużyna nie jest wyróżniona (to strona ligi, nie jednego zespołu).
+- Motyw jasny i ciemny wybierany przełącznikiem w pasku bocznym (na telefonie obok przełącznika zakresu); pamiętany w przeglądarce, domyślnie jak w systemie.
+- Krój: Barlow (tekst) i Barlow Semi Condensed (nagłówki, liczby) zamiast Saira Condensed i Source Sans; cyfry o stałej szerokości. Układ zajmuje całą szerokość okna (limit 1800 px).
+- Audyt dostępności i ruchu: kontrast WCAG AA w obu motywach, większe pola kliknięcia, hover tylko dla myszy, krótkie wejście widoku (180 ms) z wariantem `prefers-reduced-motion`, wykres ataku i obrony liczony z szerokości kontenera (na telefonie numery miejsc).
+- Logika rankingów, tabele, karta zawodnika i nagrody bez zmian.
 
 ### 1.0.2 – 21.10.2026
 - Nagrody wzorem NBA: zamiast jednej „Piątki sezonu” są Pierwsza piątka sezonu (najwyższa ocena na każdej pozycji), Druga piątka sezonu (druga ocena na każdej pozycji) i Piątka obrońców sezonu (najwyższa ocena obrońcy na każdej pozycji, ta sama miara co Obrońca sezonu).
