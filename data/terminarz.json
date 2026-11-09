@@ -1,5 +1,5 @@
 {
- "stan": "2026-10-30",
+ "stan": "2026-11-05",
  "mecze": [
   {
    "kolejka": 1,
@@ -252,7 +252,10 @@
    "godz": "20:45",
    "gosp": "CDF",
    "gosc": "SOLNO",
-   "wynik": null,
+   "wynik": [
+    58,
+    72
+   ],
    "url": "https://talk.finteractive.pl/mecz/236984/cdf---solno.html"
   },
   {
@@ -272,7 +275,10 @@
    "godz": "19:30",
    "gosp": "QUANTUM HOOP",
    "gosc": "GRONOWO MAGIC",
-   "wynik": null,
+   "wynik": [
+    58,
+    51
+   ],
    "url": "https://talk.finteractive.pl/mecz/236989/quantum-hoop---gronowo-magic.html"
   },
   {
@@ -282,7 +288,10 @@
    "godz": "20:45",
    "gosp": "STORK",
    "gosc": "SMAKOSZE",
-   "wynik": null,
+   "wynik": [
+    31,
+    103
+   ],
    "url": "https://talk.finteractive.pl/mecz/236990/stork---smakosze.html"
   },
   {
@@ -292,7 +301,10 @@
    "godz": "19:30",
    "gosp": "Gran Torino BHC",
    "gosc": "Image Basket Talent",
-   "wynik": null,
+   "wynik": [
+    57,
+    71
+   ],
    "url": "https://talk.finteractive.pl/mecz/236994/gran-torino-bhc---image-basket-talent.html"
   },
   {
@@ -302,7 +314,10 @@
    "godz": "19:30",
    "gosp": "BARDZO NAM PRZYKRO",
    "gosc": "JAWOR",
-   "wynik": null,
+   "wynik": [
+    71,
+    75
+   ],
    "url": "https://talk.finteractive.pl/mecz/236988/bardzo-nam-przykro---jawor.html"
   },
   {
@@ -317,16 +332,6 @@
   },
   {
    "kolejka": 4,
-   "mecz_id": 236992,
-   "data": "2026-11-06",
-   "godz": "19:45",
-   "gosp": "CP MEDICA",
-   "gosc": "GOOD FATHER BARBER",
-   "wynik": null,
-   "url": "https://talk.finteractive.pl/mecz/236992/cp-medica---good-father-barber.html"
-  },
-  {
-   "kolejka": 4,
    "mecz_id": 236993,
    "data": "2026-11-09",
    "godz": "19:30",
@@ -334,6 +339,16 @@
    "gosc": "LUCKY BASTARDS",
    "wynik": null,
    "url": "https://talk.finteractive.pl/mecz/236993/cdf---lucky-bastards.html"
+  },
+  {
+   "kolejka": 4,
+   "mecz_id": 236992,
+   "data": "2026-11-13",
+   "godz": "19:45",
+   "gosp": "CP MEDICA",
+   "gosc": "GOOD FATHER BARBER",
+   "wynik": null,
+   "url": "https://talk.finteractive.pl/mecz/236992/cp-medica---good-father-barber.html"
   },
   {
    "kolejka": 5,
@@ -399,7 +414,7 @@
    "kolejka": 5,
    "mecz_id": 236998,
    "data": "2026-11-19",
-   "godz": "20:45",
+   "godz": "19:30",
    "gosp": "QUANTUM HOOP",
    "gosc": "SOLNO",
    "wynik": null,
@@ -419,7 +434,7 @@
    "kolejka": 6,
    "mecz_id": 237004,
    "data": "2026-11-19",
-   "godz": "19:30",
+   "godz": "20:45",
    "gosp": "SMAKOSZE",
    "gosc": "JAWOR",
    "wynik": null,
