@@ -103,7 +103,7 @@ A toggle switches the whole page between the full season and the last 5 games. T
 
 ### 3. Errors at the source
 **Problem:** The scorer's table makes mistakes: wrong jersey numbers, a phantom appearance of a few seconds for a player who was not dressed. Fixing the JSON by hand would be lost on the next re-import.
-**Solution:** Corrections live in local files (numbers, protocol fixes, roster exceptions) and are applied on every import, so they survive league updates of the protocol.
+**Solution:** Corrections live in local files (numbers, protocol fixes, roster exceptions) and are applied on every import, so they survive league updates of the protocol. A team foul charged to the bench or coach, which appears in the team total but on no player, is recorded there too instead of loosening the totals check.
 
 ### 4. Postponed games without a date
 **Problem:** The league stores postponed games as 31 December with no time. Shown literally, that reads as a real New Year's Eve game.
