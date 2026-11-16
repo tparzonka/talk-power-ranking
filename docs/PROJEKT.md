@@ -19,6 +19,8 @@ data/
   sklady.txt          składy z systemu ligi z datami urodzenia – TYLKO LOKALNIE (.gitignore)
   wiek.json           kategorie wiekowe do nagród (U23 / 45+) – TYLKO LOKALNIE
   korekty.json        ręczne poprawki protokołów – TYLKO LOKALNIE
+                      (pominięcie zawodnika, sekundy, „pf_poza_zawodnikami”: faul ławki lub trenera,
+                      którego nie ma na zawodnikach, a jest w sumie drużyny)
 input/                surowe strony z systemu ligi – TYLKO LOKALNIE (.gitignore)
 src/
   ranking.js          logika rankingu (czyste funkcje rankTeams i rankPlayers)
@@ -103,7 +105,7 @@ SUMA DRUŻYNA B;...
 
 **Pozycje.** Jedna na zawodnika: pierwsza wpisana w systemie ligi. Bez pozycji w systemie: według wzrostu, pozycja o najbliższej średniej wzrostu w lidze (`positionByHeight` w `src/ranking.js`, średnie liczone z zawodników mających pozycję; przy mniej niż 3 na pozycji stałe progi 183/189/194/199 cm). Bez pozycji i wzrostu: tylko w „Wszyscy”. Ręczne wyjątki od tej reguły są w lokalnym `data/wyjatki.json` (`pozycje`; `bledne_dane` = błędny wzrost lub rocznik w systemie ligi).
 
-**Nie liczymy.** Gry w końcówkach (protokoły nie mają przebiegu meczu), BPM (wymaga regresji na dużej bazie), GS (protokoły nie podają pierwszej piątki). SRS drużyn można dodać, gdy drużyny będą miały wspólnych rywali.
+**Nie liczymy.** Gry w końcówkach (protokoły nie mają przebiegu meczu), BPM (wymaga regresji na dużej bazie), GS (protokoły nie podają pierwszej piątki). SRS drużyn jest wdrożone od 5. kolejki jako ocena „Po korekcie” (patrz Backlog).
 
 ## Publikacja
 
@@ -159,7 +161,7 @@ Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i n
 
 ### Zaplanowane w trakcie sezonu (bez zmiany numeru głównego)
 - 4. kolejka: wykres „Miejsce po kolejkach” i szansa wygranej przy zaplanowanych meczach włączają się same; po kilku kolejkach sprawdzić `WIN_SIGMA`.
-- 5. kolejka: EWA włącza się sama; wdrożyć SRS (patrz Backlog) → 1.1.
+- 5. kolejka: EWA włącza się sama; SRS wdrożone jako „Po korekcie”.
 - Przed play-off: ustalić z Tomkiem, jak pokazać fazę play-off (osobne zasady, drabinka) → 2.0.
 
 ## Backlog

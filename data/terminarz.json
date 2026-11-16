@@ -1,5 +1,5 @@
 {
- "stan": "2026-11-05",
+ "stan": "2026-11-16",
  "mecze": [
   {
    "kolejka": 1,
@@ -327,7 +327,10 @@
    "godz": "20:45",
    "gosp": "FRESH TEAM",
    "gosc": "TS OPATRUNKI",
-   "wynik": null,
+   "wynik": [
+    51,
+    87
+   ],
    "url": "https://talk.finteractive.pl/mecz/236995/fresh-team---ts-opatrunki.html"
   },
   {
@@ -337,7 +340,10 @@
    "godz": "19:30",
    "gosp": "CDF",
    "gosc": "LUCKY BASTARDS",
-   "wynik": null,
+   "wynik": [
+    92,
+    50
+   ],
    "url": "https://talk.finteractive.pl/mecz/236993/cdf---lucky-bastards.html"
   },
   {
@@ -347,7 +353,10 @@
    "godz": "19:45",
    "gosp": "CP MEDICA",
    "gosc": "GOOD FATHER BARBER",
-   "wynik": null,
+   "wynik": [
+    96,
+    78
+   ],
    "url": "https://talk.finteractive.pl/mecz/236992/cp-medica---good-father-barber.html"
   },
   {
@@ -357,7 +366,10 @@
    "godz": "20:45",
    "gosp": "STORK",
    "gosc": "GOOD FATHER BARBER",
-   "wynik": null,
+   "wynik": [
+    68,
+    91
+   ],
    "url": "https://talk.finteractive.pl/mecz/236999/stork---good-father-barber.html"
   },
   {
@@ -367,7 +379,10 @@
    "godz": "19:30",
    "gosp": "JAWOR",
    "gosc": "GRONOWO MAGIC",
-   "wynik": null,
+   "wynik": [
+    109,
+    57
+   ],
    "url": "https://talk.finteractive.pl/mecz/236996/jawor---gronowo-magic.html"
   },
   {
@@ -377,7 +392,10 @@
    "godz": "20:45",
    "gosp": "BARDZO NAM PRZYKRO",
    "gosc": "SMAKOSZE",
-   "wynik": null,
+   "wynik": [
+    50,
+    69
+   ],
    "url": "https://talk.finteractive.pl/mecz/236997/bardzo-nam-przykro---smakosze.html"
   },
   {
@@ -387,7 +405,10 @@
    "godz": "20:45",
    "gosp": "CDF",
    "gosc": "TS OPATRUNKI",
-   "wynik": null,
+   "wynik": [
+    83,
+    86
+   ],
    "url": "https://talk.finteractive.pl/mecz/237002/cdf---ts-opatrunki.html"
   },
   {
@@ -427,7 +448,10 @@
    "godz": "19:30",
    "gosp": "STORK",
    "gosc": "Image Basket Talent",
-   "wynik": null,
+   "wynik": [
+    67,
+    72
+   ],
    "url": "https://talk.finteractive.pl/mecz/237008/stork---image-basket-talent.html"
   },
   {

@@ -136,8 +136,10 @@ def check(game, path):
     problems = []
     for t in game['teams']:
         ps, T = t['players'], t['total']
+        # Faule niezapisane na zawodnikach (ławka, trener): ręcznie w data/korekty.json jako "pf_poza_zawodnikami".
+        pf_extra = KOREKTY.get(str(game['mecz_id']), {}).get(t['druzyna'], {}).get('pf_poza_zawodnikami', 0)
         for k in ('pts', 'fgm', 'fga', 'tpm', 'tpa', 'ftm', 'fta', 'ast', 'stl', 'blk', 'pf'):
-            s = sum(p[k] for p in ps)
+            s = sum(p[k] for p in ps) + (pf_extra if k == 'pf' else 0)
             if s != T[k]:
                 problems.append(f'{t["druzyna"]}: {k} zawodnicy={s}, Suma={T[k]}')
         for k in ('oreb', 'dreb', 'to'):
