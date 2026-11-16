@@ -146,6 +146,7 @@ Requirements: Python 3.9+ (with `beautifulsoup4` for importing protocols) and No
 ```bash
 python3 scripts/build.py              # build dist/ranking-publiczny.html
 node scripts/test.mjs                 # check rankings and the league table
+node scripts/backtest.mjs             # how the win forecast did on games already played
 bash scripts/runda.sh saved-page.html # import protocols and/or schedule, then build and test
 ```
 
