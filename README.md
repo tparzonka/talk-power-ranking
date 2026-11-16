@@ -78,16 +78,16 @@ flowchart LR
 
 ### Ranking model
 
-**Teams** are ordered by NetRtg: points scored minus allowed per 100 possessions, with margin per game as the tie-breaker. Possessions are FGA + 0.44 × FTA − ORB + TOV, averaged over both teams.
+**Teams** are ordered by NetRtg: points scored minus allowed per 100 possessions, with margin per game as the tie-breaker. Possessions are FGA + 0.44 × FTA − ORB + TOV, averaged over both teams. From round 5 the table also shows an opponent-adjusted rating and the average strength of opponents; the order stays by NetRtg.
 
-**Players** (at least 15 minutes per game) get a score of 50 + 10 × a weighted sum of z-scores against the league:
+**Players** (at least half of their team's games and 15 minutes per game) get a score of 50 + 10 × a weighted sum of z-scores against the league:
 
 | Component | Weight | Window | What it measures |
 |---|---|---|---|
-| Impact on winning | 40% | last 5 games | on-court NetRtg, on/off difference, team record |
-| Efficiency under load | 25% | last 5 games | (TS% − league TS%) × USG% / 20 |
-| Versatility | 20% | season | PIE per game |
-| Strength of schedule | 15% | season | average opponent NetRtg |
+| Impact on winning | 40% | selected range | on-court NetRtg, on/off difference, team record |
+| Efficiency under load | 25% | selected range | (TS% − league TS%) × USG% / 20 |
+| Versatility | 20% | selected range | PIE per game |
+| Strength of schedule | 15% | selected range | average opponent NetRtg |
 
 A toggle switches the whole page between the full season and the last 5 games. The full methodology (in Polish) is in [docs/PROJEKT.md](docs/PROJEKT.md).
 
@@ -111,7 +111,7 @@ A toggle switches the whole page between the full season and the last 5 games. T
 
 ### 5. Small samples early in the season
 **Problem:** After 2 rounds most advanced metrics are noise.
-**Solution:** Features switch on when the data can carry them: the rank-by-round chart and win probability from round 4, EWA from round 5. SRS is planned once teams share common opponents.
+**Solution:** Features switch on when the data can carry them: the rank-by-round chart and win probability from round 4, EWA and an opponent-adjusted rating (SRS-style, per 100 possessions, shrunk toward zero; chosen by leave-one-game-out prediction error) from round 5.
 
 ### 6. Personal data
 **Problem:** Player box scores, rosters with birth dates and heights, jersey numbers and corrections are personal data of well over a hundred people. Age-based awards even need birth dates.

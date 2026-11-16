@@ -16,14 +16,19 @@ python3 scripts/wiek.py
 python3 scripts/build.py
 python3 scripts/ics.py
 node scripts/test.mjs | tail -1
+# Prywatny panel scoutingowy (zawiera dane zawodników; tylko lokalnie i w prywatnej stronie)
+if [ -f scripts/kwarty.py ]; then python3 scripts/kwarty.py; fi
+if [ -f scripts/panel.mjs ]; then node scripts/panel.mjs; fi
+node scripts/test-strona.cjs
 # Kopia do publikacji i paczka projektu tylko w środowisku, które je publikuje (domyślnie /home/claude).
 PUB="${PUBLISH_DIR:-/home/claude}"
 if [ ! -d "$PUB" ]; then echo "Gotowe: dist/ranking-publiczny.html"; exit 0; fi
 cp dist/ranking-publiczny.html "$PUB/ranking-publiczny.html"
+if [ -f dist/panel-scouting.html ]; then cp dist/panel-scouting.html "$PUB/panel-scouting.html"; fi
 # Paczka projektu (tar.xz w base64, bez dat urodzenia ze składów) publikowana przy stronie jako projekt.txt.
 TMP="$(mktemp -d)"; mkdir -p "$TMP/power-ranking"
-tar -cf - README.md docs VERSION scripts/*.py scripts/*.mjs scripts/*.sh src data assets | tar -xf - -C "$TMP/power-ranking"
+tar -cf - README.md docs VERSION scripts/*.py scripts/*.mjs scripts/*.cjs scripts/*.sh src data assets | tar -xf - -C "$TMP/power-ranking"
 if [ -f data/sklady.txt ]; then cp data/sklady.txt "$TMP/power-ranking/data/"; sed -i -E 's/^Urodzony:.*/Urodzony: -/' "$TMP/power-ranking/data/sklady.txt"; fi
 XZ_OPT=-9 tar -cJf - -C "$TMP" power-ranking | base64 -w0 > "$PUB/projekt.txt"
 rm -rf "$TMP"
-echo "Gotowe: $PUB/ranking-publiczny.html + $PUB/projekt.txt"
+echo "Gotowe: $PUB/ranking-publiczny.html + $PUB/projekt.txt + $PUB/panel-scouting.html (prywatny)"
