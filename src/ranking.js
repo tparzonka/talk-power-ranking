@@ -491,7 +491,39 @@ const winChance = (mecze_druzyn) => {
     const a = acc.get(t);
     return a && a.poss ? (a.pf - a.pa) / a.poss * 100 * a.g / (a.g + WIN_SHRINK) : 0;
   };
-  return (a, b) => 0.5 * (1 + erf((rating(a) - rating(b)) / 100 * pace / WIN_SIGMA / Math.SQRT2));
+  const margin = (a, b) => (rating(a) - rating(b)) / 100 * pace;
+  const chance = (a, b) => 0.5 * (1 + erf(margin(a, b) / WIN_SIGMA / Math.SQRT2));
+  chance.margin = margin; // oczekiwana różnica punktów (a − b)
+  chance.games = (t) => (acc.get(t) || { g: 0 }).g;
+  return chance;
 };
 
-if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI };
+// Rozliczenie zapowiedzi: dla każdego rozegranego meczu szansa policzona wyłącznie z meczów z wcześniejszych dni
+// (mecze z tego samego dnia też się nie liczą). Mecz wchodzi do rozliczenia, gdy obie drużyny miały wcześniej
+// co najmniej FORECAST_MIN_GAMES meczów. Wiersz: faworyt, jego szansa, czy wygrał, oczekiwana i rzeczywista różnica.
+const FORECAST_MIN_GAMES = 2;
+const forecastLog = (mecze_druzyn) => {
+  const n = (x) => Number(x) || 0;
+  const byGame = new Map();
+  for (const r of mecze_druzyn) {
+    if (!r.data || r.mecz_id == null) continue;
+    if (!byGame.has(r.mecz_id)) byGame.set(r.mecz_id, []);
+    byGame.get(r.mecz_id).push(r);
+  }
+  const games = [...byGame.values()].filter((g) => g.length === 2 && n(g[0].pts) !== n(g[1].pts))
+    .sort((x, y) => String(x[0].data).localeCompare(String(y[0].data)) || n(x[0].mecz_id) - n(y[0].mecz_id));
+  const out = [];
+  for (const g of games) {
+    const prior = mecze_druzyn.filter((r) => r.data && r.data < g[0].data);
+    const ch = winChance(prior);
+    const [x, y] = g[0].pierwsza === false ? [g[1], g[0]] : g;
+    if (ch.games(x.druzyna) < FORECAST_MIN_GAMES || ch.games(y.druzyna) < FORECAST_MIN_GAMES) continue;
+    const p = ch(x.druzyna, y.druzyna), exp = ch.margin(x.druzyna, y.druzyna), real = n(x.pts) - n(y.pts);
+    const favA = p >= 0.5;
+    out.push({ mecz_id: x.mecz_id, kolejka: n(x.kolejka), data: x.data, a: x.druzyna, b: y.druzyna, pa: n(x.pts), pb: n(y.pts),
+      p, faworyt: favA ? x.druzyna : y.druzyna, pewnosc: favA ? p : 1 - p, trafiony: favA === (real > 0), oczekiwana: exp, roznica: real });
+  }
+  return out;
+};
+
+if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI, forecastLog, FORECAST_MIN_GAMES, WIN_SIGMA, WIN_SHRINK };

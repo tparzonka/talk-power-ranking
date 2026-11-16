@@ -3,7 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
-const { rankTeams, rankPlayers, leagueTable, winChance } = require('../src/ranking.js');
+const { rankTeams, rankPlayers, leagueTable, winChance, forecastLog } = require('../src/ranking.js');
 import { existsSync } from 'node:fs';
 const load = (n) => { const u = new URL(`../data/${n}.json`, import.meta.url); return existsSync(u) ? JSON.parse(readFileSync(u, 'utf8')) : []; };
 // data/zawodnicy.json jest tylko lokalnie (dane osobowe); w CI test sprawdza drużyny i tabelę.
@@ -41,5 +41,16 @@ if (md.length) {
   const vals = teams.filter((t) => t.miejsce).map((t) => Number(String(t.skor).replace(',', '.')));
   if (vals.some((v) => !isFinite(v))) throw new Error('Ocena po korekcie: brak wartości');
   if (Math.abs(vals.reduce((a, b) => a + b, 0) / (vals.length || 1)) > 0.1) throw new Error('Ocena po korekcie: średnia ligi ≠ 0');
+}
+// Rozliczenie zapowiedzi nie może korzystać z przyszłości: po usunięciu meczów z ostatniego dnia
+// wcześniejsze wiersze są identyczne.
+{
+  const log = forecastLog(md);
+  for (const r of log) if (!(r.pewnosc >= 0.5 && r.pewnosc < 1)) throw new Error(`Zapowiedź ${r.a} – ${r.b}: pewność ${r.pewnosc}`);
+  const last = md.reduce((m, r) => (r.data > m ? r.data : m), '');
+  const cut = forecastLog(md.filter((r) => r.data < last));
+  const head = log.filter((r) => r.data < last);
+  if (cut.length !== head.length || cut.some((r, i) => r.mecz_id !== head[i].mecz_id || Math.abs(r.p - head[i].p) > 1e-12))
+    throw new Error('Rozliczenie zapowiedzi zależy od późniejszych meczów');
 }
 console.log('OK');

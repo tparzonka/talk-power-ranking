@@ -1718,7 +1718,7 @@
     if (!row) return;
     const next = state.team === row.dataset.key ? '' : row.dataset.key;
     setTeam(next);
-    if (next) go('zawodnicy');
+    if (next) { go('zawodnicy'); setHash('druzyna/' + slugify(next)); }
   });
 
   /* ---------- players ---------- */
@@ -1891,7 +1891,7 @@
   const gamePick = document.getElementById('game-pick');
   let gameRound = defaultRound();
   gamePick.replaceChildren(...gameRounds.map((k) => new Option(k + '. kolejka', String(k))), new Option('Wszystkie kolejki', 'all'));
-  gamePick.addEventListener('change', () => { gameRound = gamePick.value; drawGames(); });
+  gamePick.addEventListener('change', () => { gameRound = gamePick.value; drawGames(); setHash('mecze/' + gameRound); });
   function gameTile(g) {
     const linked = g.url && g.kind !== 'plan';
     const tile = el(linked ? 'a' : 'div', 'game' + (g.kind === 'plan' ? ' plan' : ''));
@@ -2139,9 +2139,17 @@
     wrap.appendChild(table);
     return [head, tl, el('h3', 'log-title', 'Mecz po meczu'), wrap];
   }
-  function openCard(name) {
+  /* adres karty: #zawodnik/<slug>; wpis w historii, żeby Wstecz zamykał kartę zamiast wychodzić ze strony */
+  let cardPushed = false;
+  function openCard(name, fromHash) {
     const parts = buildCard(name);
     if (!parts) return;
+    if (!fromHash) {
+      try {
+        if (cardPushed) history.replaceState({ card: 1 }, '', '#zawodnik/' + slugify(name));
+        else { history.pushState({ card: 1 }, '', '#zawodnik/' + slugify(name)); cardPushed = true; }
+      } catch (e) {}
+    }
     clearTimeout(closeTimer);
     cardBody.replaceChildren(...parts);
     cardBody.scrollTop = 0;
@@ -2153,8 +2161,13 @@
     }
     requestAnimationFrame(() => edgeFade(cardBody.querySelector('.log-wrap')));
   }
-  function closeCard() {
+  function closeCard(fromHash) {
     if (!card.open) return;
+    if (fromHash !== true) {
+      if (cardPushed) { cardPushed = false; try { history.back(); } catch (e) {} }
+      else { try { history.replaceState(null, '', '#' + currentView); } catch (e) {} }
+    } else cardPushed = false;
+    clearTimeout(closeTimer);
     card.classList.remove('in');
     closeTimer = setTimeout(() => {
       card.close();
@@ -2166,7 +2179,7 @@
     const b = e.target.closest('button.pl');
     if (b) openCard(b.dataset.name);
   });
-  document.getElementById('card-x').addEventListener('click', closeCard);
+  document.getElementById('card-x').addEventListener('click', () => closeCard());
   card.addEventListener('cancel', (e) => { e.preventDefault(); closeCard(); });
   card.addEventListener('click', (e) => { if (e.target === card) closeCard(); });
   /* telefon: karta wysuwana od dołu – przeciągnięcie w dół (od góry treści) ją zamyka */
@@ -2201,8 +2214,36 @@
   const VIEW_IDS = ['przeglad', 'druzyny', 'zawodnicy', 'mecze', 'nagrody'];
   const VIEW_TITLES = { przeglad: 'Przegląd', druzyny: 'Drużyny', zawodnicy: 'Zawodnicy', mecze: 'Mecze', nagrody: 'Nagrody' };
   const navBox = document.getElementById('nav');
+  let currentView = 'przeglad', viewShown = false;
+  /* adresy: #widok, #druzyna/<slug>, #zawodnik/<slug>, #mecze/<kolejka>, #mecz/<id> */
+  const slugify = (x) => String(x).toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const teamBySlug = new Map([...new Set(DATA.mecze_druzyn.map((r) => r.druzyna))].map((t) => [slugify(t), t]));
+  const playerBySlug = new Map((DATA.zawodnicy || []).map((z) => [slugify(z.zawodnik), z.zawodnik]));
+  const setHash = (h) => { try { history.replaceState(null, '', '#' + h); } catch (e) {} };
+  function route(hash) {
+    let parts;
+    try { parts = decodeURIComponent(hash).split('/'); } catch (e) { parts = [hash]; }
+    const [kind, arg] = parts;
+    if (kind !== 'zawodnik' && card.open) closeCard(true);
+    if (kind === 'druzyna' && teamBySlug.has(arg)) {
+      if (state.team !== teamBySlug.get(arg)) setTeam(teamBySlug.get(arg));
+      return go('zawodnicy', true);
+    }
+    if (kind === 'zawodnik' && playerBySlug.has(arg)) {
+      if (!viewShown) go('zawodnicy', true);
+      return openCard(playerBySlug.get(arg), true);
+    }
+    if (kind === 'mecze' || kind === 'mecz') {
+      const g = kind === 'mecz' ? games.find((x) => String(x.id) === arg || String(x.mecz_id) === arg) : null;
+      const k = g ? String(g.kolejka) : arg;
+      if (k && (k === 'all' || [...gamePick.options].some((o) => o.value === k)) && gameRound !== k) { gameRound = k; drawGames(); }
+      return go('mecze', true);
+    }
+    go(kind, true);
+  }
   function go(id, fromHash) {
     if (!VIEW_IDS.includes(id)) id = 'przeglad';
+    currentView = id; viewShown = true;
     VIEW_IDS.forEach((v) => { document.getElementById(v).hidden = v !== id; });
     navBox.querySelectorAll('button').forEach((b) => {
       if (b.dataset.view === id) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
@@ -2227,7 +2268,8 @@
   if (narrowNav.addEventListener) narrowNav.addEventListener('change', placeTheme);
   navBox.addEventListener('click', (e) => { const b = e.target.closest('button[data-view]'); if (b) go(b.dataset.view); });
   document.addEventListener('click', (e) => { const b = e.target.closest('[data-go]'); if (b) go(b.dataset.go); });
-  window.addEventListener('hashchange', () => go(location.hash.slice(1), true));
+  window.addEventListener('hashchange', () => route(location.hash.slice(1)));
+  window.addEventListener('popstate', () => route(location.hash.slice(1)));
   let scTimer = 0;
   window.addEventListener('resize', () => { cancelAnimationFrame(scTimer); scTimer = requestAnimationFrame(() => { if (!document.getElementById('przeglad').hidden) drawScatter(); }); });
 
@@ -2530,7 +2572,7 @@
   drawAwards();
   drawOverview();
   drawTheme();
-  go(location.hash.slice(1), true);
+  route(location.hash.slice(1));
   window.addEventListener('resize', () => { fitTen(); document.querySelectorAll('.scroll, .chips').forEach(edgeFade); });
   edgeFade(document.getElementById('chips'));
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitTen);

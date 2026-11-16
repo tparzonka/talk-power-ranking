@@ -164,6 +164,20 @@ Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i n
 - 5. kolejka: EWA włącza się sama; SRS wdrożone jako „Po korekcie”.
 - Przed play-off: ustalić z Tomkiem, jak pokazać fazę play-off (osobne zasady, drabinka) → 2.0.
 
+## Plan rozwoju (przyjęty 16.11.2026)
+
+Cel: strona ma odpowiadać na pytania „jaka jest ta drużyna”, „co się wydarzy” i „na ile można ufać liczbom”. Każdy etap: makieta nowego widoku poza produkcją, testy przed zmianą i po niej, publikacja, PR.
+
+- **Etap 0, fundament (zrobione 16.11).** `forecastLog` w `src/ranking.js`: rozliczenie zapowiedzi, każdy mecz przewidywany tylko z meczów z wcześniejszych dni, od chwili gdy obie drużyny mają po 2 mecze. `node scripts/backtest.mjs` porównuje źródła oceny i wartości `WIN_SIGMA`. Adresy na stronie: `#druzyna/<nazwa>`, `#zawodnik/<nazwisko>`, `#mecze/<kolejka>`, `#mecz/<id>`; Wstecz zamyka kartę zawodnika.
+  Wynik sprawdzenia na 13 meczach: faworyt wygrał 10 razy (77%) przy średniej pewności 80%. Ocena po korekcie ma nieco lepszy Brier (0,154 wobec 0,164), ale trafia 9 z 13; przycinanie pogromów nie pomaga; `WIN_SIGMA` między 15 a 21 daje ten sam wynik. Bez zmian w modelu, powtórka po 8. kolejce.
+- **Etap 1, strona drużyny (→ 1.2.0).** `teamProfile` składa wiersze z `rankTeams`, `leagueTable`, `rankPlayers` i dolicza miejsce w lidze dla czterech czynników oraz mecz po meczu. Widok: nagłówek z formą, profil gry, skład, mecze. Zastępuje ciche filtrowanie po kliknięciu drużyny.
+- **Etap 2, prognozy i wiarygodność (→ 1.3.0, od 6.–7. kolejki).** Zakres niepewności oceny drużyny (bootstrap po meczach, stałe ziarno). `simulateSeason`: 10 000 przebiegów pozostałych meczów, szanse na strefy 1–8, 9–12, 13–15 według zasad `leagueTable`. Na stronie: trafność zapowiedzi, prognoza końca sezonu, kreska niepewności przy NetRtg.
+- **Etap 3, zawodnicy.** Próg minut dla PER i EWA, zakres niepewności oceny, „siła rywali” z oceny po korekcie (jeśli nie pogarsza stabilności), wyjaśnienie rozbieżności sum +/-. Pełna tabela na komputerze, porównanie dwóch zawodników, wykres mecz po meczu w karcie.
+- **Etap 4, strona meczu.** `gameSummary`: linie drużyn, cztery czynniki meczu, najlepsi według GmSc, szansa sprzed meczu. Zapowiedź w tym samym układzie.
+- **Etap 5, szlif.** Ruch (tylko tam, gdzie pomaga), dostępność z klawiatury, rozmiar pliku, data danych w panelu, przeniesienie zmian silnika do forka panelu.
+
+Do decyzji przed etapem, którego dotyczą: wyniki po kwartach na stronie publicznej (etap 1 i 4), numery wersji, sposób pokazywania bardzo małych szans w prognozie sezonu.
+
 ## Backlog
 - **GitHub.** Repozytorium github.com/tparzonka/talk-power-ranking (publiczne). Kalendarz do subskrypcji: https://raw.githubusercontent.com/tparzonka/talk-power-ranking/main/dist/quantum-hoop.ics – aktualizuje się po każdym wypchnięciu nowego terminarza. W repozytorium nie ma żadnych danych osobowych: dane zawodników (`zawodnicy`, `wiek`, `numery`, `korekty`, `wyjatki`, `sklady.txt`), `input/` i zbudowana strona są tylko lokalnie (pilnuje tego CI). Pełny projekt z danymi nadal jest w paczce `projekt.txt` przy stronie.
 
