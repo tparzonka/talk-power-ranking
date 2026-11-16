@@ -80,14 +80,14 @@ SUMA DRUŻYNA B;...
 - ORtg i DRtg to punkty zdobyte i stracone na 100 posiadań, NetRtg to ich różnica.
 - Drużyny bez meczu są na końcu tabeli, bez miejsca.
 
-**Zawodnicy (widok Ranking).** Tylko zawodnicy ze średnio co najmniej 15 minutami na mecz. Ocena = 50 + 10 × suma ważona składników przeliczonych na odchylenia od średniej ligi:
+**Zawodnicy (widok Ranking).** Tylko zawodnicy, którzy zagrali co najmniej połowę meczów swojej drużyny (w wybranym zakresie) i średnio co najmniej 15 minut na mecz. Wiersz protokołu z 0 minutami nie liczy się jako mecz. Ocena = 50 + 10 × suma ważona składników przeliczonych na odchylenia od średniej ligi:
 
 | Składnik | Waga | Zakres | Co liczy |
 |---|---|---|---|
-| Wpływ na wygrywanie | 40% | ostatnie 5 meczów | średnia z: NetRtg na boisku, różnica z nim / bez niego, bilans drużyny |
-| Skuteczność przy obciążeniu | 25% | ostatnie 5 meczów | (TS % − średnie TS % ligi) × USG % / 20 |
-| Wszechstronność | 20% | sezon | PIE, średnio na mecz |
-| Siła rywali | 15% | sezon | średni NetRtg rywali |
+| Wpływ na wygrywanie | 40% | wybrany zakres | średnia z: NetRtg na boisku, różnica z nim / bez niego, bilans drużyny |
+| Skuteczność przy obciążeniu | 25% | wybrany zakres | (TS % − średnie TS % ligi) × USG % / 20 |
+| Wszechstronność | 20% | wybrany zakres | PIE, średnio na mecz |
+| Siła rywali | 15% | wybrany zakres | średni NetRtg rywali |
 
 **Zakres danych.** Przełącznik na stronie: cały sezon albo ostatnie 5 meczów każdej drużyny i zawodnika (`opts.okno` w `rankTeams` i `rankPlayers`, funkcja `lastGames`). Strona jest w jednym ciemnym motywie w barwach logo TALK (logo w `assets/logo.webp`, wklejone do szablonu jako data URI).
 
@@ -166,4 +166,4 @@ Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i n
 - **GitHub.** Repozytorium github.com/tparzonka/talk-power-ranking (publiczne). Kalendarz do subskrypcji: https://raw.githubusercontent.com/tparzonka/talk-power-ranking/main/dist/quantum-hoop.ics – aktualizuje się po każdym wypchnięciu nowego terminarza. W repozytorium nie ma żadnych danych osobowych: dane zawodników (`zawodnicy`, `wiek`, `numery`, `korekty`, `wyjatki`, `sklady.txt`), `input/` i zbudowana strona są tylko lokalnie (pilnuje tego CI). Pełny projekt z danymi nadal jest w paczce `projekt.txt` przy stronie.
 
 - **EWA (Estimated Wins Added)** – kod jest gotowy w `src/ranking.js` (`hollinger`, `EWA_OD_KOLEJKI = 5`). Kolumna pojawia się sama w rankingu zawodników, gdy w danych jest mecz 5. kolejki. Przelicznik punktów na zwycięstwa liczony z wyników drużyn, które mają co najmniej 3 mecze. Po pojawieniu się warto sprawdzić, czy wartości są rozsądne (lider ligi rzędu 1–2 zwycięstw na 5 meczów).
-- **SRS (Simple Rating System)** – ocena drużyny wg Basketball-Reference: średnia różnica punktów w meczu poprawiona o siłę rywali (ocena = średnia różnica + średnia ocena rywali, liczone wspólnie, aż wartości się ustalą; 0 = przeciętna drużyna). Ma sens dopiero, gdy drużyny łączą się wspólnymi rywalami, czyli mniej więcej od 5. kolejki. Plan: osobna kolumna w rankingu drużyn, pokazywana automatycznie od 5. kolejki (jak EWA), bez zmiany kolejności rankingu (ten nadal według NetRtg).
+- **SRS (wdrożone jako „Po korekcie”, 5. kolejka).** `adjustedRatings` w `src/ranking.js`: NetRtg skorygowany o siłę rywali, na 100 posiadań, ściąganie do zera `ADJ_LAMBDA = 1` (wybrane sprawdzeniem: przewidywanie pominiętego meczu z 26 meczów, błąd 31,0 pkt/100 posiadań wobec 32,5 dla zwykłego NetRtg). Kolumny „Po korekcie” i „Siła rywali” w rankingu drużyn od `SKOR_OD_KOLEJKI = 5`, kolejność rankingu bez zmian (nadal NetRtg). Do decyzji po kolejnych kolejkach: kolejność wg oceny po korekcie i szansa wygranej z tej oceny.

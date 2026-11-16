@@ -1,4 +1,15 @@
 <title>Power Ranking TALK</title>
+<meta name="description" content="Ranking drużyn i zawodników ligi koszykówki TALK w Toruniu, liczony z protokołów po każdej kolejce: bilans na 100 posiadań, wyniki i zapowiedzi meczów.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:title" content="Power Ranking TALK">
+<meta property="og:description" content="Ranking drużyn ligi TALK po każdej kolejce, liczony z protokołów meczów.">
+<meta property="og:image" content="https://raw.githubusercontent.com/tparzonka/talk-power-ranking/main/docs/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tabela rankingu drużyn ligi TALK">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#16140f">
 <link rel="icon" type="image/svg+xml" href="__FAVICON__">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,27 +21,31 @@
   :root {
     --ease-out: cubic-bezier(.23, 1, .32, 1);
     --ease-drawer: cubic-bezier(.32, .72, 0, 1);
-    --r: 10px;
+    --r: 8px;
     --display: "Barlow Semi Condensed", "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     --body: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color-scheme: light;
-    /* motyw jasny (domyślny, gdy system nie prosi o ciemny) */
+    /* motyw jasny: chłodna szarość, biały panel, ciemny pasek boczny, jeden akcent z piłki z logo */
     --bg: #f6f5f1;
     --panel: #ffffff;
     --raised: #efede7;
+    --step2: #e8e5dd;
     --fg: #16140f;
+    --fg2: #3d3a33;
     --muted: #5c584f;
     --faint: #a29d92;
     --dim: #6c675d;
     --line: #e3e0d8;
     --zebra: #faf9f6;
-    --accent: #c2410c;
+    --accent: #C2410C;
     --accent-ink: #ffffff;
     --accent-soft: #fbe6da;
     --up: #15803d;
     --down: #b42318;
     --blue: #2f6fa8;
     --edge: rgba(22, 20, 15, .10);
+    --side: #16140f; --side-ink: #ddd8cf; --side-mute: #a69d93; --side-on: #26231f; --side-on2: #35312b;
+    --rb1: #B23F00; --rb1t: #FFFFFF; --rb2: #F08A4B; --rb2t: #1A0B00; --rb3: #FBD3B8; --rb3t: #3A1600;
     --tg1-bg: #e6f0fa; --tg1-fg: #1f5c99;
     --tg2-bg: #e5f3e9; --tg2-fg: #1d6a39;
     --tg3-bg: #fbeadb; --tg3-fg: #96460f;
@@ -39,61 +54,65 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       color-scheme: dark;
-      --bg: #0f0e0d; --panel: #181614; --raised: #211e1b; --fg: #f4efe9; --muted: #a69d93; --faint: #6f6861; --dim: #8f877e;
+      --bg: #0f0e0d; --panel: #181614; --raised: #211e1b; --step2: #2a2623; --fg: #f4efe9; --fg2: #cfc8bf; --muted: #a69d93; --faint: #6f6861; --dim: #8f877e;
       --line: #2c2825; --zebra: #161412; --accent: #f47b20; --accent-ink: #1a0d03; --accent-soft: #33200f;
-      --up: #5cc488; --down: #f08a80; --blue: #7fa7d1; --edge: var(--edge);
+      --up: #5cc488; --down: #f08a80; --blue: #7fa7d1; --edge: rgba(0, 0, 0, .4);
+      --side: #0a0908; --side-on: #1a1816; --side-on2: #2c2825;
+      --rb1: #f47b20; --rb1t: #1a0d03; --rb2: #B5531A; --rb2t: #FFFFFF; --rb3: #5A3018; --rb3t: #FFE3D1;
       --tg1-bg: #14283b; --tg1-fg: #8fbbe6; --tg2-bg: #14301f; --tg2-fg: #8fd2a6;
       --tg3-bg: #3a2411; --tg3-fg: #f0b27d; --tg4-bg: #2a1d38; --tg4-fg: #cba6e6;
     }
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #0f0e0d; --panel: #181614; --raised: #211e1b; --fg: #f4efe9; --muted: #a69d93; --faint: #6f6861; --dim: #8f877e;
+    --bg: #0f0e0d; --panel: #181614; --raised: #211e1b; --step2: #2a2623; --fg: #f4efe9; --fg2: #cfc8bf; --muted: #a69d93; --faint: #6f6861; --dim: #8f877e;
     --line: #2c2825; --zebra: #161412; --accent: #f47b20; --accent-ink: #1a0d03; --accent-soft: #33200f;
-    --up: #5cc488; --down: #f08a80; --blue: #7fa7d1; --edge: var(--edge);
+    --up: #5cc488; --down: #f08a80; --blue: #7fa7d1; --edge: rgba(0, 0, 0, .4);
+    --side: #0a0908; --side-on: #1a1816; --side-on2: #2c2825;
+    --rb1: #f47b20; --rb1t: #1a0d03; --rb2: #B5531A; --rb2t: #FFFFFF; --rb3: #5A3018; --rb3t: #FFE3D1;
     --tg1-bg: #14283b; --tg1-fg: #8fbbe6; --tg2-bg: #14301f; --tg2-fg: #8fd2a6;
     --tg3-bg: #3a2411; --tg3-fg: #f0b27d; --tg4-bg: #2a1d38; --tg4-fg: #cba6e6;
   }
-  body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 15px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
-  .wrap { position: relative; max-width: 1180px; margin-inline: auto; padding-block: 20px 56px;
+  body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 14px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .wrap { position: relative; max-width: 1180px; margin-inline: auto; padding-block: 16px 48px;
     padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
     display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
 
   /* ---------- nagłówek ---------- */
   header.top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px 24px; align-items: end;
-    padding-bottom: 18px; border-bottom: 3px solid var(--fg); }
+    padding-bottom: 16px; border-bottom: 3px solid var(--fg); }
   .logo { width: 92px; height: auto; display: block; filter: drop-shadow(0 0 .6px rgba(255, 255, 255, .75)); }
   .title { display: grid; gap: 4px; min-width: 0; }
-  h1 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 5vw, 50px); line-height: .95; margin: 0;
+  h1 { font-family: var(--display); font-weight: 700; font-size: 48px; line-height: .95; margin: 0;
     text-transform: uppercase; letter-spacing: -.005em; }
   .meta { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
   .meta b { color: var(--fg); font-weight: 600; }
-  .range { display: grid; gap: 6px; justify-items: end; }
+  .range { display: grid; gap: 4px; justify-items: end; }
   .range-label { font-size: 12px; color: var(--muted); }
 
   /* przełącznik zakresu: ten sam język co pozostałe małe przełączniki, bez pełnego pomarańczu */
-  .range .seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 3px; background: var(--panel);
-    border: 1px solid var(--line); border-radius: var(--r); isolation: isolate; }
-  .range .thumb { position: absolute; inset: 3px auto 3px 3px; width: calc(50% - 3px); background: var(--raised); border-radius: var(--r);
-    box-shadow: inset 0 -2px 0 var(--accent); z-index: -1; transition: transform .26s cubic-bezier(.3, .7, .2, 1); }
+  .range .seg { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 4px; background: var(--step2);
+    border: 0; border-radius: var(--r); isolation: isolate; }
+  .range .thumb { position: absolute; inset: 4px auto 4px 4px; width: calc(50% - 4px); background: var(--panel); border-radius: 4px;
+    z-index: -1; transition: transform .2s var(--ease-out); }
   .range .seg[data-at="1"] .thumb { transform: translateX(100%); }
-  .range .seg-btn { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .04em; text-transform: uppercase;
+  .range .seg-btn { font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .04em; text-transform: uppercase;
     min-height: 38px; padding: 0 16px; color: var(--muted); background: transparent; border: 0; border-radius: var(--r); cursor: pointer; touch-action: manipulation; }
   .range .seg-btn { transition: color .2s ease; }
   .range .seg-btn[aria-pressed="true"] { color: var(--fg); }
   .range .seg-btn:hover:not([aria-pressed="true"]) { color: var(--fg); }
 
   /* ---------- sekcje ---------- */
-  .block { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; }
-  .block-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 20px;
+  .block { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
+  .block-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px;
     border-bottom: 1px solid var(--line); }
-  h2 { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1; letter-spacing: .01em; text-transform: uppercase;
-    margin: 0; padding-bottom: 10px; }
-  h2 small { font-family: var(--body); font-weight: 400; font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-left: 10px; }
+  h2 { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1; letter-spacing: .01em; text-transform: uppercase;
+    margin: 0; padding-bottom: 8px; }
+  h2 small { font-family: var(--body); font-weight: 400; font-size: 14px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-left: 8px; }
 
   /* zakładki Ranking / Statystyki */
-  .block-head .seg { display: inline-flex; gap: 18px; }
-  .block-head .seg-btn { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .06em; text-transform: uppercase;
+  .block-head .seg { display: inline-flex; gap: 16px; }
+  .block-head .seg-btn { font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .06em; text-transform: uppercase;
     color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px;
     min-height: 40px; padding: 0 2px; cursor: pointer; touch-action: manipulation; }
   .block-head .seg-btn:hover { color: var(--fg); }
@@ -101,12 +120,12 @@
   .seg-btn:focus-visible, button.sort:focus-visible, .chip:focus-visible, .pick select:focus-visible, .game:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  .note { margin: 0; color: var(--muted); font-size: 13.5px; max-width: 80ch; }
+  .note { margin: 0; color: var(--muted); font-size: 12px; max-width: 80ch; }
   .note:empty { display: none; }
 
   /* filtry zawodników */
-  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
   .chip { font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: var(--panel); border: 1px solid var(--line);
     border-radius: var(--r); min-height: 36px; padding: 0 12px; cursor: pointer; touch-action: manipulation; }
   .chip:hover { color: var(--fg); border-color: var(--faint); }
@@ -117,19 +136,19 @@
   /* ---------- tabele ---------- */
   .scroll { overflow: auto; }
   table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-  th { text-align: left; font-family: var(--display); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 12.5px;
+  th { text-align: left; font-family: var(--display); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; font-size: 12px;
     color: var(--muted); padding: 8px; border-bottom: 1px solid var(--line); white-space: nowrap; vertical-align: bottom; }
   .scroll th { position: sticky; top: 0; z-index: 1; background: var(--bg); }
-  td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td { padding: 8px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
   .num { text-align: right; white-space: nowrap; }
   button.sort { font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; background: none; border: 0; padding: 0; cursor: pointer; white-space: nowrap; }
   button.sort { position: relative; }
   button.sort::after { content: ""; position: absolute; inset: -10px -8px; }
   button.sort:hover { color: var(--fg); }
   th[aria-sort] button.sort { color: var(--accent); }
-  .arrow { font-size: 10px; margin-left: 4px; }
-  td.rank { font-family: var(--display); font-weight: 800; font-size: 24px; line-height: 1; color: var(--fg); width: 2.4rem; padding-top: 9px; }
-  .name { font-weight: 600; font-size: 15.5px; }
+  .arrow { font-size: 12px; margin-left: 4px; }
+  td.rank { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1; color: var(--fg); width: 2.4rem; padding-top: 8px; }
+  .name { font-weight: 600; font-size: 14px; }
   #t-players td.name { min-width: 15.5rem; }
   #t-players td.name, #t-players th.pin, #t-teams td.name, #t-teams th.pin { position: sticky; left: 0; z-index: 1; background: var(--bg); box-shadow: 8px 0 8px -8px var(--edge); }
   #t-players th.pin { z-index: 3; }
@@ -137,7 +156,7 @@
   #t-teams td.name { min-width: 14rem; }
   .pos { white-space: nowrap; color: var(--muted); }
   #t-teams .name { font-family: var(--display); font-weight: 700; font-size: 18px; letter-spacing: .02em; line-height: 1.15; }
-  .name .sub { display: block; font-family: var(--body); font-weight: 400; font-size: 13px; letter-spacing: 0; color: var(--muted); margin-top: 2px; }
+  .name .sub { display: block; font-family: var(--body); font-weight: 400; font-size: 12px; letter-spacing: 0; color: var(--muted); margin-top: 2px; }
   tr.dim td { color: var(--dim); }
   tr.dim .name { color: var(--muted); }
   tr.click { cursor: pointer; }
@@ -146,7 +165,7 @@
   tr.picked .name { color: var(--accent); }
   .up { color: var(--up); }
   .down { color: var(--down); }
-  .move { white-space: nowrap; font-size: 13px; width: 2.6rem; }
+  .move { white-space: nowrap; font-size: 12px; width: 2.6rem; }
   .move.new { color: var(--muted); }
   .barcell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-weight: 600; }
   .bar { display: inline-block; height: 6px; background: var(--accent); }
@@ -159,20 +178,20 @@
   .div .fill.down { background: var(--down); right: 50%; }
   .empty { color: var(--muted); padding: 16px 8px; }
 
-  .tip { position: absolute; z-index: 5; max-width: 280px; padding: 8px 11px; background: var(--raised); color: var(--fg);
-    border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); font-size: 13px; line-height: 1.4; pointer-events: none; }
+  .tip { position: absolute; z-index: 5; max-width: 280px; padding: 8px 12px; background: var(--raised); color: var(--fg);
+    border: 1px solid var(--line); border-radius: var(--r); box-shadow: 0 6px 16px rgba(0, 0, 0, .35); font-size: 12px; line-height: 1.4; pointer-events: none; }
 
   /* ---------- wyniki ---------- */
-  .round + .round { margin-top: 18px; }
-  .round h3 { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .01em; color: var(--fg); margin: 0 0 10px; }
-  .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
-  .game { display: grid; gap: 2px; padding: 10px 12px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
+  .round + .round { margin-top: 16px; }
+  .round h3 { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .01em; color: var(--fg); margin: 0 0 8px; }
+  .games { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 8px; }
+  .game { display: grid; gap: 2px; padding: 8px 12px 12px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r);
     color: var(--fg); text-decoration: none; }
   a.game:hover { border-color: var(--faint); background: var(--raised); }
-  .g-meta { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-bottom: 4px; }
+  .g-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 4px; }
   a.game .g-link { color: var(--accent); }
   .g-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; color: var(--muted); }
-  .g-team { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: .02em; text-transform: uppercase; line-height: 1.2; }
+  .g-team { font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: .02em; text-transform: uppercase; line-height: 1.2; }
   .g-pts { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .g-row.win { color: var(--fg); }
   .g-row.win .g-pts { color: var(--fg); }
@@ -183,14 +202,14 @@
   .g-row.up-next .g-team { color: var(--fg); }
   .g-row.up-next.win .g-pct { color: var(--fg); }
   .game.plan .g-link { color: var(--muted); }
-  .g-rest, .g-stan { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+  .g-rest, .g-stan { margin: 8px 0 0; font-size: 12px; color: var(--muted); }
   .g-stan { color: var(--dim); }
 
   /* ---------- zasady ---------- */
   details.rules-box { border-top: 1px solid var(--line); }
-  details.rules-box > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 10px 0; }
+  details.rules-box > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 8px 0; }
   details.rules-box > summary::-webkit-details-marker { display: none; }
-  details.rules-box > summary h2 { font-size: 22px; padding: 0; }
+  details.rules-box > summary h2 { font-size: 20px; padding: 0; }
   details.rules-box > summary .hint { color: var(--muted); font-size: 14px; }
   details.rules-box > summary::after { content: ""; width: 9px; height: 9px; margin-left: auto; margin-right: 4px; border-right: 2px solid var(--accent);
     border-bottom: 2px solid var(--accent); transform: rotate(45deg) translateY(-3px); transition: transform .2s ease-out; }
@@ -200,17 +219,17 @@
   ul.rules { margin: 0; padding: 4px 0 8px 1.1rem; display: grid; gap: 8px; color: var(--muted); max-width: 90ch; }
   ul.rules b { color: var(--fg); font-weight: 600; }
 
-  .tip-hint { display: block; margin-top: 6px; color: var(--accent); font-size: 12.5px; }
+  .tip-hint { display: block; margin-top: 4px; color: var(--accent); font-size: 12px; }
   td.rank .mv { display: none; }
   .jump { display: none; }
-  .more { display: block; width: 100%; min-height: 44px; font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .05em;
+  .more { display: block; width: 100%; min-height: 44px; font-family: var(--display); font-weight: 700; font-size: 14px; letter-spacing: .05em;
     text-transform: uppercase; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); cursor: pointer; }
   .more:active { background: var(--raised); }
   .block { scroll-margin-top: 64px; }
   [hidden] { display: none !important; }
   /* gęste tabele statystyk: grupy kolumn, pasy, wyróżnione procenty */
   table.grouped thead tr.grp th { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
-    color: var(--fg); padding: 6px 8px 4px; border-bottom: 0; text-align: left; }
+    color: var(--fg); padding: 4px 8px 4px; border-bottom: 0; text-align: left; }
   table.grouped thead tr.grp th.gs { box-shadow: inset 0 -2px 0 var(--accent-soft); }
   .scroll table.grouped thead tr.grp th { top: 0; }
   .scroll table.grouped thead tr.lbl th { top: 27px; }
@@ -222,7 +241,7 @@
   #t-players.grouped tbody tr:nth-child(even) td.name, #t-teams.grouped tbody tr:nth-child(even) td.name { background: var(--zebra); }
   @media (hover: hover) { #t-players.grouped tbody tr:hover td, #t-teams.grouped tbody tr:hover td { background: var(--panel); } }
   td.zero { color: var(--dim); font-weight: 400; }
-  td.res .sub { display: block; font-size: 12.5px; color: var(--muted); }
+  td.res .sub { display: block; font-size: 12px; color: var(--muted); }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: start; }
   #nagrody { position: sticky; top: 16px; }
   .award-pick { justify-self: start; }
@@ -231,38 +250,38 @@
   .team-pick select { max-width: 11rem; }
   #games .pending { margin: 0; color: var(--muted); }
   .award-pick select { min-width: 15rem; font-weight: 600; }
-  .award-view { display: grid; gap: 10px; }
-  .award-view .rule { margin: 0; color: var(--muted); font-size: 13px; }
+  .award-view { display: grid; gap: 8px; }
+  .award-view .rule { margin: 0; color: var(--muted); font-size: 12px; }
   .award-view .pending { margin: 0; color: var(--dim); }
-  .leader { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; padding: 14px 16px;
+  .leader { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; padding: 12px 16px;
     background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
   .award-view .leader .who { display: grid; gap: 2px; min-width: 0; }
-  .award-view .leader .tag { font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--muted); }
-  .award-view .leader .nm { font-family: var(--display); font-weight: 800; font-size: 26px; line-height: 1.05; }
-  .award-view .leader .tm { font-size: 13px; color: var(--muted); }
-  .award-view .leader .val { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .award-view .leader .tag { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); }
+  .award-view .leader .nm { font-family: var(--display); font-weight: 700; font-size: 24px; line-height: 1.05; }
+  .award-view .leader .tm { font-size: 12px; color: var(--muted); }
+  .award-view .leader .val { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; white-space: nowrap; }
   .award-view ol { list-style: none; margin: 0; padding: 0; display: grid; }
-  .award-view li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--line); }
+  .award-view li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr) auto; gap: 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); }
   .award-view ol.five li { grid-template-columns: 9.5rem minmax(0, 1fr) auto; }
   .award-view .no { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--muted); }
   .award-view ol.five .no { font-size: 14px; letter-spacing: .02em; }
   .award-view .who { display: grid; min-width: 0; }
-  .award-view .nm { font-weight: 600; font-size: 15px; }
-  .award-view .tm { font-size: 12.5px; color: var(--muted); }
+  .award-view .nm { font-weight: 600; font-size: 14px; }
+  .award-view .tm { font-size: 12px; color: var(--muted); }
   .award-view .val { font-family: var(--display); font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; }
   .award-view .gap { display: block; font-family: var(--body); font-weight: 400; font-size: 12px; color: var(--muted); }
   @media (max-width: 960px) { #nagrody { position: static; } }
   @media (max-width: 760px) {
     .award-pick { justify-self: stretch; }
     .award-pick select { min-width: 0; flex: 1; min-height: 44px; }
-    .award-view .leader .nm { font-size: 22px; }
-    .award-view .leader .val { font-size: 28px; }
+    .award-view .leader .nm { font-size: 20px; }
+    .award-view .leader .val { font-size: 24px; }
     .award-view ol.five li { grid-template-columns: 6.5rem minmax(0, 1fr) auto; }
   }
-  .round-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+  .round-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
   .round-bar .best { margin: 0; color: var(--muted); font-size: 14px; }
   .round-bar .best b { color: var(--fg); font-weight: 600; margin-right: 4px; }
-  .best-label { display: block; font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--muted); }
+  .best-label { display: block; font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); }
   td.res { white-space: nowrap; color: var(--muted); }
   @media (max-width: 960px) { .split { grid-template-columns: minmax(0, 1fr); } }
   .fade-r { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent); }
@@ -300,16 +319,16 @@
   @media (max-width: 760px) {
     body { -webkit-tap-highlight-color: transparent; }
     .hide-sm { display: none; }
-    .wrap { gap: 26px; padding-block: 12px 40px; }
-    header.top { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 10px 14px; padding-bottom: 14px; }
+    .wrap { gap: 24px; padding-block: 12px 40px; }
+    header.top { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 8px 12px; padding-bottom: 12px; }
     .logo { width: 54px; }
-    h1 { font-size: 34px; }
-    .meta { font-size: 13px; line-height: 1.35; }
+    h1 { font-size: 30px; }
+    .meta { font-size: 12px; line-height: 1.35; }
     .jump { display: flex; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 6; margin: -14px calc(-1 * max(16px, env(safe-area-inset-left, 0px))) -8px;
-      padding: 6px max(16px, env(safe-area-inset-right, 0px)) 6px max(16px, env(safe-area-inset-left, 0px)); gap: 6px;
+      padding: 4px max(16px, env(safe-area-inset-right, 0px)) 4px max(16px, env(safe-area-inset-left, 0px)); gap: 4px;
       background: var(--bg); border-bottom: 1px solid var(--line); }
     body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
-    .jump button { flex: 1; min-height: 44px; font-family: var(--display); font-weight: 700; font-size: 13px; letter-spacing: .03em; text-transform: uppercase;
+    .jump button { flex: 1; min-height: 44px; font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .03em; text-transform: uppercase;
       color: var(--muted); background: none; border: 0; border-radius: var(--r); cursor: pointer; }
     .jump button:active { background: var(--panel); color: var(--fg); }
     th { padding-top: 12px; padding-bottom: 12px; white-space: normal; vertical-align: bottom; }
@@ -318,13 +337,13 @@
     td.rank .mv { display: block; margin-top: 4px; font-family: var(--body); font-weight: 600; font-size: 12px; line-height: 1; }
     table.ten tbody tr:nth-child(n+11) { display: none; }
     .g-team { font-size: 16px; }
-    .g-pts { font-size: 22px; }
-    .game { padding: 8px 12px 10px; }
+    .g-pts { font-size: 20px; }
+    .game { padding: 8px 12px 8px; }
     .range { grid-column: 1 / -1; justify-items: stretch; }
     .range-label { display: none; }
     .range .seg { display: grid; width: 100%; }
-    .range .seg-btn { min-height: 44px; padding: 0 8px; font-size: 15px; }
-    h2 { font-size: 26px; }
+    .range .seg-btn { min-height: 44px; padding: 0 8px; font-size: 14px; }
+    h2 { font-size: 24px; }
     .chip, .pick select { min-height: 44px; }
     .chips { flex: 1 1 100%; min-width: 0; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; padding: 2px; }
     .chips::-webkit-scrollbar { display: none; }
@@ -333,10 +352,10 @@
     td, th { padding-left: 4px; padding-right: 4px; }
     .move { width: 2rem; font-size: 12px; }
     .barcell .bar { display: none; }
-    #t-teams .name { font-size: 16.5px; }
+    #t-teams .name { font-size: 16px; }
     details.rules-box > summary .hint { display: none; }
-    td { padding: 10px 6px; }
-    td.rank { font-size: 21px; width: 2rem; }
+    td { padding: 8px 4px; }
+    td.rank { font-size: 20px; width: 2rem; }
     .div { grid-template-columns: 3.2rem; }
     .div .track { display: none; }
   }
@@ -345,7 +364,7 @@
   .search { position: relative; display: flex; align-items: center; flex: 0 1 14rem; min-width: 0; }
   .search > svg { position: absolute; left: 10px; width: 16px; height: 16px; color: var(--muted); pointer-events: none; transition: color .15s ease; }
   .search:focus-within > svg { color: var(--accent); }
-  .search input { font: inherit; font-size: 15px; width: 100%; min-height: 36px; padding: 0 36px 0 34px; color: var(--fg); background: var(--panel);
+  .search input { font: inherit; font-size: 14px; width: 100%; min-height: 36px; padding: 0 32px 0 32px; color: var(--fg); background: var(--panel);
     border: 1px solid var(--line); border-radius: var(--r); -webkit-appearance: none; appearance: none; transition: border-color .15s ease; }
   .search input::placeholder { color: var(--muted); opacity: 1; }
   .search input:hover { border-color: var(--faint); }
@@ -358,13 +377,13 @@
   .q-clear:active { transform: scale(.9); }
   .q-clear:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .name mark { background: var(--accent-soft); color: var(--fg); border-radius: 2px; box-shadow: 0 1px 0 var(--accent); }
-  td.empty .act { font: inherit; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 0; margin-left: 6px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  td.empty .act { font: inherit; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 0; margin-left: 4px; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 
   /* ---------- mały przełącznik w widoku ---------- */
   .mini, .search input { box-sizing: border-box; }
-  .mini { display: inline-flex; gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
+  .mini { display: inline-flex; gap: 2px; padding: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
   .mini button { font: inherit; font-size: 14px; font-weight: 600; color: var(--muted); background: none; border: 0; border-radius: var(--r);
-    min-height: 32px; padding: 0 14px; cursor: pointer; touch-action: manipulation; transition: color .15s ease, background-color .15s ease, transform .1s ease; }
+    min-height: 32px; padding: 0 12px; cursor: pointer; touch-action: manipulation; transition: color .15s ease, background-color .15s ease, transform .1s ease; }
   .mini button:hover { color: var(--fg); }
   .mini button[aria-pressed="true"] { color: var(--fg); background: var(--raised); box-shadow: inset 0 -2px 0 var(--accent); }
   .mini button:active { transform: scale(.97); }
@@ -373,19 +392,19 @@
   table.grouped td.srt.up { color: var(--up); }
   table.grouped td.srt.down { color: var(--down); }
   /* wiersz średniej ligi */
-  tfoot td { padding: 10px 8px; color: var(--muted); font-weight: 600; border-top: 2px solid var(--line); border-bottom: 0; }
-  tfoot td.name { font-family: var(--body) !important; font-size: 13px !important; letter-spacing: .04em !important; text-transform: uppercase; }
+  tfoot td { padding: 8px 8px; color: var(--muted); font-weight: 600; border-top: 2px solid var(--line); border-bottom: 0; }
+  tfoot td.name { font-family: var(--body) !important; font-size: 12px !important; letter-spacing: .04em !important; text-transform: uppercase; }
   #t-teams tfoot td.name { position: sticky; left: 0; z-index: 1; background: var(--bg); }
   @media (max-width: 760px) {
     .sub-bar .mini { display: flex; width: 100%; }
-    .mini button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 6px; white-space: nowrap; }
-    tfoot td { padding: 10px 6px; }
+    .mini button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 0 4px; white-space: nowrap; }
+    tfoot td { padding: 8px 4px; }
   }
 
   /* ---------- tabela ligowa ---------- */
   td.pkt { color: var(--fg); font-weight: 700; }
   td.forma { white-space: nowrap; }
-  .fm { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 3px; border-radius: 3px;
+  .fm { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-left: 2px; border-radius: 2px;
     font-family: var(--display); font-weight: 700; font-size: 12px; line-height: 1; }
   .fm.w { background: var(--up); color: var(--bg); }
   .fm.p { background: var(--raised); color: var(--muted); box-shadow: inset 0 0 0 1px var(--line); }
@@ -399,7 +418,7 @@
   .tip b { display: block; font-weight: 600; margin-bottom: 2px; }
   .tip .tip-line { display: block; }
   @media (max-width: 760px) {
-    .fm { width: 24px; height: 24px; margin-left: 4px; font-size: 13px; }
+    .fm { width: 24px; height: 24px; margin-left: 4px; font-size: 12px; }
   }
   @media (max-width: 760px) {
     .search { flex: 1 1 0; }
@@ -422,7 +441,7 @@
   dialog.card.in { opacity: 1; transform: none; }
   dialog.card::backdrop { background: rgba(0, 0, 0, 0); transition: background-color .2s ease-out; }
   dialog.card.in::backdrop { background: rgba(0, 0, 0, .62); }
-  .card-scroll { max-height: min(88vh, 940px); overflow: auto; overscroll-behavior: contain; padding: 22px 24px 26px; box-sizing: border-box; }
+  .card-scroll { max-height: min(88vh, 940px); overflow: auto; overscroll-behavior: contain; padding: 24px 24px 24px; box-sizing: border-box; }
   .card-x { position: absolute; top: 10px; right: 10px; z-index: 3; display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
     border: 0; border-radius: var(--r); background: var(--panel); color: var(--muted); cursor: pointer; touch-action: manipulation;
     transition: color .15s ease, transform .1s ease; }
@@ -430,61 +449,61 @@
   .card-x:hover { color: var(--fg); }
   .card-x:active { transform: scale(.94); }
   .card-x:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .card-head h2 { padding: 0 56px 0 0; font-size: 34px; }
-  .card-sub { margin: 6px 0 18px; color: var(--muted); font-size: 14px; }
-  .tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line);
+  .card-head h2 { padding: 0 48px 0 0; font-size: 30px; }
+  .card-sub { margin: 4px 0 16px; color: var(--muted); font-size: 14px; }
+  .tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0px; background: var(--line); border: 1px solid var(--line);
     border-radius: var(--r); overflow: hidden; }
-  .tile { display: grid; gap: 3px; align-content: start; min-width: 0; padding: 10px 12px 12px; background: var(--panel); }
-  .tile .k { font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--muted); }
-  .tile .v { font-family: var(--display); font-weight: 800; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tile { display: grid; gap: 2px; align-content: start; min-width: 0; padding: 8px 12px 12px; background: var(--panel); }
+  .tile .k { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); }
+  .tile .v { font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1; font-variant-numeric: tabular-nums; }
   .tile.main .v { color: var(--accent); }
   .tile .s { font-size: 12px; line-height: 1.3; color: var(--muted); }
-  .log-title { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .01em; color: var(--fg); margin: 22px 0 6px; }
+  .log-title { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .01em; color: var(--fg); margin: 24px 0 4px; }
   .log-wrap { overflow-x: auto; }
   table.log th { position: static; }
-  table.log td, table.log th { padding-left: 7px; padding-right: 7px; }
+  table.log td, table.log th { padding-left: 8px; padding-right: 8px; }
   table.log td.m, table.log th.m { position: sticky; left: 0; z-index: 1; background: var(--bg); box-shadow: 8px 0 8px -8px var(--edge); }
   table.log td.m { min-width: 11rem; }
   table.log .opp { display: block; font-weight: 600; }
-  table.log .sub { display: block; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+  table.log .sub { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
   table.log .sub a.proto { white-space: nowrap; }
   table.log td.m { max-width: 13rem; }
   table.log td.key { color: var(--fg); font-weight: 700; }
   table.log td.dnp { color: var(--dim); font-style: italic; }
-  table.log tfoot td.m { font-family: var(--body); font-size: 13px; letter-spacing: .04em; text-transform: uppercase; }
+  table.log tfoot td.m { font-family: var(--body); font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
   @media (max-width: 760px) {
     dialog.card { width: 100%; max-width: 100%; max-height: 92vh; margin: auto 0 0; border-radius: 12px 12px 0 0; border-bottom: 0;
       opacity: 1; transform: translateY(100%); transition: transform .3s var(--ease-drawer); }
     dialog.card.in { transform: none; }
-    .card-scroll { max-height: 92vh; padding: 18px 16px calc(22px + env(safe-area-inset-bottom, 0px)); }
+    .card-scroll { max-height: 92vh; padding: 16px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
     .card-x { top: 8px; right: 8px; }
-    .card-head h2 { font-size: 28px; }
+    .card-head h2 { font-size: 24px; }
     .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .tile .v { font-size: 26px; }
+    .tile .v { font-size: 24px; }
     table.log td.m { min-width: 9.5rem; max-width: 10.5rem; }
   }
   @media (prefers-reduced-motion: reduce) { dialog.card, dialog.card.in { transition: none; transform: none; opacity: 1; } dialog.card::backdrop { transition: none; } }
   /* ---------- wykres miejsc po kolejkach ---------- */
-  .bump { margin: 22px 0 0; }
-  .bump-title { font-family: var(--display); font-weight: 700; font-size: 17px; letter-spacing: .01em; color: var(--fg); margin-bottom: 10px; }
-  .bump-title span { font-family: var(--body); font-size: 12.5px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-left: 8px; }
+  .bump { margin: 24px 0 0; }
+  .bump-title { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: .01em; color: var(--fg); margin-bottom: 8px; }
+  .bump-title span { font-family: var(--body); font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-left: 8px; }
   .bump-plot { min-width: 0; }
   .bump-plot svg { display: block; touch-action: pan-y; cursor: pointer; }
   .bp-rank, .bp-axis { fill: var(--muted); font-family: var(--body); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
   .bp-line { fill: none; stroke: var(--faint); stroke-opacity: .75; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
   .bp-dot { fill: var(--faint); stroke: var(--bg); stroke-width: 2; }
-  .bp-name { fill: var(--muted); font-family: var(--display); font-size: 13px; font-weight: 700; letter-spacing: .02em; }
+  .bp-name { fill: var(--muted); font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: .02em; }
   .bp-team { transition: opacity .15s ease; }
   .bp-team.off { opacity: .4; }
   .bp-team.on .bp-line { stroke: var(--accent); stroke-width: 3; }
   .bp-team.on .bp-dot { fill: var(--accent); }
   .bp-team.on .bp-name { fill: var(--fg); }
-  .bp-note { margin: 8px 0 0; font-size: 13.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .bp-note { margin: 8px 0 0; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
   .bp-note:empty { display: none; }
   .bp-note b { color: var(--fg); font-weight: 600; }
   @media (max-width: 760px) { .bp-name { font-size: 12px; } .bp-line { stroke-width: 1.5; } .bp-team.on .bp-line { stroke-width: 2.5; } }
-  .card-next { margin: -8px 0 18px; font-size: 14px; color: var(--fg); }
-  .card-next .k { font-family: var(--body); font-weight: 600; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-right: 8px; }
+  .card-next { margin: -8px 0 16px; font-size: 14px; color: var(--fg); }
+  .card-next .k { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--muted); margin-right: 8px; }
   table.log a.proto { color: var(--muted); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 2px; }
   table.log a.proto:hover { color: var(--fg); }
   @media (max-width: 760px) {
@@ -497,7 +516,7 @@
   #t-teams.zoned tr[data-zone="mid"] td.rank { box-shadow: inset 3px 0 0 var(--z-mid); }
   #t-teams.zoned tr[data-zone="low"] td.rank { box-shadow: inset 3px 0 0 var(--z-low); }
   #t-teams.zsep tr.zend td { border-bottom-color: var(--faint); }
-  ul.zones { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 13px; color: var(--muted); }
+  ul.zones { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 12px; color: var(--muted); }
   ul.zones[hidden] { display: none; }
   ul.zones li { display: flex; align-items: baseline; gap: 8px; }
   ul.zones i { flex: none; width: 10px; height: 10px; border-radius: 2px; background: var(--zc); align-self: center; }
@@ -510,186 +529,262 @@
 
   /* ================= powłoka: pasek boczny, motywy, Przegląd ================= */
   html { background: var(--bg); }
+  body { margin: 0; }
   body { font-family: var(--body); -webkit-font-smoothing: antialiased; }
   .app { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: 100vh; }
-  .side { position: sticky; top: 0; align-self: start; height: 100vh; display: flex; flex-direction: column; gap: 22px; padding: 22px 14px 18px;
-    background: var(--panel); border-right: 1px solid var(--line); box-sizing: border-box; }
+  .side { position: sticky; top: 0; align-self: start; height: 100vh; display: flex; flex-direction: column; gap: 24px; padding: 24px 12px 16px;
+    background: var(--side); color: var(--side-ink); box-sizing: border-box; }
   .brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; }
-  .brand .logo { width: 54px; filter: none; flex: none; }
-  .brand b { display: block; font-weight: 650; font-size: 16px; line-height: 1.15; letter-spacing: -.01em; }
-  .brand span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .brand .logo { width: 48px; height: 48px; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; box-sizing: border-box; filter: none; flex: none; }
+  .brand b { display: block; font-weight: 600; font-size: 16px; line-height: 1.15; letter-spacing: -.01em; }
+  .brand b { color: #fff; }
+  .brand span { display: block; font-size: 14px; color: var(--side-mute); margin-top: 2px; }
   .nav { display: grid; gap: 2px; }
   .nav button { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 44px; padding: 0 12px; border: 0; border-radius: var(--r);
-    background: none; color: var(--muted); font: inherit; font-weight: 500; text-align: left; cursor: pointer; touch-action: manipulation;
-    transition: background-color .15s ease, color .15s ease, transform .1s ease; }
-  @media (hover: hover) { .nav button:hover { background: var(--raised); color: var(--fg); } }
+    background: none; color: var(--side-ink); font: inherit; font-weight: 500; text-align: left; cursor: pointer; touch-action: manipulation;
+    transition: background-color .14s ease, color .14s ease, transform .14s var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .nav button:hover { background: var(--side-on); color: #fff; } }
   .nav button:active { transform: scale(.98); }
-  .nav button[aria-current="page"] { background: var(--raised); color: var(--fg); font-weight: 600; }
+  .nav button[aria-current="page"] { background: var(--side-on); color: #fff; font-weight: 600; }
   .nav button[aria-current="page"] svg { color: var(--accent); }
   .nav button:focus-visible, .theme button:focus-visible, .lnk:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .nav svg, .theme svg { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
-  .side-foot { margin-top: auto; display: grid; gap: 12px; padding: 0 4px; font-size: 12px; color: var(--dim); line-height: 1.4; }
+  .side-foot { margin-top: auto; display: grid; gap: 12px; padding: 0 4px; font-size: 14px; color: var(--side-mute); line-height: 1.4; }
+  .side-foot .theme { background: var(--side-on); border: 0; }
+  .side-foot .theme button { color: var(--side-mute); }
+  @media (hover: hover) and (pointer: fine) { .side-foot .theme button:hover { color: #fff; } }
+  .side-foot .theme button[aria-pressed="true"] { color: #fff; background: var(--side-on2); box-shadow: none; }
   .side-foot p { margin: 0; padding: 0 4px; }
   .side-foot .theme { display: grid; grid-template-columns: 1fr 1fr; }
   .side-foot .theme button { justify-content: center; padding: 0 8px; }
 
-  .main { position: relative; min-width: 0; width: 100%; max-width: 1800px; box-sizing: border-box; padding: 26px clamp(16px, 3vw, 40px) 56px; display: grid; gap: 22px; align-content: start; }
+  .main { position: relative; min-width: 0; width: 100%; max-width: 1800px; box-sizing: border-box; padding: 32px 32px 64px; display: grid; gap: 24px; align-content: start; }
+  .main:focus { outline: none; }
+  .skip { position: absolute; left: 16px; top: -64px; z-index: 50; background: var(--fg); color: var(--panel); padding: 8px 12px; border-radius: 6px; font-weight: 600; text-decoration: none; transition: transform .2s var(--ease-out); }
+  .skip:focus { transform: translateY(80px); outline: 2px solid var(--accent); outline-offset: 2px; }
   .topbar { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
   .topbar .title { flex: 1 1 360px; display: flex; align-items: center; gap: 12px; min-width: 0; }
   .topbar .title > div { min-width: 0; }
   .m-logo { display: none; }
-  h1 { font-family: var(--display); font-weight: 650; font-size: clamp(26px, 3vw, 32px); line-height: 1.1; letter-spacing: -.02em; text-transform: none; margin: 0; }
+  h1 { font-family: var(--display); font-weight: 600; font-size: 30px; line-height: 1.1; letter-spacing: -.02em; text-transform: none; margin: 0; }
   .meta { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
-  .tools { flex: none; margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .tools { flex: none; margin-left: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
   .range-label { display: none; }
-  .theme { display: inline-flex; gap: 2px; padding: 3px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
-  .theme button { display: inline-flex; align-items: center; gap: 7px; min-height: 38px; padding: 0 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--muted);
-    background: none; border: 0; border-radius: calc(var(--r) - 3px); cursor: pointer; touch-action: manipulation; transition: color .15s ease, background-color .15s ease; }
+  .theme { display: inline-flex; gap: 2px; padding: 2px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); }
+  .theme button { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 12px; font: inherit; font-size: 14px; font-weight: 600; color: var(--muted);
+    background: none; border: 0; border-radius: calc(var(--r) - 2px); cursor: pointer; touch-action: manipulation; transition: color .15s ease, background-color .15s ease; }
   .theme button svg { width: 18px; height: 18px; }
   @media (hover: hover) { .theme button:hover { color: var(--fg); } }
-  .theme button[aria-pressed="true"] { color: var(--fg); background: var(--raised); box-shadow: inset 0 -2px 0 var(--accent); }
+  .theme button[aria-pressed="true"] { color: var(--fg); background: var(--raised); }
 
   /* typografia: jedna rodzina, bez wersalików */
-  h2 { font-family: var(--display); font-weight: 650; font-size: 20px; letter-spacing: -.01em; text-transform: none; padding: 0; }
-  h2 small { font-size: 13px; }
-  th { font-family: var(--body); font-weight: 600; letter-spacing: 0; text-transform: none; font-size: 12.5px; }
-  table.grouped thead tr.grp th { font-family: var(--body); font-weight: 650; font-size: 12px; letter-spacing: 0; text-transform: none; }
-  td.rank { font-family: var(--body); font-weight: 600; font-size: 15px; color: var(--muted); padding-top: 10px; }
-  #t-teams .name { font-family: var(--body); font-weight: 600; font-size: 15px; letter-spacing: 0; }
+  h2 { font-family: var(--display); font-weight: 600; font-size: 20px; letter-spacing: -.01em; text-transform: none; padding: 0; }
+  h2 small { font-size: 12px; }
+  th { font-family: var(--body); font-weight: 600; letter-spacing: 0; text-transform: none; font-size: 12px; }
+  table.grouped thead tr.grp th { font-family: var(--body); font-weight: 600; font-size: 12px; letter-spacing: 0; text-transform: none; }
+  td.rank { font-family: var(--body); font-weight: 600; font-size: 14px; color: var(--muted); padding-top: 8px; }
+  #t-teams .name { font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: 0; }
   .range .seg-btn, .block-head .seg-btn, .more { font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: 0; text-transform: none; }
-  .block-head .seg { gap: 20px; }
-  .g-team { font-family: var(--body); font-weight: 600; font-size: 15px; letter-spacing: 0; text-transform: none; }
-  .g-pts, .g-pct { font-family: var(--body); font-weight: 650; font-size: 20px; }
-  .round h3, .bump-title, .log-title { font-family: var(--body); font-weight: 650; font-size: 15px; letter-spacing: 0; }
-  .bp-name { font-family: var(--body); font-size: 12.5px; font-weight: 600; letter-spacing: 0; }
-  .tile .v { font-family: var(--body); font-weight: 650; font-size: 26px; }
-  .award-view .leader .nm { font-family: var(--body); font-weight: 650; font-size: 22px; }
-  .award-view .leader .val { font-family: var(--body); font-weight: 650; font-size: 30px; }
-  .award-view .val { font-family: var(--body); font-weight: 650; font-size: 17px; }
+  .block-head .seg { gap: 16px; }
+  .g-team { font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: 0; text-transform: none; }
+  .g-pts, .g-pct { font-family: var(--body); font-weight: 600; font-size: 20px; }
+  .round h3, .bump-title, .log-title { font-family: var(--body); font-weight: 600; font-size: 14px; letter-spacing: 0; }
+  .bp-name { font-family: var(--body); font-size: 12px; font-weight: 600; letter-spacing: 0; }
+  .tile .v { font-family: var(--body); font-weight: 600; font-size: 24px; }
+  .award-view .leader .nm { font-family: var(--body); font-weight: 600; font-size: 20px; }
+  .award-view .leader .val { font-family: var(--body); font-weight: 600; font-size: 30px; }
+  .award-view .val { font-family: var(--body); font-weight: 600; font-size: 16px; }
   .award-view .no { font-family: var(--body); }
-  .card-head h2 { font-size: 28px; padding: 0 56px 0 0; }
+  .card-head h2 { font-size: 24px; padding: 0 48px 0 0; }
   .fm { font-family: var(--body); }
-  details.rules-box > summary h2 { font-size: 17px; }
+  details.rules-box > summary h2 { font-size: 16px; }
   .logo { filter: none; }
 
   /* widoki */
   .view { min-width: 0; }
   .view > .block-head h2, .view > h2.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .view > .block-head { justify-content: flex-start; }
-  #przeglad { display: grid; gap: 14px; align-content: start; }
+  #przeglad { display: grid; gap: 16px; align-content: start; }
   #przeglad[hidden] { display: none; }
 
-  .card-p { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px 20px; min-width: 0; }
-  .ph { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 14px; }
-  .ph h2 { font-size: 15px; margin: 0; }
-  .ps { color: var(--muted); font-size: 12.5px; }
-  .lnk { font: inherit; font-size: 13px; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 0 2px; min-height: 32px; cursor: pointer; touch-action: manipulation; }
+  .card-p { background: var(--panel); border-radius: 8px; padding: 24px; min-width: 0; }
+  .ph { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 4px 16px; margin-bottom: 12px; }
+  .ph h2 { font-size: 20px; margin: 0; }
+  .ps { color: var(--muted); font-size: 14px; }
+  .lnk { font: inherit; font-size: 14px; font-weight: 600; color: var(--accent); background: none; border: 0; padding: 0 2px; min-height: 32px; cursor: pointer; touch-action: manipulation; }
   @media (hover: hover) { .lnk:hover { text-decoration: underline; text-underline-offset: 3px; } }
   .pending { margin: 0; color: var(--muted); }
-
-  .kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 14px; min-width: 0; }
-  .kpi .k { color: var(--muted); font-size: 13px; font-weight: 500; }
-  .kpi .v { font-size: 30px; font-weight: 650; letter-spacing: -.02em; line-height: 1.1; margin: 6px 0 2px; font-variant-numeric: tabular-nums; }
-  .kpi .v small { font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 3px; letter-spacing: 0; }
-  .kpi .d { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .spark { display: block; width: 100%; height: 36px; margin-top: 10px; overflow: visible; }
-  .spark polyline { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
-  .spark line { stroke: var(--line); stroke-width: 1; vector-effect: non-scaling-stroke; }
-  .spark circle { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
-
-  .grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-  .nr { display: grid; gap: 8px; }
-  .nr-row { display: grid; grid-template-columns: minmax(5.5rem, 9.5rem) minmax(0, 1fr) 3.8rem; align-items: center; gap: 10px; font-size: 13.5px; }
-  .nr-row .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-  .nr-track { position: relative; height: 16px; }
-  .nr-track::before { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 1px; background: var(--faint); }
-  .nr-bar { position: absolute; top: 2px; bottom: 2px; border-radius: 3px; min-width: 2px; }
-  .nr-bar.pos { left: 50%; background: var(--accent); }
-  .nr-bar.neg { right: 50%; background: var(--faint); }
-  .nr-row .v { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .scatter { display: block; width: 100%; height: auto; overflow: visible; }
-  .sc-grid { stroke: var(--line); stroke-width: 1; }
-  .sc-mean { stroke: var(--faint); stroke-width: 1; stroke-dasharray: 4 4; }
-  .sc-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
-  .sc-num { fill: var(--accent-ink); font: 650 11px var(--body); pointer-events: none; }
-  .sc-lbl { fill: var(--fg); font: 500 12px var(--body); }
-  .sc-ax { fill: var(--muted); font: 500 12px var(--body); }
-
-  .insights { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .ins { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
-  .ins .tg { justify-self: start; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; }
-  .tg.t1 { background: var(--tg1-bg); color: var(--tg1-fg); }
-  .tg.t2 { background: var(--tg2-bg); color: var(--tg2-fg); }
-  .tg.t3 { background: var(--tg3-bg); color: var(--tg3-fg); }
-  .tg.t4 { background: var(--tg4-bg); color: var(--tg4-fg); }
-  .ins b { font-size: 15px; font-weight: 650; line-height: 1.3; }
-  .ins p { margin: 0; color: var(--muted); font-size: 13.5px; }
-
-  .lst { list-style: none; margin: 0; padding: 0; display: grid; }
-  .lst li { display: grid; grid-template-columns: 1.8rem minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .lst li:last-child { border-bottom: 0; padding-bottom: 0; }
-  .lst li:first-child { padding-top: 0; }
-  .lst .no { color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
-  .lst .who { display: grid; min-width: 0; }
-  .lst .nm { font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .lst .tm { font-size: 12.5px; color: var(--muted); }
-  .lst .val { font-weight: 650; font-variant-numeric: tabular-nums; text-align: right; }
-
-  .rrow { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line);
-    color: var(--muted); text-decoration: none; }
-  .rrow:last-of-type { border-bottom: 0; }
-  a.rrow:hover .s { color: var(--accent); }
-  .rrow .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
-  .rrow .t:first-child { text-align: right; }
-  .rrow .s { font-weight: 650; font-variant-numeric: tabular-nums; color: var(--fg); transition: color .15s ease; }
-  .rrow .w { color: var(--fg); font-weight: 650; }
-  .upc { display: grid; gap: 7px; padding: 12px 0; border-bottom: 1px solid var(--line); }
-  .upc:first-child { padding-top: 0; }
-  .upc:last-child { border-bottom: 0; padding-bottom: 0; }
-  .upc .when { font-size: 12.5px; color: var(--muted); }
-  .upc .tms { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: baseline; gap: 12px; font-weight: 600; }
-  .upc .tms span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .upc .tms span:last-child { text-align: right; }
-  .upc .tms em { font-style: normal; font-weight: 500; color: var(--muted); font-variant-numeric: tabular-nums; margin: 0 4px; }
-  .chance { display: flex; height: 6px; border-radius: 3px; overflow: hidden; background: var(--raised); gap: 2px; }
+  .chance { display: flex; height: 6px; border-radius: 2px; overflow: hidden; background: var(--raised); gap: 2px; }
   .chance i { display: block; background: var(--accent); }
   .chance i + i { background: var(--faint); }
-  #przeglad details.rules-box { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 0 20px; }
+  #przeglad details.rules-box { background: var(--panel); border: 0; border-radius: 8px; padding: 0 24px; }
   .foot { margin: 0; }
 
-  @media (max-width: 1100px) {
-    .kpis, .insights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* ----- przegląd: ranking drużyn (sortowany) ----- */
+  .o-led { --cols: 36px minmax(150px, 1.1fr) 64px minmax(170px, 1.5fr) 72px 72px 128px minmax(170px, 1.2fr); margin-top: 4px; }
+  .o-hd, .o-row { display: grid; grid-template-columns: var(--cols); align-items: center; column-gap: 12px; padding: 0 8px; }
+  .o-hd { min-height: 36px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .o-hd button { font: inherit; color: inherit; background: none; border: 0; display: inline-flex; align-items: center; gap: 4px; min-height: 36px; padding: 0;
+    border-radius: 4px; cursor: pointer; touch-action: manipulation; transition: color .12s ease; }
+  .o-hd .num button { justify-content: flex-end; width: 100%; }
+  .o-hd button::after { content: ""; width: 0; height: 0; border: 4px solid transparent; opacity: 0; }
+  .o-hd [aria-sort="descending"] button, .o-hd [aria-sort="ascending"] button { color: var(--fg); }
+  .o-hd [aria-sort="descending"] button::after { border-top-color: currentColor; border-bottom-width: 0; opacity: 1; }
+  .o-hd [aria-sort="ascending"] button::after { border-bottom-color: currentColor; border-top-width: 0; opacity: 1; }
+  .o-row { min-height: 48px; border-radius: 6px; transition: background-color .12s ease; animation: o-in .26s var(--ease-out) both; animation-delay: calc(var(--i) * 24ms); }
+  .o-led.ready .o-row { animation: none; }
+  .o-row.on { background: var(--raised); }
+  .o-row:focus-visible, .o-hd button:focus-visible, .o-upk:focus-visible, .o-dot:focus-visible, .o-res:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .o-row:focus-visible { outline-offset: -2px; }
+  @media (hover: hover) and (pointer: fine) { .o-row:hover { background: var(--raised); } .o-hd button:hover { color: var(--fg); } }
+  .o-rk { font: 700 18px/1 var(--display); color: var(--muted); }
+  .o-tm { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .o-tm small { display: none; font-weight: 500; color: var(--muted); font-size: 14px; margin-left: 8px; white-space: nowrap; }
+  .o-net { display: grid; grid-template-columns: minmax(0, 1fr) 64px; align-items: center; column-gap: 8px; }
+  .o-bar { position: relative; height: 10px; }
+  .o-bar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+  .o-bar i.p { left: 50%; background: var(--accent); }
+  .o-bar i.n { right: 50%; background: var(--faint); }
+  .o-bar::after { content: ""; position: absolute; left: 50%; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--step2); }
+  .o-nv { font-weight: 700; text-align: right; }
+  .o-fb { display: inline-flex; gap: 4px; justify-content: flex-end; }
+  .o-fb i { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 4px; font: 700 12px/1 var(--body); font-style: normal; }
+  .o-fb i.w { background: var(--fg); color: var(--panel); }
+  .o-fb i.l { background: var(--step2); color: var(--muted); }
+  .o-best { display: inline-block; background: var(--accent-soft); color: var(--fg); font-weight: 700; border-radius: 4px; padding: 0 4px; margin-right: -4px; }
+  .o-nx { color: var(--fg2); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .o-nx span { color: var(--muted); }
+  @keyframes o-in { from { opacity: 0; transform: translateY(6px); } }
+
+  /* ----- przegląd: siatki ----- */
+  .o-g2 { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .o-stack { display: grid; gap: 16px; align-content: start; }
+  .o-g3 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); grid-template-areas: "up pv" "rs pv"; gap: 16px; align-items: start; }
+  .o-g3 > .o-up { grid-area: up; } .o-g3 > .o-pvbox { grid-area: pv; position: sticky; top: 24px; } .o-g3 > .o-rsbox { grid-area: rs; }
+
+  /* ----- przegląd: atak i obrona ----- */
+  .o-chart { position: relative; }
+  .o-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .o-chart text { font-family: var(--body); fill: var(--muted); font-size: 12px; }
+  .o-q { fill: var(--raised); }
+  .o-dot { cursor: default; transition: opacity .14s ease; }
+  .o-dot circle { fill: var(--accent); }
+  .o-dot text { fill: var(--accent-ink); font-weight: 700; text-anchor: middle; pointer-events: none; }
+  .o-chart.has .o-dot:not(.on) { opacity: .28; }
+  .o-dot.on circle { stroke: var(--fg); stroke-width: 2; }
+  .o-tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--panel); border-radius: 6px; padding: 8px 12px; font-size: 14px; line-height: 1.35;
+    white-space: nowrap; opacity: 0; transform: scale(.97); transform-origin: var(--ox, 50%) var(--oy, 100%); transition: opacity .125s ease-out, transform .125s ease-out; z-index: 3; }
+  .o-tip.show { opacity: 1; transform: none; }
+  .o-tip b { display: block; font-weight: 700; }
+  .o-tip span { opacity: .82; }
+
+  /* ----- przegląd: wnioski i zawodnicy ----- */
+  .o-facts { display: grid; gap: 12px; margin-top: 4px; }
+  .o-facts p { margin: 0; font-size: 16px; line-height: 1.5; color: var(--fg2); text-wrap: pretty; }
+  .o-facts b { color: var(--fg); font-weight: 600; }
+  .o-pl { width: 100%; border-collapse: collapse; }
+  .o-pl td { padding: 12px 8px; vertical-align: baseline; border: 0; }
+  .o-pl tr { transition: background-color .12s ease; }
+  @media (hover: hover) and (pointer: fine) { .o-pl tr:hover { background: var(--raised); } }
+  .o-pl td:first-child { width: 32px; font: 700 18px/1 var(--display); color: var(--muted); border-radius: 6px 0 0 6px; }
+  .o-pl td:last-child { text-align: right; border-radius: 0 6px 6px 0; }
+  .o-pl .t { display: block; font-size: 14px; color: var(--muted); }
+  .o-pl button.pl { font-weight: 600; }
+  .o-rb { display: inline-grid; place-items: center; min-width: 48px; height: 30px; padding: 0 8px; border-radius: 4px; font: 700 16px/1 var(--body); }
+  .o-rb.b1 { background: var(--rb1); color: var(--rb1t); } .o-rb.b2 { background: var(--rb2); color: var(--rb2t); } .o-rb.b3 { background: var(--rb3); color: var(--rb3t); } .o-rb.b4 { background: var(--step2); color: var(--fg); }
+  .o-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .o-legend span { display: inline-flex; align-items: center; gap: 4px; }
+  .o-legend i { width: 14px; height: 14px; border-radius: 2px; display: inline-block; }
+
+  /* ----- przegląd: mecze i zapowiedź ----- */
+  .o-day { font-size: 14px; font-weight: 600; color: var(--muted); margin: 16px 0 4px; padding: 0 8px; }
+  .o-day:first-child { margin-top: 4px; }
+  .o-upk { display: grid; grid-template-columns: 52px minmax(0, 1fr); column-gap: 12px; align-items: baseline; width: 100%; min-height: 48px; padding: 12px 8px; border: 0;
+    border-radius: 6px; background: none; color: var(--fg); font: inherit; text-align: left; cursor: pointer; touch-action: manipulation;
+    transition: background-color .12s ease, transform .14s var(--ease-out); }
+  .o-upk:active { transform: scale(.99); }
+  .o-upk[aria-pressed="true"] { background: var(--step2); }
+  @media (hover: hover) and (pointer: fine) { .o-upk[aria-pressed="false"]:hover { background: var(--raised); } }
+  .o-upk .tmx { color: var(--muted); font-weight: 600; font-size: 14px; }
+  .o-upk .vs { font-weight: 600; }
+  .o-upk .vs i { font-style: normal; color: var(--muted); font-weight: 500; padding: 0 4px; }
+  .o-pvh { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 16px; margin: 4px 0 16px; }
+  .o-pvh b { display: block; font: 700 24px/32px var(--display); }
+  .o-pvh span { color: var(--muted); font-size: 14px; }
+  .o-pvh .b { text-align: right; }
+  .o-pvh .vs { font: 700 16px/1 var(--display); color: var(--muted); }
+  .o-cmp { display: grid; gap: 12px; }
+  .o-cr { display: grid; grid-template-columns: 72px minmax(0, 1fr) minmax(0, 1fr) 72px; grid-template-areas: "lab lab lab lab" "va ba bb vb"; column-gap: 8px; row-gap: 4px; align-items: center; }
+  .o-cr .lab { grid-area: lab; text-align: center; font-size: 14px; font-weight: 600; color: var(--fg2); }
+  .o-cr .lab small { font-weight: 500; color: var(--muted); font-size: 14px; }
+  .o-cr .va { grid-area: va; } .o-cr .vb { grid-area: vb; text-align: right; }
+  .o-cr .va, .o-cr .vb { font-weight: 500; color: var(--fg2); line-height: 1.15; }
+  .o-cr .va small, .o-cr .vb small { display: block; font-size: 14px; color: var(--muted); }
+  .o-cr .win { font-weight: 700; color: var(--fg); }
+  .o-cr .ba { grid-area: ba; } .o-cr .bb { grid-area: bb; }
+  .o-trk { height: 10px; background: var(--raised); border-radius: 2px; overflow: hidden; display: flex; }
+  .o-cr .ba .o-trk { justify-content: flex-end; }
+  .o-trk i { display: block; height: 100%; width: 100%; background: var(--faint); border-radius: 2px; transform: scaleX(var(--v)); transition: transform .24s var(--ease-out), background-color .16s ease; }
+  .o-cr .ba .o-trk i { transform-origin: right center; } .o-cr .bb .o-trk i { transform-origin: left center; }
+  .o-trk i.win { background: var(--accent); }
+  .o-pvnote { margin: 16px 0 0; font-size: 14px; color: var(--muted); text-wrap: pretty; }
+  .o-res { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 12px; min-height: 44px; padding: 0 8px; border-radius: 6px;
+    color: inherit; text-decoration: none; transition: background-color .12s ease; }
+  @media (hover: hover) and (pointer: fine) { a.o-res:hover { background: var(--raised); } }
+  .o-res .h { text-align: right; } .o-res .a { text-align: left; }
+  .o-res .h, .o-res .a { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-weight: 500; }
+  .o-res .w { color: var(--fg); font-weight: 700; }
+  .o-res .s { display: grid; grid-template-columns: 3ch 1.2ch 3ch; column-gap: 4px; font: 700 18px/1 var(--display); }
+  .o-res .s b:first-child { text-align: right; } .o-res .s i { font-style: normal; text-align: center; color: var(--muted); }
+
+  @media (max-width: 1280px) {
+    .o-led { --cols: 36px minmax(140px, 1.2fr) 64px minmax(170px, 2fr) 72px 72px 128px; }
+    .o-led .o-nxc { display: none; }
   }
-  @media (max-width: 900px) {
-    .grid2 { grid-template-columns: minmax(0, 1fr); }
+  @media (max-width: 1100px) {
+    .o-g2 { grid-template-columns: minmax(0, 1fr); }
+    .o-g3 { grid-template-columns: minmax(0, 1fr); grid-template-areas: "up" "pv" "rs"; }
+    .o-g3 > .o-pvbox { position: static; }
+  }
+  @media (max-width: 960px) {
+    .o-led { --cols: 36px minmax(130px, 1.2fr) 64px minmax(160px, 2fr) 128px; }
+    .o-led .o-atk, .o-led .o-def { display: none; }
   }
   /* telefon i tablet: pasek boczny zamienia się w dolny pasek z pięcioma zakładkami */
   @media (max-width: 860px) {
     .app { grid-template-columns: minmax(0, 1fr); }
     .side { position: fixed; inset: auto 0 0 0; height: auto; flex-direction: row; gap: 0; z-index: 20; border-right: 0; border-top: 1px solid var(--line);
-      padding: 6px max(8px, env(safe-area-inset-left, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-right, 0px)); }
+      padding: 4px max(8px, env(safe-area-inset-left, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(8px, env(safe-area-inset-right, 0px)); border-top-color: var(--side-on); }
     .brand, .side-foot { display: none; }
     .nav { grid-template-columns: repeat(5, minmax(0, 1fr)); width: 100%; gap: 2px; }
-    .nav button { flex-direction: column; justify-content: center; gap: 3px; min-height: 52px; padding: 6px 2px; font-size: 11.5px; text-align: center; }
-    .main { padding: 14px 16px calc(88px + env(safe-area-inset-bottom, 0px)); gap: 16px; }
+    .nav button { flex-direction: column; justify-content: center; gap: 2px; min-height: 52px; padding: 4px 2px; font-size: 12px; text-align: center; }
+    .main { padding: 16px 16px calc(80px + env(safe-area-inset-bottom, 0px)); gap: 16px; }
     .m-logo { display: block; width: 40px; height: auto; flex: none; }
-    h1 { font-size: 26px; }
-    .meta { font-size: 13px; line-height: 1.35; }
+    h1 { font-size: 24px; }
+    .meta { font-size: 12px; line-height: 1.35; }
     .tools { width: 100%; justify-content: space-between; flex-wrap: nowrap; }
     .range { flex: 1; min-width: 0; }
     .range .seg { width: 100%; }
-    .theme button { padding: 0 10px; min-width: 44px; justify-content: center; min-height: 44px; }
+    .theme button { padding: 0 8px; min-width: 44px; justify-content: center; min-height: 44px; }
     .theme button span { display: none; }
   }
-  @media (max-width: 560px) {
-    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .kpi { padding: 14px 14px 12px; }
-    .kpi .v { font-size: 25px; }
-    .insights { grid-template-columns: minmax(0, 1fr); gap: 10px; }
-    .card-p { padding: 16px 16px 18px; border-radius: 12px; }
-    .nr-row { grid-template-columns: minmax(4.5rem, 7.2rem) minmax(0, 1fr) 3.4rem; gap: 8px; font-size: 13px; }
-    .rrow { gap: 8px; font-size: 14px; }
+  @media (max-width: 720px) {
+    .card-p { padding: 16px; }
+    #przeglad details.rules-box { padding: 0 16px; }
+    .o-led { --cols: 32px minmax(0, 1fr) 80px; }
+    .o-hd { display: none; }
+    .o-row { grid-template-columns: var(--cols); grid-template-areas: "rk tm nv" ". bar bar"; row-gap: 4px; padding: 8px 4px; }
+    .o-rk { grid-area: rk; } .o-tm { grid-area: tm; white-space: normal; line-height: 1.25; } .o-tm small { display: inline; }
+    .o-led .o-rec, .o-led .o-form, .o-led .o-nxc, .o-led .o-atk, .o-led .o-def { display: none; }
+    .o-net { display: contents; } .o-bar { grid-area: bar; } .o-nv { grid-area: nv; }
+    .o-res { min-height: 52px; padding: 4px; column-gap: 8px; }
+    .o-res .h, .o-res .a { white-space: normal; line-height: 1.25; font-size: 14px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .o-row { animation: none; }
+    .o-trk i { transition: none; }
+    .o-tip { transition: opacity .125s ease-out; }
+    .o-upk:active { transform: none; }
   }
 
   /* ===== poprawki po audycie ===== */
@@ -698,9 +793,10 @@
   .theme button, .lnk { transition: color .15s ease, background-color .15s ease, transform .16s ease-out; }
   .theme button:active, .lnk:active { transform: scale(.97); }
   .view > .block-head:not(:has(.seg)) { padding-bottom: 12px; }
-  .ins p, .ins b, .note, .meta { text-wrap: pretty; }
-  .lst li, .award-view li, .award-view .leader { position: relative; }
-  .lst .nm::after, .award-view .nm::after { content: ""; position: absolute; inset: 0; }
+  .note, .meta { text-wrap: pretty; }
+  h1, h2 { text-wrap: balance; }
+  .award-view li, .award-view .leader { position: relative; }
+  .award-view .nm::after { content: ""; position: absolute; inset: 0; }
   @media (max-width: 860px) {
     .lnk { min-height: 44px; }
     .block-head .seg-btn { min-height: 44px; }
@@ -712,25 +808,19 @@
 
   /* ===== krój: Barlow (tekst) i Barlow Semi Condensed (nagłówki i liczby) ===== */
   body { font-size: 16px; font-variant-numeric: tabular-nums; }
-  h1, .brand b, .kpi .v, .lst .val, .tile .v, .g-pts, .g-pct, .award-view .leader .nm, .award-view .leader .val, .award-view .val, .card-head h2 {
+  h1, .brand b, .tile .v, .g-pts, .g-pct, .award-view .leader .nm, .award-view .leader .val, .award-view .val, .card-head h2 {
     font-family: var(--display); letter-spacing: 0; }
-  h1 { font-weight: 700; font-size: clamp(30px, 3.2vw, 38px); letter-spacing: -.005em; }
-  .brand b { font-weight: 700; font-size: 19px; }
-  .kpi .v { font-weight: 600; font-size: 36px; }
-  .kpi .v small { font-family: var(--body); }
-  .meta { font-size: 15px; }
-  th { font-size: 13px; }
-  .kpi .k, .ps, .lst .tm, .upc .when, .ins p { font-size: 14px; }
+  h1 { font-weight: 700; font-size: 36px; line-height: 40px; letter-spacing: -.005em; }
+  .brand b { font-weight: 700; font-size: 18px; }
+  .meta { font-size: 14px; }
+  th { font-size: 12px; }
+  .ps { font-size: 14px; }
   .nav button { font-size: 16px; }
-  .ph h2 { font-size: 17px; }
-  .lst .val, .nr-row .v { font-size: 17px; }
-  .ins b { font-size: 16.5px; }
-  .tg { font-size: 13px !important; }
-  .sc-lbl, .sc-ax { font-size: 13px; }
-  @media (max-width: 860px) { .nav button { font-size: 12px; } h1 { font-size: 30px; } .kpi .v { font-size: 30px; } }
+  @media (max-width: 860px) { .nav button { font-size: 12px; } h1 { font-size: 30px; } }
 </style>
 
 <script>(function(){try{var t=localStorage.getItem('pr-motyw');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<a class="skip" href="#tresc">Przejdź do treści</a>
 <div class="app">
   <aside class="side">
     <div class="brand">
@@ -753,7 +843,7 @@
     </div>
   </aside>
 
-  <div class="main">
+  <main class="main" id="tresc" tabindex="-1">
     <header class="topbar">
       <div class="title">
         <span id="m-logo-slot"></span>
@@ -768,36 +858,39 @@
     </header>
 
     <section class="view" id="przeglad" aria-label="Przegląd ligi">
-      <div class="kpis" id="kpis"></div>
-      <div class="grid2">
-        <article class="card-p">
-          <div class="ph"><h2>Bilans na 100 posiadań</h2><span class="ps">NetRtg: punkty zdobyte minus stracone</span></div>
-          <div class="nr" id="ov-net"></div>
+      <article class="card-p" aria-labelledby="h-led">
+        <div class="ph"><h2 id="h-led">Ranking drużyn</h2><span class="ps">Bilans punktów na 100 posiadań (NetRtg): zdobyte minus stracone</span></div>
+        <div class="o-led" id="ov-led" role="table" aria-label="Ranking drużyn"></div>
+        <p class="note" id="ov-led-note"></p>
+      </article>
+      <div class="o-g2">
+        <article class="card-p" aria-labelledby="h-sc">
+          <div class="ph"><h2 id="h-sc">Atak i obrona</h2><span class="ps">Numer to miejsce w rankingu</span></div>
+          <div class="o-chart" id="ov-scatter"><div class="o-tip" id="ov-tip" role="tooltip"></div></div>
         </article>
-        <article class="card-p">
-          <div class="ph"><h2>Atak i obrona</h2><span class="ps" id="ov-sc-sub">punkty zdobyte i stracone na 100 posiadań</span></div>
-          <div id="ov-scatter"></div>
-        </article>
+        <div class="o-stack">
+          <article class="card-p" aria-labelledby="h-fa">
+            <div class="ph"><h2 id="h-fa">Co widać w danych</h2></div>
+            <div class="o-facts" id="ov-facts"></div>
+          </article>
+          <article class="card-p" aria-labelledby="h-pl">
+            <div class="ph"><h2 id="h-pl">Najlepsi zawodnicy</h2><button type="button" class="lnk" data-go="zawodnicy">Wszyscy zawodnicy</button></div>
+            <div id="ov-players"></div>
+          </article>
+        </div>
       </div>
-      <div class="insights" id="insights"></div>
-      <div class="grid2">
-        <article class="card-p">
-          <div class="ph"><h2>Czołówka rankingu drużyn</h2><button type="button" class="lnk" data-go="druzyny">Cały ranking</button></div>
-          <ol class="lst" id="ov-teams"></ol>
-        </article>
-        <article class="card-p">
-          <div class="ph"><h2>Najlepsi zawodnicy</h2><button type="button" class="lnk" data-go="zawodnicy">Wszyscy zawodnicy</button></div>
-          <ol class="lst" id="ov-players"></ol>
-        </article>
-      </div>
-      <div class="grid2">
-        <article class="card-p">
-          <div class="ph"><h2>Ostatnie wyniki</h2><button type="button" class="lnk" data-go="mecze">Wszystkie mecze</button></div>
-          <div id="ov-results"></div>
-        </article>
-        <article class="card-p">
-          <div class="ph"><h2>Najbliższe mecze</h2><span class="ps" id="ov-next-sub"></span></div>
+      <div class="o-g3">
+        <article class="card-p o-up" aria-labelledby="h-up">
+          <div class="ph"><h2 id="h-up">Najbliższe mecze</h2><span class="ps">wybierz mecz, żeby zobaczyć zapowiedź</span></div>
           <div id="ov-next"></div>
+        </article>
+        <article class="card-p o-pvbox" aria-labelledby="h-pv" aria-live="polite">
+          <div class="ph"><h2 id="h-pv">Zapowiedź meczu</h2><span class="ps" id="ov-pv-when"></span></div>
+          <div id="ov-pv"></div>
+        </article>
+        <article class="card-p o-rsbox" aria-labelledby="h-rs">
+          <div class="ph"><h2 id="h-rs">Ostatnie wyniki</h2><button type="button" class="lnk" data-go="mecze">Wszystkie mecze</button></div>
+          <div id="ov-results"></div>
         </article>
       </div>
         <details class="rules-box" id="zasady">
@@ -805,11 +898,12 @@
         <ul class="rules">
           <li><b>Dane.</b> Wyłącznie protokoły meczów i składy z systemu ligi. Przełącznik na górze wybiera zakres: „Cały sezon” to wszystkie mecze, „Ostatnie 5 meczów” to pięć ostatnich meczów każdej drużyny i każdego zawodnika. Zakres zmienia rankingi, statystyki i zmiany miejsc.</li>
           <li><b>Ranking drużyn.</b> Kolejność według NetRtg, czyli różnicy punktów na 100 posiadań. Przy równym NetRtg decyduje średnia różnica punktów.</li>
+          <li><b>Korekta o siłę rywali.</b> Od 5. kolejki kolumna „Po korekcie”: ocena drużyny to średnia z jej meczów, w której do bilansu meczu na 100 posiadań dodaje się ocenę rywala. Wszystkie oceny liczy się razem, aż przestaną się zmieniać, a średnia ligi wynosi 0. Wygrana z mocnym rywalem znaczy więcej niż taka sama wygrana ze słabym. Przy kilku meczach ocena jest przybliżana do zera (jakby drużyna miała jeden mecz więcej, zremisowany z przeciętnym rywalem). „Siła rywali” to średnia ocena drużyn, z którymi drużyna grała.</li>
           <li><b>Tabela.</b> Tradycyjna tabela ligi, zawsze z całego sezonu: 2 punkty za zwycięstwo, 1 za porażkę. Przy równej liczbie punktów decydują mecze między tymi drużynami, potem różnica punktów. Znaczniki przy miejscu pokazują, dokąd prowadzi dane miejsce po rundzie zasadniczej: 1-8 play-off, 9-12 walka o miejsca 9-12, 13-15 walka o miejsca 13-15 (każdy z każdym, mecz i rewanż).</li>
           <li><b>Cztery czynniki.</b> W statystykach drużyn: skuteczność (eFG%), straty (TOV% – część posiadań zakończonych stratą), zbiórki w ataku (ORB% – część niecelnych rzutów zebranych w ataku) i rzuty wolne (FT/FGA – celne wolne na rzut z gry), osobno w ataku i w obronie. Kolor: zielony – lepiej od średniej ligi, czerwony – gorzej. „Rywale” pokazuje statystyki przeciwników z tych samych meczów.</li>
           <li><b>Na 40 minut.</b> W statystykach zawodników liczby przeliczone na 40 minut gry, tylko dla grających średnio co najmniej 15 minut. Procenty bez zmian.</li>
           <li><b>Terminarz i zapowiedź.</b> Zaplanowane mecze pochodzą z terminarza na stronie ligi i mogą się zmienić. Od 4. kolejki przy zaplanowanych meczach jest szansa wygranej: oczekiwana różnica punktów z NetRtg obu drużyn (przybliżonego do średniej przy małej liczbie meczów) i średniego tempa ligi. To prawdopodobieństwo, nie typ.</li>
-          <li><b>Ranking zawodników.</b> Tylko zawodnicy grający średnio co najmniej 15 minut. Ocena składa się z czterech części: wpływ na wygrywanie 40%, skuteczność przy obciążeniu 25%, PIE 20%, siła rywali 15%. Każda część jest porównywana ze średnią ligi. 50 to średnia, 60 to lepiej niż mniej więcej 5 na 6 zawodników, 40 – gorzej.</li>
+          <li><b>Ranking zawodników.</b> Tylko zawodnicy, którzy zagrali co najmniej połowę meczów swojej drużyny (w wybranym zakresie) i średnio co najmniej 15 minut. Mecz bez minut na boisku się nie liczy. Ocena składa się z czterech części: wpływ na wygrywanie 40%, skuteczność przy obciążeniu 25%, PIE 20%, siła rywali 15%. Każda część jest porównywana ze średnią ligi. 50 to średnia, 60 to lepiej niż mniej więcej 5 na 6 zawodników, 40 – gorzej.</li>
           <li><b>Pozycja.</b> Pierwsza wpisana w systemie ligi. Bez pozycji – według wzrostu: zawodnik dostaje pozycję, której średni wzrost w lidze (liczony z zawodników mających pozycję w systemie) jest najbliższy jego wzrostowi. Zawodnik bez pozycji i wzrostu jest tylko w zestawieniu „Wszyscy”.</li>
           <li><b>Wpływ na wygrywanie (40%).</b> Bilans drużyny na 100 posiadań, gdy zawodnik jest na boisku, różnica między grą z nim i bez niego oraz bilans meczów drużyny. Liczony z +/- w protokołach i z minut.</li>
           <li><b>Skuteczność przy obciążeniu (25%).</b> TS% powyżej średniej ligi pomnożone przez USG%. Najwięcej zyskuje ten, kto rzuca często i celnie.</li>
@@ -900,7 +994,7 @@
     </section>
 
     <footer class="foot">Power Ranking TALK · wersja __VERSION__</footer>
-  </div>
+  </main>
 </div>
 
 <dialog class="card" id="card" aria-labelledby="card-name">
@@ -953,6 +1047,12 @@
 
   /* ---------- data ---------- */
   const round = Math.max(...DATA.mecze_druzyn.map((r) => Number(r.kolejka)));
+  /* stan kolejek: mecze z protokołów wobec meczów z terminarza (bez terminarza: połowa drużyn) */
+  const roundCnt = (k) => new Set(DATA.mecze_druzyn.filter((r) => Number(r.kolejka) === k).map((r) => r.mecz_id)).size;
+  const protIds = new Set(DATA.mecze_druzyn.map((r) => r.mecz_id));
+  const roundExp = (k) => ((DATA.terminarz && DATA.terminarz.mecze) || []).filter((t) => Number(t.kolejka) === k && (protIds.has(t.mecz_id) || !tbd(t))).length || Math.floor((DATA.druzyny || []).length / 2);
+  const roundOpen = (k) => roundCnt(k) < roundExp(k);
+  const lastData = DATA.mecze_druzyn.reduce((m, r) => (String(r.data) > m ? String(r.data) : m), '');
   const prevMd = DATA.mecze_druzyn.filter((r) => Number(r.kolejka) < round);
   const hasPrev = prevMd.length > 0;
 
@@ -1150,6 +1250,9 @@
           nameCol('druzyna', 'Drużyna'),
           { key: 'bilans', label: 'Bilans', tip: 'Zwycięstwa–porażki.', sortBy: (r) => num(String(r.bilans).split('-')[0]) },
           { key: 'net', label: 'NetRtg', tip: 'Różnica punktów na 100 posiadań (ORtg − DRtg). Decyduje o kolejności.', toned: true, diverge: true },
+          ...(round >= SKOR_OD_KOLEJKI ? [
+            { key: 'skor', label: 'Po korekcie', tip: 'NetRtg skorygowany o siłę rywali: z każdego meczu bilans na 100 posiadań plus ocena rywala, liczone wspólnie dla całej ligi. 0 = przeciętna drużyna. Przy kilku meczach przybliżony do zera. Nie zmienia kolejności rankingu.', toned: true },
+            { key: 'sila', label: 'Siła rywali', tip: 'Średnia ocena po korekcie drużyn, z którymi drużyna grała. Plus = trudniejszy terminarz niż przeciętny.', toned: true, hide: true }] : []),
           { key: 'ortg', label: 'ORtg', tip: 'Punkty zdobyte na 100 posiadań.', hide: true },
           { key: 'drtg', label: 'DRtg', tip: 'Punkty stracone na 100 posiadań. Im mniej, tym lepiej.', hide: true },
           { key: 'poss', label: 'Posiadania', tip: 'Średnia liczba posiadań w meczu: rzuty z gry + 0,44 × rzuty wolne − zbiórki w ataku + straty.', hide: true },
@@ -1498,6 +1601,8 @@
     const x = (i) => (ks.length === 1 ? left : left + (right - left) * i / (ks.length - 1));
     const y = (p) => top + 6 + (p - 1) * rowH;
     const focus = bumpHover || bumpPin || state.team;
+    const openKs = ks.filter(roundOpen);
+    const openNote = openKs.length ? '* kolejka w trakcie: ' + openKs.map((k) => k + '. (' + roundCnt(k) + ' z ' + roundExp(k) + ' meczów)').join(', ') + '. Miejsce liczone z meczów rozegranych do tej pory. Mecze przełożone bez nowego terminu nie wstrzymują kolejki.' : '';
     const svg = svgEl('svg', { viewBox: `0 0 ${W} ${H}`, width: W, height: H, role: 'img', 'aria-label': 'Miejsce drużyn w rankingu po każdej kolejce' });
     for (let p = 1; p <= n; p++) {
       const t = svgEl('text', { x: left - 12, y: y(p) + 4, class: 'bp-rank', 'text-anchor': 'end' });
@@ -1508,7 +1613,7 @@
     ks.forEach((k, i) => {
       if (i % every && i !== ks.length - 1) return;
       const t = svgEl('text', { x: x(i), y: H - 8, class: 'bp-axis', 'text-anchor': 'middle' });
-      t.textContent = k;
+      t.textContent = k + (roundOpen(k) ? '*' : '');
       svg.appendChild(t);
     });
     const ax = svgEl('text', { x: left - 12, y: H - 8, class: 'bp-axis', 'text-anchor': 'end' });
@@ -1558,8 +1663,8 @@
     /* odczyt dla wyróżnionej drużyny – liczby bez szukania na wykresie */
     if (focus && places.has(focus)) {
       const ps = places.get(focus);
-      bumpNote.replaceChildren(el('b', null, focus), ', miejsca po kolejkach: ' + ps.map((p) => (p == null ? '-' : p)).join(' → '));
-    } else bumpNote.replaceChildren();
+      bumpNote.replaceChildren(el('b', null, focus), ', miejsca po kolejkach: ' + ps.map((p) => (p == null ? '-' : p)).join(' → '), openNote ? ' · ' + openNote : '');
+    } else bumpNote.replaceChildren(openNote);
   }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { if (!bumpBox.hidden) drawBump(); });
   if (window.ResizeObserver) new ResizeObserver(() => { if (!bumpBox.hidden && bumpPlot.clientWidth && Math.abs(bumpPlot.clientWidth - bumpW) > 2) drawBump(); }).observe(bumpPlot);
@@ -1895,10 +2000,14 @@
   /* ---------- header ---------- */
   function drawLead() {
     const meta = document.getElementById('meta');
-    const nGames = new Set(DATA.mecze_druzyn.filter((r) => Number(r.kolejka) === round).map((r) => r.mecz_id)).size;
     const rated = playerRank.filter((r) => r.pozycja === 'wszyscy').length;
-    const expected = TERM.filter((t) => t.kolejka === round).length || Math.floor(teamRank.length / 2);
-    meta.replaceChildren('Po ', el('b', null, round + '. kolejce'), ' (' + nGames + ' z ' + expected + ' meczów)', rated ? el('span', 'hide-sm', ' · w rankingu ' + rated + ' zawodników z co najmniej 15 minutami na mecz') : '');
+    const open = [];
+    for (let k = 1; k <= round; k++) if (roundOpen(k)) open.push(k);
+    const parts = [];
+    if (!open.length) parts.push('Po ', el('b', null, round + '. kolejce'));
+    else open.slice(-2).forEach((k, i) => parts.push(i ? ', ' : '', el('b', null, k + '. kolejka'), ': ' + roundCnt(k) + ' z ' + roundExp(k) + ' meczów'));
+    if (lastData) parts.push(' · dane do ' + shortDate(lastData));
+    meta.replaceChildren(...parts, rated ? el('span', 'hide-sm', ' · w rankingu ' + rated + ' zawodników') : '');
   }
   function drawRange() {
     const box = document.getElementById('range');
@@ -2146,204 +2255,273 @@
   })();
 
   /* ---------- przegląd ligi ---------- */
-  function roundStats(rows) {
-    const n = rows.length;
-    if (!n) return null;
-    const s = (k) => rows.reduce((t, r) => t + Number(r[k] || 0), 0);
-    const byGame = new Map();
-    rows.forEach((r) => { const a = byGame.get(r.mecz_id) || []; a.push(Number(r.pts)); byGame.set(r.mecz_id, a); });
-    const m = [...byGame.values()].filter((a) => a.length === 2).map((a) => Math.abs(a[0] - a[1]));
-    return {
-      ppg: s('pts') / n,
-      pace: (s('fga') + 0.44 * s('fta') - s('oreb') + s('to')) / n,
-      margin: m.length ? m.reduce((a, b) => a + b, 0) / m.length : null,
-      efg: s('fga') ? (s('fgm') + 0.5 * s('tpm')) / s('fga') * 100 : null
-    };
-  }
-  function sparkline(vals) {
-    const W = 120, H = 36, pad = 5;
-    const svg = svgEl('svg', { class: 'spark', viewBox: '0 0 ' + W + ' ' + H, preserveAspectRatio: 'none', 'aria-hidden': 'true' });
-    const clean = vals.filter((v) => v != null);
-    const lo = Math.min(...clean), hi = Math.max(...clean);
-    const y = (v) => (hi === lo ? H / 2 : H - pad - (v - lo) / (hi - lo) * (H - 2 * pad));
-    const x = (i) => (vals.length === 1 ? W - pad : pad + i * (W - 2 * pad) / (vals.length - 1));
-    svg.appendChild(svgEl('line', { x1: 0, x2: W, y1: H - 1, y2: H - 1 }));
-    const pts = vals.map((v, i) => (v == null ? null : [x(i), y(v)])).filter(Boolean);
-    if (pts.length > 1) svg.appendChild(svgEl('polyline', { points: pts.map((p) => p.join(',')).join(' ') }));
-    const last = pts[pts.length - 1];
-    if (last) svg.appendChild(svgEl('circle', { cx: last[0], cy: last[1], r: 3.5, 'vector-effect': 'non-scaling-stroke' }));
-    return svg;
-  }
-  function drawKpis() {
-    const ks = [...new Set(DATA.mecze_druzyn.map((r) => Number(r.kolejka)))].sort((a, b) => a - b);
-    const per = ks.map((k) => roundStats(DATA.mecze_druzyn.filter((r) => Number(r.kolejka) === k)));
-    const all = roundStats(DATA.mecze_druzyn);
-    const defs = [
-      ['ppg', 'Punkty drużyny w meczu', ''],
-      ['pace', 'Posiadania w meczu', ''],
-      ['margin', 'Średnia różnica punktów', 'pkt'],
-      ['efg', 'Skuteczność rzutów (eFG%)', '%']
-    ];
-    document.getElementById('kpis').replaceChildren(...defs.map(([key, label, unit]) => {
-      const box = el('div', 'kpi');
-      const v = all && all[key] != null ? f1(all[key]) : '-';
-      const val = el('div', 'v', v);
-      if (unit) val.appendChild(el('small', null, unit));
-      const series = per.map((p) => (p ? p[key] : null));
-      const cur = series[series.length - 1], prev = series.length > 1 ? series[series.length - 2] : null;
-      let d = ks.length ? ks[ks.length - 1] + '. kolejka: ' + (cur != null ? f1(cur) : '-') : '';
-      if (cur != null && prev != null) { const diff = cur - prev; d += ' (' + (diff >= 0 ? '+' : '−') + f1(Math.abs(diff)) + ')'; }
-      box.append(el('div', 'k', label), val, el('div', 'd', d));
-      if (series.filter((x) => x != null).length) box.appendChild(sparkline(series));
-      return box;
-    }));
-  }
-  function drawNetBars() {
-    const rows = teamRank.filter((r) => r.miejsce != null).map((r) => ({ n: r.druzyna, v: num(r.net) || 0, s: r.net }));
-    const max = Math.max(1, ...rows.map((r) => Math.abs(r.v)));
-    document.getElementById('ov-net').replaceChildren(...rows.map((r) => {
-      const row = el('div', 'nr-row');
-      const track = el('div', 'nr-track');
-      const bar = el('i', 'nr-bar ' + (r.v >= 0 ? 'pos' : 'neg'));
-      bar.style.width = (Math.abs(r.v) / max * 50) + '%';
-      track.appendChild(bar);
-      const nm = el('span', 'n', r.n); nm.title = r.n;
-      row.append(nm, track, el('span', 'v', String(r.s)));
-      return row;
-    }));
-  }
-  function drawScatter() {
-    const box = document.getElementById('ov-scatter');
-    const T = teamRank.filter((r) => r.miejsce != null && num(r.ortg) != null && num(r.drtg) != null).map((r) => ({ n: r.druzyna, o: num(r.ortg), d: num(r.drtg), m: r.miejsce }));
-    if (T.length < 2) { box.replaceChildren(el('p', 'pending', 'Wykres pojawi się po pierwszych meczach.')); return; }
-    const W = Math.max(300, Math.round(box.clientWidth || 560)), H = Math.round(Math.min(470, Math.max(330, W * 0.8))), L = W < 420 ? 40 : 46, R = 14, Tp = 12, B = 40;
-    const xs = T.map((t) => t.o), ys = T.map((t) => t.d);
-    const pad = (a, b) => Math.max(2, (b - a) * 0.08);
-    const x0 = Math.min(...xs) - pad(Math.min(...xs), Math.max(...xs)), x1 = Math.max(...xs) + pad(Math.min(...xs), Math.max(...xs));
-    const y0 = Math.min(...ys) - pad(Math.min(...ys), Math.max(...ys)), y1 = Math.max(...ys) + pad(Math.min(...ys), Math.max(...ys));
-    const X = (v) => L + (v - x0) / (x1 - x0) * (W - L - R);
-    /* obrona: im mniej straconych punktów, tym wyżej */
-    const Y = (v) => Tp + (v - y0) / (y1 - y0) * (H - Tp - B);
-    const svg = svgEl('svg', { class: 'scatter', viewBox: '0 0 ' + W + ' ' + H, role: 'img', 'aria-label': 'Wykres: atak i obrona drużyn' });
-    const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
-    const mo = mean(xs), md = mean(ys);
-    const frame = svgEl('rect', { x: L, y: Tp, width: W - L - R, height: H - Tp - B, fill: 'none', class: 'sc-grid' });
-    svg.appendChild(frame);
-    svg.appendChild(svgEl('line', { x1: X(mo), x2: X(mo), y1: Tp, y2: H - B, class: 'sc-mean' }));
-    svg.appendChild(svgEl('line', { x1: L, x2: W - R, y1: Y(md), y2: Y(md), class: 'sc-mean' }));
-    const txt = (s, attrs) => { const t = svgEl('text', attrs); t.textContent = s; return t; };
-    svg.appendChild(txt('Atak: punkty zdobyte →', { x: (L + W - R) / 2, y: H - 8, 'text-anchor': 'middle', class: 'sc-ax' }));
-    const yl = txt('Obrona: punkty stracone (mniej = lepiej)', { transform: 'translate(12 ' + ((Tp + H - B) / 2) + ') rotate(-90)', 'text-anchor': 'middle', class: 'sc-ax' });
-    svg.appendChild(yl);
-    /* etykiety: pierwszy wariant położenia, który nie zasłania innych etykiet ani kropek */
-    box.replaceChildren(svg);
-    const probe = txt('', { class: 'sc-lbl', visibility: 'hidden' });
-    svg.appendChild(probe);
-    const widthOf = (s) => { probe.textContent = s; return (probe.getComputedTextLength && probe.getComputedTextLength()) || s.length * 7.6; };
-    const narrow = W < 480;
-    document.getElementById('ov-sc-sub').textContent = narrow ? 'numer to miejsce w rankingu, dotknij kropki' : 'punkty zdobyte i stracone na 100 posiadań';
-    const dots = T.map((t) => ({ t, x: X(t.o), y: Y(t.d) }));
-    const placed = [];
-    const hit = (a, b) => a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-    if (!narrow) dots.forEach((p) => {
-      const w = widthOf(p.t.n) + 4, h = 14;
-      const tries = [[9, 4, 'start'], [-9, 4, 'end'], [0, -10, 'middle'], [0, 17, 'middle'], [9, -8, 'start'], [-9, -8, 'end'], [9, 15, 'start'], [-9, 15, 'end']];
-      let pick = null;
-      for (const [dx, dy, anchor] of tries) {
-        const bx = anchor === 'start' ? p.x + dx : anchor === 'end' ? p.x + dx - w : p.x - w / 2;
-        const b = { x: bx, y: p.y + dy - h + 2, w, h };
-        const inside = b.x >= 1 && b.x + b.w <= W - 1 && b.y >= 1 && b.y + b.h <= H - B + 14;
-        const clash = placed.some((q) => hit(b, q)) || dots.some((q) => hit(b, { x: q.x - 6, y: q.y - 6, w: 12, h: 12 }));
-        if (inside && !clash) { pick = { b, dx, dy, anchor }; break; }
-      }
-      if (!pick) { const [dx, dy, anchor] = tries[0]; pick = { b: { x: p.x + dx, y: p.y + dy - h + 2, w, h }, dx, dy, anchor }; }
-      placed.push(pick.b);
-      p.lbl = pick;
-    });
-    dots.forEach((p) => {
-      const c = svgEl('circle', { cx: p.x, cy: p.y, r: narrow ? 10 : 5.5, class: 'sc-dot' });
-      const tt = svgEl('title'); tt.textContent = p.t.n + ': atak ' + f1(p.t.o) + ', obrona ' + f1(p.t.d); c.appendChild(tt);
-      svg.appendChild(c);
-      if (narrow) svg.appendChild(txt(String(p.t.m), { x: p.x, y: p.y + 4, 'text-anchor': 'middle', class: 'sc-num' }));
-      else svg.appendChild(txt(p.t.n, { x: p.x + p.lbl.dx, y: p.y + p.lbl.dy, 'text-anchor': p.lbl.anchor, class: 'sc-lbl' }));
-    });
-    probe.remove();
-  }
-  function drawInsights() {
-    const T = teamRank.filter((r) => r.miejsce != null && num(r.ortg) != null);
-    const cards = [];
-    if (T.length) {
-      const att = T.slice().sort((a, b) => num(b.ortg) - num(a.ortg))[0];
-      const def = T.slice().sort((a, b) => num(a.drtg) - num(b.drtg))[0];
-      cards.push(['t1', 'Atak', att.druzyna + ' najlepiej punktuje', f1(num(att.ortg)) + ' pkt na 100 posiadań.']);
-      cards.push(['t2', 'Obrona', def.druzyna + ' najmniej traci', f1(num(def.drtg)) + ' pkt na 100 posiadań rywala.']);
-      const up = hasPrev ? T.filter((r) => /^▲/.test(String(r.zmiana))).sort((a, b) => Number(String(b.zmiana).slice(1)) - Number(String(a.zmiana).slice(1)))[0] : null;
-      if (up) cards.push(['t3', 'Ruch w rankingu', up.druzyna + ' awansuje o ' + String(up.zmiana).slice(1), 'Teraz ' + up.miejsce + '. miejsce w rankingu.']);
-      else cards.push(['t3', 'Lider', T[0].druzyna + ' prowadzi w rankingu', 'NetRtg ' + T[0].net + ', bilans ' + T[0].bilans + '.']);
-    }
-    const best = awardList.find((a) => a.key === 'wystep');
-    if (best && best.list.length) {
-      const x = best.list[0];
-      cards.push(['t4', 'Zawodnik', x.zawodnik + ' z występem sezonu', 'GmSc ' + x.value + ', ' + x.druzyna + (x.note ? ', ' + x.note : '') + '.']);
-    }
-    document.getElementById('insights').replaceChildren(...cards.map(([cls, tag, head, text]) => {
-      const c = el('div', 'ins');
-      c.append(el('span', 'tg ' + cls, tag), el('b', null, head), el('p', null, text));
-      return c;
-    }));
-  }
-  function drawOverviewLists() {
-    const teams = teamRank.filter((r) => r.miejsce != null).slice(0, 5);
-    document.getElementById('ov-teams').replaceChildren(...teams.map((r) => {
-      const li = el('li'), who = el('span', 'who');
-      who.append(el('span', 'nm', r.druzyna), el('span', 'tm', 'bilans ' + r.bilans));
-      li.append(el('span', 'no', String(r.miejsce)), who, el('span', 'val', String(r.net)));
-      return li;
-    }));
-    const pl = playerRank.filter((r) => r.pozycja === 'wszyscy').slice(0, 5);
-    const plBox = document.getElementById('ov-players');
-    if (!pl.length) { plBox.replaceChildren(el('p', 'pending', 'Ranking zawodników pojawi się, gdy ktoś zagra co najmniej 15 minut na mecz.')); return; }
-    plBox.replaceChildren(...pl.map((r) => {
-      const li = el('li'), who = el('span', 'who');
-      const nm = plBtn(r.zawodnik, 'nm');
-      who.append(nm, el('span', 'tm', r.druzyna));
-      li.append(el('span', 'no', String(r.miejsce)), who, el('span', 'val', String(r.ocena)));
-      return li;
-    }));
-  }
-  function drawOverviewGames() {
-    const done = games.filter((g) => g.kolejka === round && g.kind !== 'plan');
-    const res = document.getElementById('ov-results');
-    res.replaceChildren(...(done.length ? done.map((g) => {
-      const [a, b] = g.teams;
-      const row = el(g.url ? 'a' : 'div', 'rrow');
-      if (g.url) { row.href = g.url; row.target = '_blank'; row.rel = 'noopener'; }
-      const aw = Number(a.pts) > Number(b.pts);
-      row.append(el('span', 't' + (aw ? ' w' : ''), a.druzyna), el('span', 's', a.pts + ' : ' + b.pts), el('span', 't' + (!aw ? ' w' : ''), b.druzyna));
-      return row;
-    }) : [el('p', 'pending', 'Brak rozegranych meczów.')]));
+  const ovEsc = (x) => String(x).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const fS = (x, sign) => (sign && x > 0 ? '+' : '') + f1(x).replace('-', '−');
+  const ovWhen = (g) => (tbd(g) ? 'termin do ustalenia' : dow(g.data) + ' ' + shortDate(g.data));
+  const ovLive = () => {
     const live = games.filter((g) => g.kind === 'plan' && !(g.data && g.data < todayIso));
-    const dated = live.filter((g) => !tbd(g)), undated = live.filter((g) => tbd(g));
-    const next = dated.concat(undated).slice(0, 5);
-    document.getElementById('ov-next-sub').textContent = next.length ? (chance ? 'z szansą wygranej' : 'szansa wygranej od ' + ZAPOWIEDZ_OD_KOLEJKI + '. kolejki') : '';
-    document.getElementById('ov-next').replaceChildren(...(next.length ? next.map((g) => {
-      const [a, b] = g.teams;
-      const c = el('div', 'upc');
-      const when = tbd(g) ? 'Termin do ustalenia' : dow(g.data) + ' ' + shortDate(g.data) + (g.godz ? ', ' + g.godz : '');
-      const pa = chance ? chance(a.druzyna, b.druzyna) : null;
-      const tms = el('div', 'tms');
-      tms.append(el('span', null, a.druzyna), el('em', null, pa == null ? 'vs' : pctOf(pa) + ' : ' + pctOf(1 - pa)), el('span', null, b.druzyna));
-      c.append(el('div', 'when', when + ' · ' + g.kolejka + '. kolejka'), tms);
-      if (pa != null) {
-        const bar = el('div', 'chance'), i1 = el('i'), i2 = el('i');
-        i1.style.width = (pa * 100) + '%'; i2.style.width = ((1 - pa) * 100) + '%';
-        bar.append(i1, i2); c.appendChild(bar);
-      }
-      return c;
-    }) : [el('p', 'pending', 'Terminarz nie zawiera zaplanowanych meczów.')]));
+    const byTime = (p, q) => (String(p.data) + (p.godz || '')).localeCompare(String(q.data) + (q.godz || ''));
+    return live.filter((g) => !tbd(g)).sort(byTime).concat(live.filter((g) => tbd(g)));
+  };
+  let ovT = [];
+  function ovData() {
+    const lg = new Map(leagueRows.map((r) => [r.druzyna, r]));
+    const ff = new Map(((teamFactors && teamFactors.rows) || []).map((r) => [r.druzyna, r]));
+    const live = ovLive();
+    ovT = teamRank.filter((r) => r.miejsce != null && num(r.net) != null && num(r.ortg) != null && num(r.drtg) != null).map((r) => {
+      const nx = live.find((g) => g.teams.some((t) => t.druzyna === r.druzyna));
+      const opp = nx ? nx.teams.find((t) => t.druzyna !== r.druzyna) : null;
+      const f = ff.get(r.druzyna) || {};
+      return { name: r.druzyna, m: Number(r.miejsce), bilans: String(r.bilans), n: num(r.net), o: num(r.ortg), d: num(r.drtg),
+        forma: (lg.get(r.druzyna) || {}).forma || '', nx, opp: opp ? opp.druzyna : null,
+        efg: num(f.efg), tov: num(f.tov), orb: num(f.orb), oefg: num(f.oefg) };
+    });
+  }
+  const ovGp = (t) => t.bilans.split('-').reduce((a, x) => a + (Number(x) || 0), 0);
+
+  /* ranking drużyn: sortowanie po kliknięciu w nagłówek, bez animacji (używa się go często) */
+  const ovLed = document.getElementById('ov-led');
+  const OV_SORT = { rk: [(t) => t.m, 1], tm: [(t) => t.name.toLowerCase(), 1], rec: [(t) => Number(t.bilans.split('-')[0]) || 0, -1], net: [(t) => t.n, -1],
+    o: [(t) => t.o, -1], d: [(t) => t.d, 1], fm: [(t) => (t.forma.match(/W/g) || []).length, -1] };
+  let ovSk = 'rk', ovSd = 1;
+  function drawLedger() {
+    const box = ovLed;
+    if (!ovT.length) { box.innerHTML = '<p class="pending">Ranking pojawi się po pierwszych meczach.</p>'; document.getElementById('ov-led-note').textContent = ''; return; }
+    const maxAbs = Math.ceil(Math.max(...ovT.map((t) => Math.abs(t.n))) / 5) * 5 + 5;
+    const topO = Math.max(...ovT.map((t) => t.o)), topD = Math.min(...ovT.map((t) => t.d));
+    const [f] = OV_SORT[ovSk];
+    const rows = ovT.slice().sort((a, b) => { const x = f(a), y = f(b); return (x < y ? -1 : x > y ? 1 : 0) * ovSd || a.m - b.m; });
+    const hc = (k, label, cls) => '<span role="columnheader" class="' + (cls || '') + '" aria-sort="' + (k === ovSk ? (ovSd === 1 ? 'ascending' : 'descending') : 'none') + '"><button type="button" data-sort="' + k + '">' + label + '</button></span>';
+    box.innerHTML = '<div class="o-hd" role="row">' + hc('rk', '#') + hc('tm', 'Drużyna') + hc('rec', 'Bilans', 'num o-rec') + hc('net', 'NetRtg') + hc('o', 'Atak', 'num o-atk') + hc('d', 'Obrona', 'num o-def') + hc('fm', 'Forma', 'num o-form') + '<span role="columnheader" class="o-nxc">Następny mecz</span></div>' +
+      rows.map((t, i) => {
+        const w = Math.abs(t.n) / maxAbs * 50;
+        const cO = t.o === topO ? '<span class="o-best" title="Najlepszy atak w lidze">' + fS(t.o) + '</span>' : fS(t.o);
+        const cD = t.d === topD ? '<span class="o-best" title="Najlepsza obrona w lidze">' + fS(t.d) + '</span>' : fS(t.d);
+        const fo = t.forma.split('');
+        return '<div class="o-row" role="row" tabindex="0" data-team="' + ovEsc(t.name) + '" style="--i:' + i + '">' +
+          '<span class="o-rk" role="cell">' + t.m + '</span>' +
+          '<span class="o-tm" role="cell">' + ovEsc(t.name) + '<small>' + ovEsc(t.bilans) + '</small></span>' +
+          '<span class="num o-rec" role="cell">' + ovEsc(t.bilans) + '</span>' +
+          '<span class="o-net" role="cell"><span class="o-bar" aria-hidden="true"><i class="' + (t.n >= 0 ? 'p' : 'n') + '" style="width:' + w + '%"></i></span><span class="o-nv">' + fS(t.n, true) + '</span></span>' +
+          '<span class="num o-atk" role="cell">' + cO + '</span>' +
+          '<span class="num o-def" role="cell">' + cD + '</span>' +
+          '<span class="num o-form" role="cell"><span class="sr">Forma od najstarszego meczu: ' + fo.map((c) => (c === 'W' ? 'wygrana' : 'porażka')).join(', ') + '</span><span class="o-fb" aria-hidden="true">' + fo.map((c) => '<i class="' + (c === 'W' ? 'w' : 'l') + '">' + c + '</i>').join('') + '</span></span>' +
+          '<span class="o-nx o-nxc" role="cell">' + (t.opp ? ovEsc(t.opp) + ' <span>· ' + ovEsc(ovWhen(t.nx)) + '</span>' : '<span>brak w terminarzu</span>') + '</span></div>';
+      }).join('');
+    const gmin = Math.min(...ovT.map(ovGp)), gmax = Math.max(...ovT.map(ovGp));
+    const few = ovT.filter((t) => ovGp(t) === gmin).map((t) => t.name);
+    document.getElementById('ov-led-note').textContent = gmin === gmax ? '' :
+      (few.length === 1 ? few[0] + ' ma' : few.length + ' drużyny mają') + ' dopiero ' + gmin + ' ' + (gmin === 1 ? 'mecz' : 'mecze') + ', reszta do ' + gmax + '. Miejsca mogą się mocno zmienić po kolejnych kolejkach.';
+    if (ovPinned) ovMark(ovPinned);
+  }
+  setTimeout(() => ovLed.classList.add('ready'), 900);
+  ovLed.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-sort]');
+    if (!b) return;
+    const k = b.dataset.sort;
+    if (k === ovSk) ovSd = -ovSd; else { ovSk = k; ovSd = OV_SORT[k][1]; }
+    ovLed.classList.add('ready');
+    drawLedger();
+    ovLed.querySelector('[data-sort="' + k + '"]').focus();
+  });
+
+  /* atak i obrona: numer w kropce, szczegóły w dymku; wiersz tabeli i kropka podświetlają się nawzajem */
+  const ovChart = document.getElementById('ov-scatter'), ovTip = document.getElementById('ov-tip');
+  function drawScatter() {
+    const old = ovChart.querySelector('svg, .pending');
+    if (old) old.remove();
+    if (ovT.length < 2) { ovChart.insertAdjacentHTML('afterbegin', '<p class="pending">Wykres pojawi się po pierwszych meczach.</p>'); return; }
+    const W = Math.max(280, ovChart.clientWidth || 560), H = Math.round(Math.min(600, Math.max(320, W * 1.02)));
+    const m = { l: 44, r: 12, t: 8, b: 40 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const xs = ovT.map((t) => t.o), ys = ovT.map((t) => t.d);
+    const pad = (lo, hi) => { const p = Math.max(2, (hi - lo) * .08); return [lo - p, hi + p]; };
+    const [x0, x1] = pad(Math.min(...xs), Math.max(...xs)), [y0, y1] = pad(Math.min(...ys), Math.max(...ys));
+    const X = (v) => m.l + (v - x0) / (x1 - x0) * iw, Y = (v) => m.t + (v - y0) / (y1 - y0) * ih;
+    const mx = xs.reduce((a, b) => a + b) / xs.length, my = ys.reduce((a, b) => a + b) / ys.length;
+    const R = W < 480 ? 11 : 12;
+    const ticks = (lo, hi) => { const st = hi - lo > 60 ? 20 : 10, o = []; for (let v = Math.ceil(lo / st) * st; v <= hi; v += st) o.push(v); return o; };
+    let svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Wykres: punkty zdobyte i stracone na 100 posiadań dla każdej drużyny">';
+    svg += '<rect class="o-q" x="' + X(mx) + '" y="' + m.t + '" width="' + (m.l + iw - X(mx)) + '" height="' + (Y(my) - m.t) + '" rx="4"/>';
+    svg += '<text x="' + (m.l + iw - 8) + '" y="' + (Y(my) - 8) + '" text-anchor="end">mocny atak, twarda obrona</text>';
+    svg += ticks(x0, x1).map((v) => '<text x="' + X(v) + '" y="' + (H - m.b + 20) + '" text-anchor="middle">' + v + '</text>').join('');
+    svg += ticks(y0, y1).map((v) => '<text x="' + (m.l - 8) + '" y="' + (Y(v) + 4) + '" text-anchor="end">' + v + '</text>').join('');
+    svg += '<text x="' + (m.l + iw / 2) + '" y="' + (H - 4) + '" text-anchor="middle">atak: punkty zdobyte →</text>';
+    svg += '<text transform="translate(12 ' + (m.t + ih / 2) + ') rotate(-90)" text-anchor="middle">obrona: punkty stracone (mniej = lepiej)</text>';
+    /* kropki rozsunięte najwyżej o 14 px, żeby numery się nie zasłaniały; dokładne wartości są w dymku */
+    const P = ovT.map((t) => ({ t, x: X(t.o), y: Y(t.d), ox: X(t.o), oy: Y(t.d) }));
+    for (let it = 0; it < 60; it++) for (let i = 0; i < P.length; i++) for (let j = i + 1; j < P.length; j++) {
+      const dx = P[j].x - P[i].x, dy = P[j].y - P[i].y, dd = Math.hypot(dx, dy) || 0.01, mn = R * 2 + 3;
+      if (dd < mn) { const k = (mn - dd) / 2 / dd; P[i].x -= dx * k; P[i].y -= dy * k; P[j].x += dx * k; P[j].y += dy * k; }
+    }
+    P.forEach((q) => { const sx = q.x - q.ox, sy = q.y - q.oy, sd = Math.hypot(sx, sy); if (sd > 14) { q.x = q.ox + sx / sd * 14; q.y = q.oy + sy / sd * 14; } });
+    svg += P.map(({ t, x, y }) => '<g class="o-dot" tabindex="0" data-team="' + ovEsc(t.name) + '" aria-label="' + ovEsc(t.name) + ', miejsce ' + t.m + ', atak ' + fS(t.o) + ', obrona ' + fS(t.d) + '"><circle cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" r="' + R + '"/><text x="' + x.toFixed(1) + '" y="' + (y + 4.4).toFixed(1) + '" font-size="12">' + t.m + '</text></g>').join('');
+    ovChart.insertAdjacentHTML('afterbegin', svg + '</svg>');
+    if (ovPinned) ovMark(ovPinned);
+  }
+  let ovPinned = null;
+  function ovMark(name) {
+    ovRoot.querySelectorAll('.o-row.on, .o-dot.on').forEach((x) => x.classList.remove('on'));
+    ovChart.classList.toggle('has', !!name);
+    if (!name) { ovTip.classList.remove('show'); return; }
+    ovRoot.querySelectorAll('[data-team="' + CSS.escape(name) + '"]').forEach((x) => x.classList.add('on'));
+    const c = ovChart.querySelector('.o-dot[data-team="' + CSS.escape(name) + '"] circle'), t = ovT.find((x) => x.name === name);
+    if (!c || !t) { ovTip.classList.remove('show'); return; }
+    const cb = ovChart.getBoundingClientRect(), gb = c.getBoundingClientRect();
+    ovTip.innerHTML = '<b>' + ovEsc(t.name) + ' · ' + t.m + '. miejsce</b><span>atak ' + fS(t.o) + ' · obrona ' + fS(t.d) + ' · NetRtg ' + fS(t.n, true) + '</span>';
+    const cx = gb.left + gb.width / 2 - cb.left, cy = gb.top - cb.top, tw = ovTip.offsetWidth, th = ovTip.offsetHeight;
+    const left = Math.min(Math.max(cx - tw / 2, 0), cb.width - tw);
+    let top = cy - th - 8, oy = 100;
+    if (top < 0) { top = cy + gb.height + 8; oy = 0; }
+    ovTip.style.left = left + 'px'; ovTip.style.top = top + 'px';
+    ovTip.style.setProperty('--ox', (cx - left) + 'px'); ovTip.style.setProperty('--oy', oy + '%');
+    ovTip.classList.add('show');
+  }
+  const ovRoot = document.getElementById('przeglad');
+  const ovHover = !!(window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+  ovRoot.addEventListener('pointerover', (e) => { if (!ovHover || ovPinned) return; const n = e.target.closest('[data-team]'); if (n) ovMark(n.dataset.team); });
+  ovRoot.addEventListener('pointerout', (e) => { if (!ovHover || ovPinned) return; if (e.target.closest('[data-team]') && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest('[data-team]'))) ovMark(null); });
+  ovRoot.addEventListener('focusin', (e) => { const n = e.target.closest('[data-team]'); if (n && !ovPinned) ovMark(n.dataset.team); });
+  ovRoot.addEventListener('focusout', (e) => { if (e.target.closest('[data-team]') && !ovPinned) ovMark(null); });
+  ovRoot.addEventListener('click', (e) => {
+    const n = e.target.closest('[data-team]');
+    if (!n) { if (ovPinned) { ovPinned = null; ovMark(null); } return; }
+    ovPinned = ovPinned === n.dataset.team ? null : n.dataset.team;
+    ovMark(ovPinned);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && ovPinned) { ovPinned = null; ovMark(null); } });
+
+  /* co widać w danych: kilka zdań z liczb, bez ozdobnych etykiet */
+  function drawFacts() {
+    const box = document.getElementById('ov-facts');
+    if (!ovT.length) { box.innerHTML = '<p>Wnioski pojawią się po pierwszych meczach.</p>'; return; }
+    const att = ovT.slice().sort((a, b) => b.o - a.o)[0], def = ovT.slice().sort((a, b) => a.d - b.d)[0];
+    const first = ovT.slice().sort((a, b) => a.m - b.m)[0], last = ovT.slice().sort((a, b) => b.m - a.m)[0];
+    const plus = ovT.filter((t) => t.n > 0).length;
+    const out = [
+      '<b>' + ovEsc(att.name) + '</b> punktuje najwięcej: ' + fS(att.o) + ' na 100 posiadań.',
+      '<b>' + ovEsc(def.name) + '</b> traci najmniej: ' + fS(def.d) + ' na 100 posiadań rywala.'
+    ];
+    const up = hasPrev ? teamRank.filter((r) => /^▲/.test(String(r.zmiana))).sort((a, b) => Number(String(b.zmiana).slice(1)) - Number(String(a.zmiana).slice(1)))[0] : null;
+    if (up) out.push('<b>' + ovEsc(up.druzyna) + '</b> awansuje o ' + String(up.zmiana).slice(1) + ' i jest teraz ' + up.miejsce + '. w rankingu.');
+    out.push('Na plusie jest <b>' + plus + ' z ' + ovT.length + '</b> drużyn. Różnica między pierwszą a ostatnią to ' + fS(first.n - last.n) + ' punktów na 100 posiadań.');
+    const best = awardList.find((a) => a.key === 'wystep');
+    if (best && best.list.length) { const x = best.list[0]; out.push('Występ sezonu: <b>' + ovEsc(x.zawodnik) + '</b> (' + ovEsc(x.druzyna) + '), GmSc ' + ovEsc(x.value) + (x.note ? ', ' + ovEsc(x.note) : '') + '.'); }
+    box.innerHTML = out.slice(0, 4).map((x) => '<p>' + x + '</p>').join('');
+  }
+
+  /* najlepsi zawodnicy: ocena w kafelku, cztery odcienie jednego koloru plus liczba */
+  function drawTopPlayers() {
+    const box = document.getElementById('ov-players');
+    const pl = playerRank.filter((r) => r.pozycja === 'wszyscy').slice(0, 10);
+    if (!pl.length) { box.replaceChildren(el('p', 'pending', 'Ranking zawodników pojawi się, gdy ktoś zagra co najmniej połowę meczów swojej drużyny, średnio 15 minut na mecz.')); return; }
+    const band = (v) => (v >= 64 ? 'b1' : v >= 60 ? 'b2' : v >= 56 ? 'b3' : 'b4');
+    const tbl = el('table', 'o-pl'), tb = el('tbody');
+    pl.forEach((r) => {
+      const tr = el('tr'), td2 = el('td'), g = Number(r.g);
+      td2.append(plBtn(r.zawodnik), el('span', 't', r.druzyna + ' · ' + r.g + ' ' + (g === 1 ? 'mecz' : g < 5 ? 'mecze' : 'meczów') + ' · ' + r.pkt + ' pkt, ' + r.zb + ' zb, ' + r.as + ' as'));
+      const td3 = el('td'); td3.appendChild(el('span', 'o-rb ' + band(num(r.ocena) || 0), String(r.ocena)));
+      tr.append(el('td', null, String(r.miejsce)), td2, td3);
+      tb.appendChild(tr);
+    });
+    tbl.appendChild(tb);
+    const lg = el('div', 'o-legend');
+    lg.setAttribute('aria-label', 'Skala oceny');
+    lg.innerHTML = '<span><i style="background:var(--rb1)"></i>64+ wybitna</span><span><i style="background:var(--rb2)"></i>60–64 bardzo dobra</span><span><i style="background:var(--rb3)"></i>56–60 dobra</span><span><i style="background:var(--step2)"></i>poniżej 56</span><span>50 = średnia ligi</span>';
+    box.replaceChildren(tbl, lg);
+  }
+
+  /* najbliższe mecze i zapowiedź: dwustronne paski, dłuższy = lepiej na tle ligi */
+  const OV_M = [
+    { k: 'n', lab: 'NetRtg', hint: 'bilans na 100 posiadań', hi: true, sign: true },
+    { k: 'o', lab: 'Atak', hint: 'punkty na 100 posiadań', hi: true },
+    { k: 'd', lab: 'Obrona', hint: 'stracone na 100, mniej = lepiej', hi: false },
+    { k: 'efg', lab: 'Skuteczność rzutów', hint: 'eFG%', hi: true, pct: true },
+    { k: 'tov', lab: 'Straty', hint: '% posiadań, mniej = lepiej', hi: false, pct: true },
+    { k: 'orb', lab: 'Zbiórki w ataku', hint: '% możliwych', hi: true, pct: true },
+    { k: 'oefg', lab: 'Skuteczność rywali', hint: 'eFG% rywali, mniej = lepiej', hi: false, pct: true }
+  ];
+  let ovUp = [], ovSel = 0;
+  function ovMetrics() {
+    return OV_M.filter((m) => ovT.every((t) => t[m.k] != null)).map((m) => {
+      const vs = ovT.map((t) => t[m.k]), lo = Math.min(...vs), hi = Math.max(...vs), span = hi - lo || 1;
+      const order = ovT.slice().sort((a, b) => (m.hi ? b[m.k] - a[m.k] : a[m.k] - b[m.k]));
+      const rank = new Map(order.map((t, i) => [t.name, i + 1]));
+      return Object.assign({}, m, { good: (t) => 0.06 + 0.94 * (m.hi ? (t[m.k] - lo) / span : (hi - t[m.k]) / span), rank, show: (t) => fS(t[m.k], m.sign) + (m.pct ? '%' : '') });
+    });
+  }
+  function drawPreview() {
+    const box = document.getElementById('ov-pv'), when = document.getElementById('ov-pv-when');
+    const g = ovUp[ovSel];
+    if (!g) { when.textContent = ''; box.replaceChildren(el('p', 'pending', 'Zapowiedź pojawi się, gdy w terminarzu będzie zaplanowany mecz.')); return; }
+    const [ta, tb] = g.teams;
+    const A = ovT.find((t) => t.name === ta.druzyna), B = ovT.find((t) => t.name === tb.druzyna);
+    when.textContent = (tbd(g) ? 'termin do ustalenia' : dow(g.data) + ' ' + shortDate(g.data) + (g.godz ? ', ' + g.godz : '')) + ' · ' + g.kolejka + '. kolejka';
+    if (!A || !B) { box.replaceChildren(el('p', 'pending', 'Jedna z drużyn nie ma jeszcze rozegranych meczów, więc nie ma czego porównać.')); box.dataset.built = ''; return; }
+    const M = ovMetrics();
+    if (box.dataset.built !== String(M.length)) {
+      box.innerHTML = '<div class="o-pvh"><div class="a"><b></b><span></span></div><span class="vs">vs</span><div class="b"><b></b><span></span></div></div>' +
+        '<div class="o-cmp">' + M.map((m) => '<div class="o-cr"><span class="lab">' + m.lab + ' <small>' + m.hint + '</small></span><span class="va"></span><span class="ba" aria-hidden="true"><span class="o-trk"><i></i></span></span><span class="bb" aria-hidden="true"><span class="o-trk"><i></i></span></span><span class="vb"></span></div>').join('') + '</div>' +
+        '<div class="o-chn"></div><p class="o-pvnote"></p>';
+      box.dataset.built = String(M.length);
+    }
+    const side = (sel, t) => { const d = box.querySelector(sel); d.querySelector('b').textContent = t.name; d.querySelector('span').innerHTML = t.m + '. miejsce<br>bilans ' + ovEsc(t.bilans); };
+    side('.o-pvh .a', A); side('.o-pvh .b', B);
+    let ca = 0, cb = 0;
+    box.querySelectorAll('.o-cmp .o-cr').forEach((row, i) => {
+      const m = M[i], ga = m.good(A), gb = m.good(B), wa = ga > gb + 1e-9, wb = gb > ga + 1e-9;
+      ca += wa ? 1 : 0; cb += wb ? 1 : 0;
+      const va = row.querySelector('.va'), vb = row.querySelector('.vb'), ia = row.querySelector('.ba i'), ib = row.querySelector('.bb i');
+      va.innerHTML = m.show(A) + '<small>' + m.rank.get(A.name) + '. w lidze</small>';
+      vb.innerHTML = m.show(B) + '<small>' + m.rank.get(B.name) + '. w lidze</small>';
+      va.classList.toggle('win', wa); vb.classList.toggle('win', wb); ia.classList.toggle('win', wa); ib.classList.toggle('win', wb);
+      ia.style.setProperty('--v', ga.toFixed(3)); ib.style.setProperty('--v', gb.toFixed(3));
+    });
+    const chn = box.querySelector('.o-chn');
+    const pa = chance ? chance(A.name, B.name) : null;
+    if (pa != null) {
+      chn.innerHTML = '<div class="o-cr" style="margin-top:16px"><span class="lab">Szansa wygranej</span><span class="va win">' + pctOf(pa) + '</span><span class="ba" style="grid-column:2 / 4"><span class="chance"><i style="width:' + (pa * 100) + '%"></i><i style="width:' + ((1 - pa) * 100) + '%"></i></span></span><span class="vb win">' + pctOf(1 - pa) + '</span></div>';
+    } else chn.innerHTML = '';
+    box.querySelector('.o-pvnote').textContent = A.name + ' lepiej wypada w ' + ca + ', ' + B.name + ' w ' + cb + ' z ' + M.length + ' porównań. Dłuższy pasek oznacza lepszy wynik na tle ligi.' + (pa == null ? ' Szansa wygranej pojawi się od ' + ZAPOWIEDZ_OD_KOLEJKI + '. kolejki.' : '');
+  }
+  function drawUpcoming() {
+    const box = document.getElementById('ov-next');
+    const prev = ovUp[ovSel];
+    ovUp = ovLive().slice(0, 8);
+    const keep = prev ? ovUp.findIndex((g) => g === prev) : -1;
+    ovSel = keep >= 0 ? keep : 0;
+    if (!ovUp.length) { box.replaceChildren(el('p', 'pending', 'Terminarz nie zawiera zaplanowanych meczów.')); drawPreview(); return; }
+    let day = null, h = '';
+    ovUp.forEach((g, i) => {
+      const lab = tbd(g) ? 'Termin do ustalenia' : dow(g.data) + ' ' + shortDate(g.data);
+      if (lab !== day) { h += '<div class="o-day">' + ovEsc(lab) + '</div>'; day = lab; }
+      h += '<button type="button" class="o-upk" aria-pressed="' + (i === ovSel) + '" data-i="' + i + '"><span class="tmx">' + (tbd(g) ? '' : ovEsc(g.godz || '')) + '</span><span class="vs">' + ovEsc(g.teams[0].druzyna) + '<i>vs</i>' + ovEsc(g.teams[1].druzyna) + '</span></button>';
+    });
+    box.innerHTML = h;
+    drawPreview();
+  }
+  document.getElementById('ov-next').addEventListener('click', (e) => {
+    const b = e.target.closest('.o-upk');
+    if (!b) return;
+    ovSel = Number(b.dataset.i);
+    document.querySelectorAll('#ov-next .o-upk').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    drawPreview();
+  });
+  function drawResults() {
+    const box = document.getElementById('ov-results');
+    const done = games.filter((g) => g.kind !== 'plan' && g.teams && g.teams.every((t) => t.pts != null && t.pts !== '')).sort((p, q) => (String(q.data) + (q.godz || '')).localeCompare(String(p.data) + (p.godz || ''))).slice(0, roundExp(round) || 7);
+    if (!done.length) { box.replaceChildren(el('p', 'pending', 'Brak rozegranych meczów.')); return; }
+    let day = null, h = '';
+    done.forEach((g) => {
+      const lab = g.data ? dow(g.data) + ' ' + shortDate(g.data) : '';
+      if (lab !== day) { h += '<div class="o-day">' + ovEsc(lab) + '</div>'; day = lab; }
+      const [a, b] = g.teams, pa = Number(a.pts), pb = Number(b.pts);
+      const inner = '<span class="h' + (pa > pb ? ' w' : '') + '">' + ovEsc(a.druzyna) + '</span><span class="s"><b>' + pa + '</b><i>:</i><b>' + pb + '</b></span><span class="a' + (pb > pa ? ' w' : '') + '">' + ovEsc(b.druzyna) + '</span>';
+      h += g.url ? '<a class="o-res" href="' + ovEsc(g.url) + '" target="_blank" rel="noopener" aria-label="' + ovEsc(a.druzyna + ' ' + pa + ':' + pb + ' ' + b.druzyna + ', protokół meczu') + '">' + inner + '</a>' : '<div class="o-res">' + inner + '</div>';
+    });
+    box.innerHTML = h + '<p class="ps" style="margin:8px 0 0">Ostatnie rozegrane mecze, wynik prowadzi do protokołu meczu.</p>';
   }
   function drawOverview() {
-    drawKpis(); drawNetBars(); drawScatter(); drawInsights(); drawOverviewLists(); drawOverviewGames();
+    ovData(); drawLedger(); drawScatter(); drawFacts(); drawTopPlayers(); drawUpcoming(); drawResults();
   }
 
   drawTeams();

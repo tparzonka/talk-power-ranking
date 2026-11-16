@@ -16,6 +16,42 @@ const lastGames = (rows, keyOf, okno) => {
   return rows.filter((r) => keep.has(r));
 };
 
+// NetRtg skorygowany o siłę rywali (jak SRS z Basketball-Reference, ale na 100 posiadań).
+// Ocena drużyny r = średnia z meczów (bilans meczu na 100 posiadań + ocena rywala), liczona wspólnie dla wszystkich,
+// aż wartości się ustalą; 0 = przeciętna drużyna. Ściąganie do zera (dzielnik g + ADJ_LAMBDA zamiast g) stabilizuje
+// wynik przy kilku meczach – sprawdzone na wynikach 1.–5. kolejki (przewidywanie pominiętego meczu, błąd 31,0 wobec 32,5
+// dla zwykłego NetRtg). Siła rywali = średnia ocena rywali. Pokazywane od SKOR_OD_KOLEJKI, kolejność rankingu bez zmian.
+const SKOR_OD_KOLEJKI = 5;
+const ADJ_LAMBDA = 1;
+const adjustedRatings = (rows, game) => {
+  const n = (x) => Number(x) || 0;
+  const poss = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
+  const games = new Map();
+  for (const r of rows) {
+    const o = game.get(gk(r, r.rywal));
+    if (!o) continue;
+    const p = (poss(r) + poss(o)) / 2;
+    if (!p) continue;
+    if (!games.has(r.druzyna)) games.set(r.druzyna, []);
+    games.get(r.druzyna).push({ opp: r.rywal, m: (n(r.pts) - n(o.pts)) / p * 100 });
+  }
+  const r = new Map([...games.keys()].map((t) => [t, 0]));
+  for (let it = 0; it < 500; it++) {
+    let delta = 0;
+    for (const [t, gs] of games) {
+      const v = gs.reduce((s, g) => s + g.m + (r.get(g.opp) || 0), 0) / (gs.length + ADJ_LAMBDA);
+      delta = Math.max(delta, Math.abs(v - r.get(t)));
+      r.set(t, v);
+    }
+    const mean = [...r.values()].reduce((a, b) => a + b, 0) / (r.size || 1);
+    for (const t of r.keys()) r.set(t, r.get(t) - mean);
+    if (delta < 1e-9) break;
+  }
+  const out = new Map();
+  for (const [t, gs] of games) out.set(t, { adj: r.get(t), sos: gs.reduce((s, g) => s + (r.get(g.opp) || 0), 0) / gs.length });
+  return out;
+};
+
 const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
   const n = (x) => Number(x) || 0;
   const poss = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
@@ -23,7 +59,9 @@ const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
   const sign = (x) => (x > 0.05 ? '+' : '') + f1(x);
   const game = new Map(mecze_druzyn.map((r) => [gk(r, r.druzyna), r]));
   const acc = new Map();
-  for (const r of lastGames(mecze_druzyn, (x) => x.druzyna, opts.okno)) {
+  const inRange = lastGames(mecze_druzyn, (x) => x.druzyna, opts.okno);
+  const adj = adjustedRatings(inRange, game);
+  for (const r of inRange) {
     const o = game.get(gk(r, r.rywal));
     if (!o) continue;
     const a = acc.get(r.druzyna) || { druzyna: r.druzyna, g: 0, w: 0, pf: 0, pa: 0, poss: 0 };
@@ -38,10 +76,11 @@ const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
     .map(({ a, net, mov }, i) => ({
       miejsce: i + 1, druzyna: a.druzyna, bilans: a.w + '-' + (a.g - a.w),
       net: sign(net), ortg: f1(a.pf / a.poss * 100), drtg: f1(a.pa / a.poss * 100),
-      poss: f1(a.poss / a.g), mov: sign(mov), uwagi: notes.get(a.druzyna) || ''
+      poss: f1(a.poss / a.g), mov: sign(mov), uwagi: notes.get(a.druzyna) || '',
+      skor: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).adj) : '-', sila: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).sos) : '-'
     }))
     .concat(druzyny.filter((d) => !acc.has(d.druzyna)).map((d) => ({
-      miejsce: null, druzyna: d.druzyna, bilans: '0-0', net: '-', ortg: '-', drtg: '-', poss: '-', mov: '-', uwagi: d.uwagi || ''
+      miejsce: null, druzyna: d.druzyna, bilans: '0-0', net: '-', ortg: '-', drtg: '-', poss: '-', mov: '-', uwagi: d.uwagi || '', skor: '-', sila: '-'
     })));
 };
 
@@ -178,8 +217,13 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
     const k = gk(z, z.druzyna);
     pmBase.set(k, (pmBase.get(k) || 0) + n(z.pm) / 5);
   }
+  // Mecze drużyny (w wybranym zakresie) – do progu udziału: co najmniej połowa meczów swojej drużyny.
+  const teamGames = new Map();
+  for (const r of mecze_druzyn) teamGames.set(r.druzyna, (teamGames.get(r.druzyna) || 0) + 1);
+  const minGames = (d) => 0.5 * Math.min(teamGames.get(d) || 1, opts.okno || Infinity);
   const byPlayer = new Map();
   for (const z of zawodnicy) {
+    if (mins(z.min) <= 0) continue; // wpisany do protokołu, ale nie zagrał – nie liczy się jako mecz
     const t = game.get(gk(z, z.druzyna));
     const o = t && game.get(gk(z, t.rywal));
     if (!o) continue;
@@ -191,6 +235,7 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
     all.sort((a, b) => n(a.z.kolejka) - n(b.z.kolejka));
     const gs = opts.okno ? all.slice(-opts.okno) : all;
     if (gs.reduce((s, g) => s + mins(g.z.min), 0) / gs.length < MIN_AVG) continue;
+    if (gs.length < minGames(gs[gs.length - 1].z.druzyna)) continue;
     const p = { name, druzyna: gs[gs.length - 1].z.druzyna, pozycje: gs[gs.length - 1].z.pozycje, wzrost: gs[gs.length - 1].z.wzrost, g: gs.length,
       onPm: 0, onPoss: 0, offPm: 0, offPoss: 0, wins: 0, pts: 0, fgm: 0, tpm: 0, fga: 0, fta: 0, use: 0, teamUse: 0, min: 0,
       pie: 0, opp: 0, sPts: 0, sReb: 0, sAst: 0, sEval: 0, sGm: 0 };
@@ -449,4 +494,4 @@ const winChance = (mecze_druzyn) => {
   return (a, b) => 0.5 * (1 + erf((rating(a) - rating(b)) / 100 * pace / WIN_SIGMA / Math.SQRT2));
 };
 
-if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI };
+if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI };
