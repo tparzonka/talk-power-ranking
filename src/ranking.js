@@ -526,4 +526,97 @@ const forecastLog = (mecze_druzyn) => {
   return out;
 };
 
-if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI, forecastLog, FORECAST_MIN_GAMES, WIN_SIGMA, WIN_SHRINK };
+// Sumy drużyny i jej rywali z tych samych meczów (w wybranym zakresie); podstawa czterech czynników i statystyk drużyn.
+const SUM_KEYS = ['fgm', 'fga', 'tpm', 'tpa', 'ftm', 'fta', 'oreb', 'dreb', 'ast', 'stl', 'blk', 'to', 'pf', 'pts'];
+const zeroSums = () => Object.fromEntries(SUM_KEYS.map((k) => [k, 0]));
+const teamTotals = (mecze_druzyn, okno) => {
+  const byKey = new Map(mecze_druzyn.map((r) => [r.mecz_id + '|' + r.druzyna, r]));
+  const acc = new Map();
+  for (const t of lastGames(mecze_druzyn, (r) => r.druzyna, okno)) {
+    const o = byKey.get(t.mecz_id + '|' + t.rywal);
+    if (!o) continue;
+    const a = acc.get(t.druzyna) || { druzyna: t.druzyna, g: 0, own: zeroSums(), opp: zeroSums() };
+    a.g += 1;
+    for (const k of SUM_KEYS) { a.own[k] += Number(t[k]) || 0; a.opp[k] += Number(o[k]) || 0; }
+    acc.set(t.druzyna, a);
+  }
+  return [...acc.values()];
+};
+
+// Cztery czynniki Deana Olivera w ataku i w obronie, liczone z sum (nie ze średnich meczów).
+// Klucze: efg, tov, orb, ftr w ataku; oefg, otov, drb, oftr w obronie (rywale). Wartość to liczba albo null.
+const factorsOf = (own, opp) => ({
+  efg: own.fga ? (own.fgm + 0.5 * own.tpm) / own.fga * 100 : null,
+  tov: own.fga + 0.44 * own.fta + own.to ? own.to / (own.fga + 0.44 * own.fta + own.to) * 100 : null,
+  orb: own.oreb + opp.dreb ? own.oreb / (own.oreb + opp.dreb) * 100 : null,
+  ftr: own.fga ? own.ftm / own.fga : null
+});
+const fourFactors = (own, opp) => {
+  const o = factorsOf(own, opp), d = factorsOf(opp, own);
+  return { efg: o.efg, tov: o.tov, orb: o.orb, ftr: o.ftr, oefg: d.efg, otov: d.tov, drb: d.orb == null ? null : 100 - d.orb, oftr: d.ftr };
+};
+// Kierunek: 1 – więcej znaczy lepiej, -1 – mniej znaczy lepiej.
+const FACTOR_BETTER = { efg: 1, tov: -1, orb: 1, ftr: 1, oefg: -1, otov: 1, drb: 1, oftr: -1 };
+
+// Profil drużyny dla jej strony: wiersz rankingu (w wybranym zakresie), wiersz tabeli (zawsze cały sezon),
+// cztery czynniki z miejscem w lidze i lista meczów z cyklem ataku i obrony na 100 posiadań (cały sezon).
+// Bez nowych wzorów: wszystko składa się z rankTeams, leagueTable, teamTotals i fourFactors. Brak meczów: null.
+// czynniki[]: { key, wartosc, liga, miejsce, z } – liga to ta sama miara z sum całej ligi, miejsce 1 = najlepiej
+// według FACTOR_BETTER (remis: to samo miejsce), z = liczba drużyn z meczami w zakresie.
+const teamProfile = (nazwa, mecze_druzyn, druzyny, opts = {}) => {
+  const n = (x) => Number(x) || 0;
+  const possOf = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
+  const game = new Map(mecze_druzyn.map((r) => [gk(r, r.druzyna), r]));
+  const mecze = [];
+  for (const r of mecze_druzyn) {
+    if (r.druzyna !== nazwa) continue;
+    const o = game.get(gk(r, r.rywal));
+    if (!o) continue;
+    const poss = (possOf(r) + possOf(o)) / 2;
+    const ortg = poss ? n(r.pts) / poss * 100 : 0, drtg = poss ? n(o.pts) / poss * 100 : 0;
+    mecze.push({ mecz_id: r.mecz_id, kolejka: n(r.kolejka), data: String(r.data || ''), rywal: r.rywal, pf: n(r.pts), pa: n(o.pts),
+      win: n(r.pts) > n(o.pts), url: r.url || '', poss, ortg, drtg, net: ortg - drtg });
+  }
+  if (!mecze.length) return null;
+  mecze.sort((x, y) => x.data.localeCompare(y.data) || x.kolejka - y.kolejka || n(x.mecz_id) - n(y.mecz_id));
+  const okno = opts.okno || 0;
+  const ranking = rankTeams(mecze_druzyn, druzyny, { okno }).find((x) => x.druzyna === nazwa) || null;
+  const tabela = leagueTable(mecze_druzyn, druzyny).find((x) => x.druzyna === nazwa) || null;
+  const totals = teamTotals(mecze_druzyn, okno);
+  const mine = totals.find((t) => t.druzyna === nazwa);
+  const czynniki = [];
+  if (mine) {
+    const all = { own: zeroSums(), opp: zeroSums() };
+    for (const t of totals) for (const k of SUM_KEYS) { all.own[k] += t.own[k]; all.opp[k] += t.opp[k]; }
+    const lg = fourFactors(all.own, all.opp);
+    const per = totals.map((t) => fourFactors(t.own, t.opp));
+    const me = fourFactors(mine.own, mine.opp);
+    for (const key of Object.keys(FACTOR_BETTER)) {
+      const dir = FACTOR_BETTER[key];
+      const valid = per.map((f) => f[key]).filter((v) => v != null);
+      const wartosc = me[key];
+      czynniki.push({ key, wartosc, liga: lg[key], z: valid.length,
+        miejsce: wartosc == null ? null : 1 + valid.filter((v) => (v - wartosc) * dir > 1e-9).length });
+    }
+  }
+  /* kwarty: średnie punkty zdobyte i stracone w kwartach 1-4, cały sezon; strona (gospodarz/gość) z porównania sum z wynikiem,
+     mecz z sumą niezgodną z wynikiem jest pomijany */
+  let kwarty = null;
+  if (opts.kwarty) {
+    const own = [0, 0, 0, 0], opp = [0, 0, 0, 0];
+    let g = 0;
+    for (const m of mecze) {
+      const q = opts.kwarty[String(m.mecz_id)];
+      if (!Array.isArray(q) || q.length < 4) continue;
+      const a = q.reduce((t, x) => t + n(x[0]), 0), b = q.reduce((t, x) => t + n(x[1]), 0);
+      const side = a === m.pf && b === m.pa ? 0 : b === m.pf && a === m.pa ? 1 : -1;
+      if (side < 0) continue;
+      for (let i = 0; i < 4; i++) { own[i] += n(q[i][side]); opp[i] += n(q[i][1 - side]); }
+      g += 1;
+    }
+    if (g) kwarty = { mecze: g, own: own.map((v) => v / g), opp: opp.map((v) => v / g) };
+  }
+  return { druzyna: nazwa, ranking, tabela, czynniki, mecze, kwarty };
+};
+
+if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI, forecastLog, FORECAST_MIN_GAMES, WIN_SIGMA, WIN_SHRINK, SUM_KEYS, teamTotals, fourFactors, FACTOR_BETTER, teamProfile };
