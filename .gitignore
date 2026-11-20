@@ -23,7 +23,5 @@ dist/ranking-publiczny.html
 # Prywatny panel scoutingowy (kod i zbudowany panel z danymi zawodników) – tylko lokalnie
 src/panel.html
 scripts/panel.mjs
-scripts/kwarty.py
 scripts/scouting.py
-data/kwarty.json
 dist/panel-scouting.html

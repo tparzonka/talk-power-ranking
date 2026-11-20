@@ -32,9 +32,41 @@ const bad = [];
     const md = JSON.parse(src), team = md[0].druzyna, kol = String(md[0].kolejka);
     const slug = (x) => String(x).toLowerCase().replace(/ł/g, 'l').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
     const open = async (hash) => { const p = await (await b.newContext({ viewport: { width: 1440, height: 900 } })).newPage(); p.on('pageerror', (e) => bad.push('adres ' + hash + ': błąd JS: ' + e.message)); await p.goto('file://' + path.join(ROOT, 'dist/ranking-publiczny.html') + hash); await p.waitForTimeout(400); return p; };
-    const vis = (p) => p.evaluate(() => [...document.querySelectorAll('main > section, .view')].filter((x) => x.id && !x.hidden && ['przeglad', 'druzyny', 'zawodnicy', 'mecze', 'nagrody'].includes(x.id)).map((x) => x.id).join(','));
+    const vis = (p) => p.evaluate(() => [...document.querySelectorAll('main > section, .view')].filter((x) => x.id && !x.hidden && ['przeglad', 'druzyny', 'druzyna', 'zawodnicy', 'mecze', 'nagrody'].includes(x.id)).map((x) => x.id).join(','));
     let p = await open('#druzyna/' + slug(team));
-    if (await vis(p) !== 'zawodnicy' || await p.evaluate(() => document.getElementById('team').value) !== team) bad.push('adres drużyny nie ustawia widoku i filtra');
+    if (await vis(p) !== 'druzyna' || await p.evaluate(() => document.getElementById('view-title').textContent) !== team) bad.push('adres drużyny nie otwiera strony drużyny');
+    {
+      const R = require(path.join(ROOT, 'src/ranking.js'));
+      const druz = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/druzyny.json'), 'utf8'));
+      const row = R.rankTeams(md, druz, {}).find((r) => r.druzyna === team);
+      await p.evaluate(() => { try { localStorage.removeItem('pr-zakres'); } catch (e) {} });
+      const shown = await p.evaluate(() => document.querySelector('.tp-tiles .tile.lead .v').textContent);
+      if (await p.evaluate(() => document.getElementById('range-0').getAttribute('aria-pressed')) === 'true' && shown !== row.net) bad.push('strona drużyny: NetRtg ' + shown + ' zamiast ' + row.net);
+      const played = await p.evaluate(() => document.querySelectorAll('#druzyna table.tp-tab')[1].tBodies[0].rows.length);
+      const games = md.filter((r) => r.druzyna === team).length;
+      if (played !== games) bad.push('strona drużyny: ' + played + ' rozegranych meczów zamiast ' + games);
+    }
+    p = await open('#druzyny');
+    await p.locator('#t-teams tbody tr[data-key]').first().click(); await p.waitForTimeout(300);
+    const first = await p.evaluate(() => document.querySelector('#t-teams tbody tr[data-key]').dataset.key);
+    if (await vis(p) !== 'druzyna' || await p.evaluate(() => document.getElementById('view-title').textContent) !== first) bad.push('klik w wiersz tabeli drużyn nie otwiera strony drużyny');
+    await p.goBack(); await p.waitForTimeout(300);
+    if (await vis(p) !== 'druzyny' || await p.evaluate(() => location.hash) !== '#druzyny') bad.push('Wstecz ze strony drużyny nie wraca do listy');
+    {
+      const ph = await (await b.newContext({ ...require('playwright').devices['iPhone 13'] })).newPage();
+      // strona nie ma własnego znacznika viewport (dodaje go claude.ai), więc kopia z nim w katalogu tymczasowym
+      const tmp = path.join(require('os').tmpdir(), 'ranking-telefon.html');
+      fs.writeFileSync(tmp, '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' + fs.readFileSync(path.join(ROOT, 'dist/ranking-publiczny.html'), 'utf8'));
+      await ph.goto('file://' + tmp + '#druzyna/' + slug(team)); await ph.waitForTimeout(400);
+      if (await ph.evaluate(() => document.documentElement.scrollWidth > innerWidth || innerWidth > screen.width)) bad.push('strona drużyny: przewijanie w bok albo pomniejszenie na telefonie');
+    }
+    p = await open('#przeglad');
+    const chip = p.locator('#ov-led .o-fb i[data-tip]').first();
+    if (await chip.count()) {
+      await chip.hover(); await p.waitForTimeout(200);
+      const st = await p.evaluate(() => ({ tip: !document.querySelector('.tip').hidden, hl: document.querySelectorAll('#ov-led .o-row.hl').length }));
+      if (!st.tip || st.hl !== 2) bad.push('przegląd: kafelek formy nie pokazuje meczu ' + JSON.stringify(st));
+    } else bad.push('przegląd: kafelki formy bez podpowiedzi');
     p = await open('#mecze/' + kol);
     if (await vis(p) !== 'mecze' || await p.evaluate(() => document.getElementById('game-pick').value) !== kol) bad.push('adres kolejki nie ustawia widoku i kolejki');
     p = await open('#zawodnicy');

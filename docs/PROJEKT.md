@@ -166,6 +166,8 @@ Numer wersji w pliku `VERSION` (pokazywany w stopce strony). Drobne poprawki i n
 
 ## Plan rozwoju (przyjęty 16.11.2026)
 
+Zadania dla modelu wykonującego (sygnatury, kroki, kryteria odbioru, stan): [WYKONANIE.md](WYKONANIE.md).
+
 Cel: strona ma odpowiadać na pytania „jaka jest ta drużyna”, „co się wydarzy” i „na ile można ufać liczbom”. Każdy etap: makieta nowego widoku poza produkcją, testy przed zmianą i po niej, publikacja, PR.
 
 - **Etap 0, fundament (zrobione 16.11).** `forecastLog` w `src/ranking.js`: rozliczenie zapowiedzi, każdy mecz przewidywany tylko z meczów z wcześniejszych dni, od chwili gdy obie drużyny mają po 2 mecze. `node scripts/backtest.mjs` porównuje źródła oceny i wartości `WIN_SIGMA`. Adresy na stronie: `#druzyna/<nazwa>`, `#zawodnik/<nazwisko>`, `#mecze/<kolejka>`, `#mecz/<id>`; Wstecz zamyka kartę zawodnika.

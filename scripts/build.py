@@ -13,7 +13,7 @@ def main():
         f = ROOT / 'data' / f'{k}.json'
         return json.loads(f.read_text(encoding='utf-8')) if f.exists() else empty
     data = {'mecze_druzyn': load('mecze_druzyn', []), 'druzyny': load('druzyny', []),
-            'zawodnicy': load('zawodnicy', []), 'wiek': load('wiek', {})}
+            'zawodnicy': load('zawodnicy', []), 'wiek': load('wiek', {}), 'kwarty': load('kwarty', {})}
     term = ROOT / 'data' / 'terminarz.json'
     data['terminarz'] = json.loads(term.read_text(encoding='utf-8')) if term.exists() else {'stan': '', 'mecze': []}
     ranking = (ROOT / 'src' / 'ranking.js').read_text(encoding='utf-8')
