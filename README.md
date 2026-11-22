@@ -40,7 +40,7 @@ This project turns the same protocols into ratings that account for pace, margin
 ## What it does
 
 - **Overview.** KPI cards with a trend per round, NetRtg bars for every team, an attack and defense scatter, short insights taken from the data, top teams and players, latest results and upcoming games.
-- **Teams.** Power ranking with rank movement, league table with play-off zones and form, team and opponent statistics, four factors, and a rank-by-round chart.
+- **Teams.** Power ranking with rank movement, league table with play-off zones and form, team and opponent statistics, four factors, and a rank-by-round chart. Every team has its own page (`#druzyna/<slug>`) with form, a league-relative profile of the four factors, scoring by quarter, squad and game log; any team name on the site links to it.
 - **Players.** Ranking, per-40 statistics, a view per round and a player card with every game. The player data stays on the author's machine (see [Personal data](#6-personal-data)).
 - **Games.** Results with links to protocols, the schedule, and win probability from round 4.
 - **Awards.** MVP, best reserve, defender, scoring leader, U23 and 45+ categories, and All-NBA style first and second teams.
@@ -80,14 +80,14 @@ flowchart LR
 
 **Teams** are ordered by NetRtg: points scored minus allowed per 100 possessions, with margin per game as the tie-breaker. Possessions are FGA + 0.44 × FTA − ORB + TOV, averaged over both teams. From round 5 the table also shows an opponent-adjusted rating and the average strength of opponents; the order stays by NetRtg.
 
-**Players** (at least half of their team's games and 15 minutes per game) get a score of 50 + 10 × a weighted sum of z-scores against the league:
+**Players** (at least half of their team's games) get a score of 50 + 10 × a weighted sum of z-scores against the league:
 
 | Component | Weight | Window | What it measures |
 |---|---|---|---|
 | Impact on winning | 40% | selected range | on-court NetRtg, on/off difference, team record |
 | Efficiency under load | 25% | selected range | (TS% − league TS%) × USG% / 20 |
 | Versatility | 20% | selected range | PIE per game |
-| Strength of schedule | 15% | selected range | average opponent NetRtg |
+| Strength of schedule | 15% | selected range | average adjusted rating of opponents faced |
 
 A toggle switches the whole page between the full season and the last 5 games. The full methodology (in Polish) is in [docs/PROJEKT.md](docs/PROJEKT.md).
 

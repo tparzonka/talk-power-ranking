@@ -155,6 +155,22 @@ Tylko odczyt, wynik jako lista poprawek.
 - Neutralność: żaden tekst nie ocenia drużyny.
 Poprawki wykonuje Sonnet jako zadanie 1.6a (lista z przeglądu), potem wydanie.
 
+### 1.6a [Sonnet] Poprawki z przeglądu etapu 1
+Wynik przeglądu z 21.11. Sprawdzone bez uwag: 5 liczb ze strony drużyny zgodnych z silnikiem (SOLNO, QUANTUM HOOP, GOOD FATHER BARBER; cały sezon i ostatnie 5), Tab dochodzi do każdego przycisku i linku, fokus widoczny wszędzie, Wstecz działa z tabeli drużyn, Przeglądu, karty zawodnika i z rywala, brak słów oceniających, brak tekstu poniżej 12 px.
+
+| Przed | Po | Dlaczego |
+| --- | --- | --- |
+| „Wszystkie drużyny” wywołuje `go('druzyny')`, który podmienia wpis historii (`replaceState`) | W `openTeam` zapamiętaj, czy wpis dodała strona (`teamPushed = true` przy `pushState`). Przycisk: gdy `teamPushed`, `history.back()`; inaczej `pushState('#druzyny')` i `go('druzyny', true)` | Po wejściu z linku Wstecz po tym przycisku opuszcza stronę (sprawdzone: `about:blank`); po wejściu z listy cofa do tej samej listy |
+| Średnia ligi w profilu gry tylko w `title` i tekście dla czytnika | Druga linia w kolumnie miejsca: `śr. 47,2%` (`.rk`, 12 px, `--muted`) | Na telefonie i z klawiatury `title` nie działa; bez średniej znacznik na pasku nie ma liczby |
+| Cele dotyku na telefonie: nazwisko w składzie 23 px, „protokół” 15 px, rywal 32 px | `@media (pointer: coarse)`: `#druzyna button.pl, #druzyna .tp-tm, #druzyna a.proto { position: relative }` i `::after { content: ''; position: absolute; inset: -10px -4px }` | Minimum 44 px bez zmiany wyglądu i wysokości wierszy |
+| `.tp-tm` i `.tp-back` bez stanu naciśnięcia | `transition: transform .16s ease-out` i `:active { transform: scale(.97) }`, jak `.lnk` | Przycisk musi potwierdzić naciśnięcie; ten sam wzór co reszta strony |
+| Słupki kwart mają `title` z tą samą liczbą, która stoi nad słupkiem | Usuń `title` ze słupków kwart | Dubel; liczba jest już widoczna |
+| Po otwarciu strony drużyny fokus zostaje na klikniętym elemencie, który znika z widoku | W `openTeam` po `go`: `#view-title` z `tabindex="-1"`, `focus({ preventScroll: true })` | Użytkownik klawiatury zaczyna od nagłówka nowej strony zamiast od początku dokumentu |
+
+Odrzucone: podpowiedzi kresek innych drużyn na pasku (`title`) zostają jako dodatek na komputerze; kafelki formy w nagłówku są małe (18 px), ale te same mecze są w tabeli „Mecze”; animacje dopiero w etapie 5.
+
+Testy w `scripts/test-strona.cjs`: Wstecz po „Wszystkie drużyny” po wejściu z adresu zostaje na stronie; średnia ligi widoczna w każdym wierszu profilu.
+
 ### 1.7 [Sonnet] Dokumentacja i wersja
 - `docs/PROJEKT.md`: „Widoki statystyk” (strona drużyny), „Wersje” (wpis 1.2.0, jeśli Tomek zgodził się na numer; wtedy też plik `VERSION`), w „Plan rozwoju” etap 1 jako zrobiony.
 - W sekcji „Jak liczony jest ranking” w szablonie punkt „Czego ranking nie uwzględnia” nadal wymienia SRS, choć korekta o siłę rywali działa: usuń SRS z tego zdania.
@@ -162,7 +178,7 @@ Poprawki wykonuje Sonnet jako zadanie 1.6a (lista z przeglądu), potem wydanie.
 
 ---
 
-## Etap 2. Prognozy i wiarygodność
+## Etap 2. Wiarygodność
 
 ### 2.1 [Sonnet] Zakres niepewności oceny drużyny
 Metoda (ustalona, nie zmieniaj): przedział 80% z rozrzutu wyników mecz po meczu. Dla drużyny z `g ≥ 3` meczami: `m_i` = bilans meczu na 100 posiadań, `sd` = odchylenie standardowe z próby, `se = sd / √g`, zakres = `net ± t · se`, gdzie `t` z tabeli dla `g − 1` stopni swobody: `[3.078, 1.886, 1.638, 1.533, 1.476, 1.440, 1.415, 1.397, 1.383, 1.372, 1.363, 1.356, 1.350, 1.345]`, dalej 1,31. Przy `g < 3` brak zakresu. Bez losowania, więc wynik jest powtarzalny.
@@ -173,37 +189,30 @@ Metoda (ustalona, nie zmieniaj): przedział 80% z rozrzutu wyników mecz po mecz
 - Metodologia w szablonie: jeden punkt „Zakres”.
 - Testy: `lo ≤ net ≤ hi`; dla drużyny z 2 meczami brak zakresu; `net` zgodny z `rankTeams`.
 
-### 2.2 [Opus] Symulacja końca sezonu
-`simulateSeason(mecze_druzyn, druzyny, terminarz, opts = {})` w `src/ranking.js`, `opts.n` domyślnie 10000, `opts.seed` domyślnie 20262027. Stała `SYMULACJA_OD_KOLEJKI = 6`.
+### 2.2 Symulacja końca sezonu (odrzucone 21.11)
+Wykonane i wycofane tego samego dnia: Tomek zrezygnował z prognozy końca sezonu i wszystkiego, co z nią związane. Kod usunięty z silnika i testów. Nie wracać bez jego prośby.
 
-Założenia do wdrożenia i sprawdzenia:
-- Generator: `mulberry32(seed)`; liczby normalne metodą Boxa-Mullera.
-- Do rozegrania: mecze z `terminarz.mecze`, których `mecz_id` nie ma w `mecze_druzyn` (także przełożone bez terminu).
-- `winChance` dostaje `.rating(t)` i `.pace`. W każdym przebiegu ocena drużyny = `rating(t) + se(t) · z`, gdzie `se` z `ratingRange` (dla drużyn bez zakresu: mediana `se` ligi). Dzięki temu szanse uwzględniają niepewność ocen, a nie tylko losowość meczu.
-- Wynik meczu: różnica ~ `N((r_a − r_b) / 100 · pace, WIN_SIGMA)`, zaokrąglona, zero zamieniane na ±1.
-- Tabela przebiegu: mecze rozegrane (prawdziwe wyniki) + zasymulowane; kolejność jak w `leagueTable`: punkty (2/1), w grupie remisowej punkty i różnica z meczów bezpośrednich, potem różnica ogólna, na końcu los.
-- Wynik: `Map(drużyna → { w, l, pkt, miejsce, p1, p18, p912, p1315 })` (średnie i udziały przebiegów).
-- Zdecyduj i opisz w `docs/PROJEKT.md`: czy `WIN_SHRINK` w ocenie i `se` w losowaniu nie liczą niepewności podwójnie; sprawdź na danych, czy rozkład miejsc lidera i ostatniej drużyny wygląda rozsądnie.
+### 2.3 Trafność zapowiedzi na stronie (odrzucone 21.11)
+Tomek zrezygnował 21.11. Rozliczenie zostaje tylko w konsoli (`node scripts/backtest.mjs`).
 
-Testy: dla każdej drużyny `p18 + p912 + p1315 = 1` (dokładność 1e-9); suma `p18` po lidze = 8, `p912` = 4, `p1315` = 3, `p1` = 1; dwa wywołania z tym samym ziarnem dają identyczny wynik; `w + l` = liczba meczów drużyny w sezonie. Czas w Node dla `n = 10000` poniżej 1 s (zmierz).
-
-### 2.3 [Sonnet] Trafność zapowiedzi na stronie
-Zakładka Mecze, nad listą: blok widoczny, gdy `forecastLog(DATA.mecze_druzyn).length ≥ 10`. Treść: „Faworyt wygrał X z Y meczów” i wiersze dla przedziałów pewności 50–65%, 65–80%, 80–95%, 95–100% (liczba meczów, ile wygrał faworyt). Jedno zdanie objaśnienia: zapowiedź każdego meczu liczona tylko z meczów rozegranych wcześniej. Bez wykresu. Test: liczby w bloku równe wynikowi `forecastLog` z Node.
-
-### 2.4 [Sonnet] Prognoza końca sezonu jako widok tabeli
-Warunek: 2.2 zrobione i przejrzane.
-- `VIEWS.teams.prognoza`: kolumny Drużyna, Bilans, Oczekiwany bilans, Miejsca 1–8 %, 9–12 %, 13–15 %, 1. miejsce %; sortowanie po 1–8 malejąco. Czwarty przycisk „Prognoza” w `#team-view`, widoczny od `SYMULACJA_OD_KOLEJKI`.
-- Symulację licz przy pierwszym wejściu w widok i zapamiętaj (nie przy starcie strony).
-- Małe szanse: według decyzji 3 (domyślnie „<1%” i „>99%” zamiast 0 i 100).
-- Notatka nad tabelą: liczba przebiegów, że to prawdopodobieństwo z dotychczasowych wyników i terminarza, a nie typ.
-- Strona drużyny: kafelek „Miejsca 1–8” z tą samą wartością.
-- Metodologia: punkt „Prognoza końca sezonu”.
-- Test strony: widok się rysuje, suma kolumny 1–8 w zakresie 790–810 (zaokrąglenia), funkcję z progiem kolejki sprawdź na kopii danych.
+### 2.4 Prognoza końca sezonu jako widok tabeli (odrzucone 21.11)
+Patrz 2.2.
 
 ### 2.5 [Opus] Przegląd etapu 2
-Sprawdź kalibrację (`node scripts/backtest.mjs`), sensowność prognozy (lider, środek, dół tabeli), teksty pod kątem neutralności, wygląd nowej tabeli (`dataviz`: jedna skala koloru w paskach szans). Lista poprawek dla Sonneta, potem wydanie i wersja 1.3.0 (jeśli uzgodniona).
+Sprawdź kalibrację (`node scripts/backtest.mjs`), zakres NetRtg (czy szerokość ma sens przy liczbie meczów) i teksty pod kątem neutralności. Lista poprawek dla Sonneta, potem wydanie. Numer wersji bez zmian (decyzja Tomka 21.11).
 
 ---
+
+### 2.5a [Sonnet] Poprawki z przeglądu etapu 2
+Wynik przeglądu z 21.11. Bez uwag: kalibracja zapowiedzi (`node scripts/backtest.mjs`, 18 meczów: faworyt 14 z 18 = 78% przy pewności 80%; w przedziałach 2 z 3 / 5 z 7 / 4 z 5 / 3 z 3), więc `WIN_SIGMA` i źródło oceny bez zmian, powtórka po 8. kolejce. Teksty zakresu neutralne. Kolumna „Zakres” mieści się na 1440 px.
+
+| Przed | Po | Dlaczego |
+| --- | --- | --- |
+| `sd` zakresu liczone tylko z meczów drużyny | Częściowe łączenie z ligą: `sd² = ((g − 1) · sd_d² + K · sd_l²) / (g − 1 + K)`, `K = 4` (stała `RANGE_POOL`), `sd_l` = odchylenie zbiorcze ligi (suma kwadratów odchyleń od średniej każdej drużyny / suma `g − 1`); `t` dla `g − 1 + K` stopni swobody (poza tabelą 1,31) | Przy 4 meczach podobnych do siebie zakres wychodzi fałszywie wąski: CP MEDICA ±4 pkt (sd 5,1 przy zbiorczym 32,8). Z `K = 4` CP MEDICA 35 pkt szerokości, reszta prawie bez zmian (SOLNO 56 → 47, LUCKY BASTARDS 88 → 61); szerokość dalej zależy od rozrzutu drużyny, ale nie od przypadku przy kilku meczach |
+| „przedział, w którym z 80% pewnością mieści się NetRtg drużyny” (podpowiedź kolumny, notka pod kafelkami, metodologia) | „przedział, w którym z 80% pewnością leży rzeczywisty poziom drużyny (NetRtg, jaki miałaby po wielu meczach)” | Pokazany NetRtg jest znany dokładnie; niepewny jest poziom, który on szacuje |
+| Metodologia: „Kolumna „Zakres” (do włączenia w tabeli)”; `docs/PROJEKT.md`: „domyślnie ukryta” | „Kolumna „Zakres” w rankingu drużyn (na telefonie ukryta)” | `hide: true` ukrywa kolumnę tylko na wąskim ekranie, na komputerze jest widoczna |
+
+Testy w `scripts/test.mjs`: ręczny przykład policzony nowym wzorem (`sd_l` z tych samych sztucznych danych); dla każdej drużyny szerokość zakresu co najmniej taka, jak przy `sd = sd_l · √(K / (g − 1 + K))` (dolna granica wynikająca z łączenia). Opis metody w `docs/PROJEKT.md` (punkt „Zakres NetRtg”).
 
 ## Etap 3. Zawodnicy
 
@@ -254,6 +263,16 @@ Data ostatniego meczu w danych w nagłówku panelu (`scripts/panel.mjs`, `src/pa
 ### 5.5 [Opus] Fork panelu dla klubu
 Porównaj `scouting-panel/src/stats.js` z `src/ranking.js` po etapach 0–3 i rozpisz przeniesienie zmian jako zadania dla Sonneta.
 
+**Wynik porównania (22.11, Opus).** Porównana kopia forka z 3.11 (`scouting-panel`, `src/stats.js`, 452 linie) z `src/ranking.js` (709 linii). Fork używa z silnika tylko `rankTeams` i `rankPlayers` (`scripts/build_panel.mjs`, `scripts/test.mjs`); cztery czynniki, kwarty i raport o rywalu liczy sam.
+- Bez zmian od rozdzielenia: `gk`, `lastGames`, `hollinger`, `positionByHeight`, `awards`, `leagueTable`, stałe progów i `WIN_SIGMA`.
+- Zmienione w `ranking.js`: `rankTeams` (pola `skor`, `sila`, `zakres`), `rankPlayers` (siła rywali z oceny po korekcie, pominięcie wpisanych bez minut, próg połowy meczów drużyny zamiast 15 minut średnio, pole `min`), `winChance` (`margin`, `games`).
+- Tylko w `ranking.js`: `adjustedRatings`, `ratingRange`, `forecastLog`, `teamTotals`, `fourFactors`, `teamProfile`, `gmscOf`, `gameSummary`.
+- Nie przenosić: `teamTotals`, `fourFactors`, `teamProfile`, `gameSummary`, `gmscOf`. To funkcje stron drużyny i meczu, których panel nie ma, a `fourFactors` liczy wolne jako FTM/FGA, a oba panele jako FTA/FGA × 100 (zmiana przesunęłaby radar i reguły raportu o rywalu).
+- Fork ma `opts.minMinut` z `config.json` (`min_minut`). W `ranking.js` tej opcji już nie ma;.
+- Znane ograniczenia z `CLAUDE.md` forka (zawodnik rozpoznawany po imieniu i nazwisku, przybliżenie bez +/-) są w obu plikach takie same. Decyzja o +/- z zadania 3.1 dotyczy też forka.
+
+Fork `scouting-panel` to osobny projekt (decyzja Tomka 22.11): tej listy nie dotyczy i nie przenosimy do niego zmian z tej listy.
+
 ---
 
 ## Decyzje Tomka
@@ -261,8 +280,8 @@ Porównaj `scouting-panel/src/stats.js` z `src/ranking.js` po etapach 0–3 i ro
 | # | Decyzja | Potrzebna przed | Odpowiedź |
 |---|---|---|---|
 | 1 | Wyniki po kwartach na stronie publicznej i w repozytorium | 1.5, 4.1 | tak (20.11) |
-| 2 | Numery wersji: 1.2.0 (strona drużyny), 1.3.0 (prognozy) | 1.7, 2.5 | |
-| 3 | Małe szanse w prognozie jako „<1%” | 2.4 | |
+| 2 | Numery wersji: 1.2.0 (strona drużyny), 1.3.0 (prognozy) | 1.7, 2.5 | bez zmian (21.11) |
+| 3 | Małe szanse w prognozie jako „<1%” | 2.4 | nieaktualne: prognoza odrzucona (21.11) |
 | 4 | Paczka `projekt.txt` przy stronie publicznej zawiera dane zawodników: zostaje czy do panelu | dowolnie | |
 
 ## Stan
@@ -273,23 +292,25 @@ Porównaj `scouting-panel/src/stats.js` z `src/ranking.js` po etapach 0–3 i ro
 - [x] 1.3 Makieta strony drużyny (20.11, zaakceptowana)
 - [x] 1.4 Wpięcie strony drużyny (20.11, lokalnie, bez publikacji i bez pushu; dodatkowo podpowiedzi przy kafelkach formy w Przeglądzie)
 - [x] 1.5 Kwarty (20.11, lokalnie; `.gitignore` w klonie poprawiony, pliki trafią do repozytorium przy wspólnym pushu)
-- [ ] 1.6 Przegląd etapu 1 (Opus) i poprawki
-- [ ] 1.7 Dokumentacja i wersja
-- [ ] 2.1 Zakres niepewności
-- [ ] 2.2 Symulacja sezonu (Opus)
-- [ ] 2.3 Trafność zapowiedzi
-- [ ] 2.4 Prognoza końca sezonu
-- [ ] 2.5 Przegląd etapu 2 (Opus)
-- [ ] 3.1 Rozbieżność +/- (Opus, STOP)
-- [ ] 3.2 PER i EWA przy próbie
-- [ ] 3.3 Siła rywali (Opus)
-- [ ] 3.4 Pełna tabela zawodników
-- [ ] 3.5 Porównanie zawodników (Opus, STOP, potem Sonnet)
-- [ ] 3.6 Wykres w karcie zawodnika
-- [ ] 4.1 `gameSummary`
-- [ ] 4.2 Strona meczu (Opus, STOP, potem Sonnet)
-- [ ] 5.1 Raport o ruchu (Opus, STOP)
-- [ ] 5.2 Ruch
-- [ ] 5.3 Klawiatura i rozmiar
-- [ ] 5.4 Panel
-- [ ] 5.5 Fork panelu (Opus)
+- [x] 1.6 Przegląd etapu 1 (Opus, 21.11; lista poprawek w 1.6a)
+- [x] 1.6a Poprawki z przeglądu (Sonnet, 21.11)
+- [x] 1.7 Dokumentacja (21.11; wersja bez zmian: decyzja Tomka)
+- [x] 2.1 Zakres niepewności (Sonnet, 21.11)
+- [–] 2.2 Symulacja sezonu (odrzucone 21.11)
+- [–] 2.3 Trafność zapowiedzi (odrzucone 21.11)
+- [–] 2.4 Prognoza końca sezonu (odrzucone 21.11)
+- [x] 2.5 Przegląd etapu 2 (Opus, 21.11; lista poprawek w 2.5a)
+- [x] 2.5a Poprawki z przeglądu etapu 2 (21.11)
+- [x] 3.1 Rozbieżność +/- (Opus, 21.11; analiza w PROJEKT.md, czeka na decyzję Tomka)
+- [x] 3.2 PER i EWA przy próbie (21.11; próg jak w rankingu: połowa meczów, bez 15 minut)
+- [x] 3.3 Siła rywali (Opus, 21.11; wdrożone za zgodą Tomka)
+- [x] 3.4 Pełna tabela zawodników (21.11)
+- [x] 3.5 Porównanie zawodników (21.11; makieta zaakceptowana: tylko zawodnicy z rankingu, Wstecz zamyka okno)
+- [x] 3.6 Wykres w karcie zawodnika
+- [x] 4.1 `gameSummary`
+- [x] 4.2 Strona meczu (Opus, STOP, potem Sonnet)
+- [x] 5.1 Raport o ruchu (Opus, STOP)
+- [x] 5.2 Ruch
+- [x] 5.3 Klawiatura i rozmiar
+- [x] 5.4 Panel
+- [x] 5.5 Fork panelu (Opus, 22.11; tylko porównanie, fork to osobny projekt)
