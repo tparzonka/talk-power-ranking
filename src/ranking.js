@@ -52,6 +52,48 @@ const adjustedRatings = (rows, game) => {
   return out;
 };
 
+// Zakres niepewności NetRtg drużyny: przedział 80% z rozrzutu wyników mecz po meczu (bez losowania).
+// m_i = bilans meczu na 100 posiadań, se = sd / √g, zakres = net ± t · se, t z rozkładu t-Studenta (80% obustronnie).
+// sd łączone z ligą: sd² = ((g − 1) · sd_d² + K · sd_l²) / (g − 1 + K), K = RANGE_POOL, sd_l = odchylenie zbiorcze ligi;
+// t dla g − 1 + K stopni swobody. Bez łączenia kilka podobnych meczów dawało fałszywie wąski zakres.
+// Przy g < 3 brak zakresu. net to ten sam NetRtg co w rankTeams (z sum).
+const T80 = [3.078, 1.886, 1.638, 1.533, 1.476, 1.440, 1.415, 1.397, 1.383, 1.372, 1.363, 1.356, 1.350, 1.345];
+const RANGE_MIN_GAMES = 3, RANGE_POOL = 4;
+const ratingRange = (mecze_druzyn, opts = {}) => {
+  const n = (x) => Number(x) || 0;
+  const poss = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
+  const game = new Map(mecze_druzyn.map((r) => [gk(r, r.druzyna), r]));
+  const by = new Map();
+  for (const r of lastGames(mecze_druzyn, (x) => x.druzyna, opts.okno)) {
+    const o = game.get(gk(r, r.rywal));
+    if (!o) continue;
+    const p = (poss(r) + poss(o)) / 2;
+    if (!p) continue;
+    const a = by.get(r.druzyna) || { m: [], pf: 0, pa: 0, poss: 0 };
+    a.m.push((n(r.pts) - n(o.pts)) / p * 100);
+    a.pf += n(r.pts); a.pa += n(o.pts); a.poss += p;
+    by.set(r.druzyna, a);
+  }
+  // odchylenie zbiorcze ligi: kwadraty odchyleń od średniej każdej drużyny / suma (g − 1)
+  const ssOf = (m) => { const mu = m.reduce((s, x) => s + x, 0) / m.length; return m.reduce((s, x) => s + (x - mu) ** 2, 0); };
+  let ssL = 0, dfL = 0;
+  for (const a of by.values()) if (a.m.length > 1) { ssL += ssOf(a.m); dfL += a.m.length - 1; }
+  const varL = dfL ? ssL / dfL : 0;
+  const out = new Map();
+  for (const [t, a] of by) {
+    const g = a.m.length;
+    if (g < RANGE_MIN_GAMES) continue;
+    // częściowe łączenie z ligą: liga waży tyle, co RANGE_POOL stopni swobody
+    const df = g - 1 + RANGE_POOL;
+    const sd = Math.sqrt((ssOf(a.m) + RANGE_POOL * varL) / df);
+    const se = sd / Math.sqrt(g);
+    const net = (a.pf - a.pa) / a.poss * 100;
+    const tv = T80[df - 1] != null ? T80[df - 1] : 1.31;
+    out.set(t, { net, se, lo: net - tv * se, hi: net + tv * se, g });
+  }
+  return out;
+};
+
 const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
   const n = (x) => Number(x) || 0;
   const poss = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
@@ -61,6 +103,7 @@ const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
   const acc = new Map();
   const inRange = lastGames(mecze_druzyn, (x) => x.druzyna, opts.okno);
   const adj = adjustedRatings(inRange, game);
+  const rng = ratingRange(mecze_druzyn, opts);
   for (const r of inRange) {
     const o = game.get(gk(r, r.rywal));
     if (!o) continue;
@@ -77,10 +120,11 @@ const rankTeams = (mecze_druzyn, druzyny, opts = {}) => {
       miejsce: i + 1, druzyna: a.druzyna, bilans: a.w + '-' + (a.g - a.w),
       net: sign(net), ortg: f1(a.pf / a.poss * 100), drtg: f1(a.pa / a.poss * 100),
       poss: f1(a.poss / a.g), mov: sign(mov), uwagi: notes.get(a.druzyna) || '',
-      skor: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).adj) : '-', sila: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).sos) : '-'
+      skor: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).adj) : '-', sila: adj.has(a.druzyna) ? sign(adj.get(a.druzyna).sos) : '-',
+      zakres: rng.has(a.druzyna) ? sign(rng.get(a.druzyna).lo) + ' do ' + sign(rng.get(a.druzyna).hi) : '-'
     }))
     .concat(druzyny.filter((d) => !acc.has(d.druzyna)).map((d) => ({
-      miejsce: null, druzyna: d.druzyna, bilans: '0-0', net: '-', ortg: '-', drtg: '-', poss: '-', mov: '-', uwagi: d.uwagi || '', skor: '-', sila: '-'
+      miejsce: null, druzyna: d.druzyna, bilans: '0-0', net: '-', ortg: '-', drtg: '-', poss: '-', mov: '-', uwagi: d.uwagi || '', skor: '-', sila: '-', zakres: '-'
     })));
 };
 
@@ -191,7 +235,6 @@ const positionByHeight = (zawodnicy) => {
 
 const SHRINK = 60; // akcji na boisku, przy których wynik +/- liczy się w połowie
 const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
-  const MIN_AVG = 15;
   const POS = ['rozgrywający', 'rzucający', 'niski skrzydłowy', 'silny skrzydłowy', 'środkowy'];
   const byHeight = positionByHeight(zawodnicy);
   const n = (x) => Number(x) || 0;
@@ -212,6 +255,10 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
     team.set(r.druzyna, t);
   }
   const teamNet = (d) => { const t = team.get(d); return t && t.poss ? t.diff / t.poss * 100 : 0; };
+  // Siła rywali w ocenie (15%): średnia ocena po korekcie (adjustedRatings, cały sezon) rywali zawodnika. Wybrane 21.11:
+  // stabilniejsze niż surowy NetRtg w każdym podziale meczów (scripts/stabilnosc.mjs). opts.rywaleSurowe: stary wariant
+  // (średni NetRtg rywali), tylko do porównań w skryptach.
+  const oppRating = opts.rywaleSurowe ? teamNet : ((adj) => (d) => (adj.get(d) || { adj: 0 }).adj)(adjustedRatings(mecze_druzyn, game));
   const pmBase = new Map();
   for (const z of zawodnicy) {
     const k = gk(z, z.druzyna);
@@ -234,7 +281,6 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
   for (const [name, all] of byPlayer) {
     all.sort((a, b) => n(a.z.kolejka) - n(b.z.kolejka));
     const gs = opts.okno ? all.slice(-opts.okno) : all;
-    if (gs.reduce((s, g) => s + mins(g.z.min), 0) / gs.length < MIN_AVG) continue;
     if (gs.length < minGames(gs[gs.length - 1].z.druzyna)) continue;
     const p = { name, druzyna: gs[gs.length - 1].z.druzyna, pozycje: gs[gs.length - 1].z.pozycje, wzrost: gs[gs.length - 1].z.wzrost, g: gs.length,
       onPm: 0, onPoss: 0, offPm: 0, offPoss: 0, wins: 0, pts: 0, fgm: 0, tpm: 0, fga: 0, fta: 0, use: 0, teamUse: 0, min: 0,
@@ -254,7 +300,7 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
     }
     p.k = recent.length;
     for (const { z, t, o } of gs) {
-      p.pie += events(z) / (events(t) + events(o)) * 100; p.opp += teamNet(o.druzyna);
+      p.pie += events(z) / (events(t) + events(o)) * 100; p.opp += oppRating(o.druzyna);
       p.sPts += n(z.pts); p.sReb += n(z.oreb) + n(z.dreb); p.sAst += n(z.ast); p.sEval += n(z.eval);
       p.sGm += n(z.pts) + 0.4 * n(z.fgm) - 0.7 * n(z.fga) - 0.4 * (n(z.fta) - n(z.ftm)) + 0.7 * n(z.oreb) + 0.3 * n(z.dreb)
         + n(z.stl) + 0.7 * n(z.ast) + 0.7 * n(z.blk) - 0.4 * n(z.pf) - n(z.to);
@@ -297,7 +343,7 @@ const rankPlayers = (zawodnicy, mecze_druzyn, opts = {}) => {
   for (const group of ['wszyscy', ...POS]) {
     list.filter((p) => group === 'wszyscy' || p.glowna === group)
       .forEach((p, i) => rows.push({
-        id: group + '|' + p.name, pozycja: group, miejsce: i + 1, zawodnik: p.name, druzyna: p.druzyna, g: String(p.g),
+        id: group + '|' + p.name, pozycja: group, miejsce: i + 1, zawodnik: p.name, druzyna: p.druzyna, g: String(p.g), min: f1(p.min / p.g),
         glowna: p.glowna ? p.glowna + (p.zWzrostu ? ' (wg wzrostu)' : '') : 'brak danych',
         ocena: f1(50 + 10 * p.score), on: sign(p.on), onoff: p.diffOn === null ? '-' : sign(p.diffOn),
         ts: p.ts === null ? '-' : f1(p.ts), efg: p.efg === null ? '-' : f1(p.efg), usg: f1(p.usg), pie: f1(p.pie),
@@ -619,4 +665,45 @@ const teamProfile = (nazwa, mecze_druzyn, druzyny, opts = {}) => {
   return { druzyna: nazwa, ranking, tabela, czynniki, mecze, kwarty };
 };
 
-if (typeof module !== 'undefined') module.exports = { positionByHeight, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI, forecastLog, FORECAST_MIN_GAMES, WIN_SIGMA, WIN_SHRINK, SUM_KEYS, teamTotals, fourFactors, FACTOR_BETTER, teamProfile };
+// Game Score zawodnika z jednego meczu (wzór Hollingera). Wiersz zawodnika z data/zawodnicy.json.
+const gmscOf = (z) => {
+  const n = (x) => Number(x) || 0;
+  return n(z.pts) + 0.4 * n(z.fgm) - 0.7 * n(z.fga) - 0.4 * (n(z.fta) - n(z.ftm)) + 0.7 * n(z.oreb) + 0.3 * n(z.dreb)
+    + n(z.stl) + 0.7 * n(z.ast) + 0.7 * n(z.blk) - 0.4 * n(z.pf) - n(z.to);
+};
+
+// Podsumowanie jednego meczu dla jego strony: dla obu drużyn wynik, posiadania, atak i obrona na 100 posiadań,
+// cztery czynniki z tego meczu (fourFactors na sumach meczu), trzech najlepszych według GmSc, kwarty (opts.kwarty,
+// jak w teamProfile; null, gdy brak albo suma kwart nie zgadza się z wynikiem) i szansa sprzed meczu z forecastLog (albo null).
+// Drużyny w kolejności z protokołu (pierwsza = gospodarz). Brak meczu albo jednej ze stron: null.
+const gameSummary = (mecz_id, mecze_druzyn, zawodnicy, opts = {}) => {
+  const n = (x) => Number(x) || 0;
+  const mins = (m) => { const p = String(m).split(':').map(Number); return (p[0] || 0) + (p[1] || 0) / 60; };
+  const rows = mecze_druzyn.filter((r) => String(r.mecz_id) === String(mecz_id));
+  if (rows.length !== 2 || rows[0].druzyna === rows[1].druzyna) return null;
+  const [x, y] = rows[0].pierwsza === false ? [rows[1], rows[0]] : rows;
+  const possOf = (t) => n(t.fga) + 0.44 * n(t.fta) - n(t.oreb) + n(t.to);
+  const poss = (possOf(x) + possOf(y)) / 2;
+  const sums = (r) => { const s = zeroSums(); for (const k of SUM_KEYS) s[k] = n(r[k]); return s; };
+  const q = opts.kwarty && opts.kwarty[String(mecz_id)];
+  let side = -1;
+  if (Array.isArray(q) && q.length >= 4) {
+    const a = q.reduce((t, v) => t + n(v[0]), 0), b = q.reduce((t, v) => t + n(v[1]), 0);
+    side = a === n(x.pts) && b === n(y.pts) ? 0 : b === n(x.pts) && a === n(y.pts) ? 1 : -1;
+  }
+  const team = (r, o, idx) => ({
+    druzyna: r.druzyna, rywal: o.druzyna, pts: n(r.pts), opp: n(o.pts), win: n(r.pts) > n(o.pts), poss,
+    ortg: poss ? n(r.pts) / poss * 100 : 0, drtg: poss ? n(o.pts) / poss * 100 : 0,
+    czynniki: fourFactors(sums(r), sums(o)),
+    najlepsi: zawodnicy.filter((z) => String(z.mecz_id) === String(mecz_id) && z.druzyna === r.druzyna && mins(z.min) > 0)
+      .map((z) => ({ zawodnik: z.zawodnik, gmsc: gmscOf(z), min: mins(z.min), pts: n(z.pts), zb: n(z.oreb) + n(z.dreb), as: n(z.ast) }))
+      .sort((a, b) => b.gmsc - a.gmsc || a.zawodnik.localeCompare(b.zawodnik)).slice(0, 3),
+    kwarty: side < 0 ? null : q.slice(0, 4).map((v) => [n(v[side === 0 ? idx : 1 - idx]), n(v[side === 0 ? 1 - idx : idx])])
+  });
+  const f = forecastLog(mecze_druzyn).find((e) => String(e.mecz_id) === String(mecz_id));
+  return { mecz_id: x.mecz_id, kolejka: n(x.kolejka), data: String(x.data || ''), url: x.url || '',
+    teams: [team(x, y, 0), team(y, x, 1)],
+    szansa: f ? { faworyt: f.faworyt, pewnosc: f.pewnosc, trafiony: f.trafiony, oczekiwana: f.oczekiwana } : null };
+};
+
+if (typeof module !== 'undefined') module.exports = { positionByHeight, ratingRange, rankTeams, adjustedRatings, SKOR_OD_KOLEJKI, rankPlayers, lastGames, hollinger, EWA_OD_KOLEJKI, awards, leagueTable, winChance, ZAPOWIEDZ_OD_KOLEJKI, forecastLog, FORECAST_MIN_GAMES, WIN_SIGMA, WIN_SHRINK, SUM_KEYS, teamTotals, fourFactors, FACTOR_BETTER, teamProfile, gmscOf, gameSummary };
